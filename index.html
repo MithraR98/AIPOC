@@ -1,0 +1,2730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CLAUDE.md — ClearPath FDO Design System</title>
+
+
+
+<style>
+:root {
+  --bg:#F5F4F0; --surface:#FFFFFF; --s2:#F0EFEB; --s3:#E8E7E2;
+  --border:#DDD9D0; --border2:#C8C4BA;
+  --tp:#1C1B18; --ts:#5C5A53; --tm:#9B998F;
+  --indigo:#5B5BD6; --indigo-l:#EEEEFF; --indigo-b:#C5C4F0;
+  --teal:#0EA5A0; --teal-l:#E8FAF9; --teal-b:#A4DED9;
+  --amber:#92620A; --amber-l:#FDF6E7; --amber-b:#F0D499;
+  --red:#C0392B; --red-l:#FEF1F0; --red-b:#F4B8B2;
+  --green:#197A4A; --green-l:#EDFAF3; --green-b:#9FD9BB;
+  --purple:#6B3FA0; --purple-l:#F5EEFF; --purple-b:#D4B8F5;
+  --mono-bg:#EFEDE8;
+  --nav-w:230px; --right-w:240px; --header-h:54px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--tp);font-family:'Roboto',sans-serif;font-size:17px;line-height:1.65;min-height:100vh;}
+a{text-decoration:none;}
+
+/* Layout */
+.page{display:grid;grid-template-columns:var(--nav-w) 1fr var(--right-w);grid-template-rows:var(--header-h) 1fr;height:100vh;overflow:hidden;}
+
+/* Header */
+.hdr{grid-column:1/-1;grid-row:1;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:0;z-index:100;min-height:0;}
+.hdr-brand{display:flex;align-items:center;gap:9px;padding-right:20px;border-right:1px solid var(--border);}
+.logo{width:28px;height:28px;background:var(--indigo);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.logo svg{width:13px;height:13px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;}
+.brand{font-family:'Roboto',sans-serif;font-size:17px;font-weight:600;color:var(--tp);letter-spacing:-0.02em;}
+.hdr-path{padding-left:18px;display:flex;align-items:center;gap:7px;}
+.path-seg{font-family:'Roboto Mono',monospace;font-size:14px;color:var(--tm);}
+.path-file{font-family:'Roboto Mono',monospace;font-size:14px;color:var(--ts);font-weight:600;}
+.hdr-meta{margin-left:auto;display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.hdr-pill{font-size:13px;padding:3px 10px;border-radius:20px;font-weight:600;letter-spacing:0.01em;}
+.pill-teal{background:var(--teal-l);border:1px solid var(--teal-b);color:var(--teal);}
+.pill-indigo{background:var(--indigo-l);border:1px solid var(--indigo-b);color:var(--indigo);}
+.pill-gray{background:var(--s2);border:1px solid var(--border);color:var(--ts);}
+.sec-count{font-family:'Roboto Mono',monospace;font-size:13px;color:var(--tm);}
+
+/* Left nav */
+.nav{grid-column:1;grid-row:2;background:var(--surface);border-right:1px solid var(--border);overflow-y:auto;padding:16px 0;min-height:0;}
+.nav-group{margin-bottom:4px;}
+.nav-glabel{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--tm);padding:8px 16px 4px;display:block;}
+.nav-a{display:flex;align-items:center;gap:8px;padding:6px 16px;font-size:14px;font-weight:500;color:var(--ts);border-left:2px solid transparent;transition:all 0.1s;cursor:pointer;}
+.nav-a:hover{color:var(--tp);background:var(--s2);}
+.nav-a.active{color:var(--indigo);border-left-color:var(--indigo);background:var(--indigo-l);font-weight:600;}
+.nav-a.sub{padding-left:28px;font-size:13.5px;font-weight:400;}
+.nav-pip{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+.nav-sep{height:1px;background:var(--border);margin:8px 16px;}
+
+/* Main */
+.main{grid-column:2;grid-row:2;overflow-y:auto;padding:36px 40px;scroll-behavior:smooth;min-height:0;}
+.intro{margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid var(--border);}
+.intro-eye{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:6px;}
+.intro-h{font-family:'Roboto',sans-serif;font-size:34px;font-weight:700;color:var(--tp);letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px;}
+.intro-p{font-size:15px;color:var(--ts);line-height:1.75;max-width:580px;margin-bottom:14px;}
+.chip-row{display:flex;flex-wrap:wrap;gap:5px;}
+.chip{font-size:13px;padding:3px 10px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--ts);font-family:'Roboto Mono',monospace;}
+.chip.i{background:var(--indigo-l);border-color:var(--indigo-b);color:var(--indigo);}
+.chip.t{background:var(--teal-l);border-color:var(--teal-b);color:var(--teal);}
+
+/* Section */
+.section{margin-bottom:48px;scroll-margin-top:20px;}
+.sec-hd{display:flex;align-items:center;gap:11px;padding-bottom:13px;margin-bottom:18px;border-bottom:1px solid var(--border);}
+.sec-ico{width:30px;height:30px;border-radius:7px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.sec-title{font-family:'Roboto',sans-serif;font-size:19px;font-weight:600;color:var(--tp);letter-spacing:-0.02em;}
+.sec-n{margin-left:auto;font-family:'Roboto Mono',monospace;font-size:13px;color:var(--tm);}
+
+/* Subsection */
+.subsec{margin-bottom:28px;scroll-margin-top:20px;}
+.subsec-title{font-size:14px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--ts);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.subsec-title::after{content:'';flex:1;height:1px;background:var(--border);}
+
+/* Code block */
+.cb{border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:12px;}
+.cb-bar{display:flex;align-items:center;gap:5px;padding:8px 14px;background:var(--s2);border-bottom:1px solid var(--border);}
+.dot{width:9px;height:9px;border-radius:50%;}
+.cb-fn{font-family:'Roboto Mono',monospace;font-size:13px;color:var(--tm);margin-left:5px;}
+.cb-body{background:var(--mono-bg);padding:16px 20px;font-family:'Roboto Mono',monospace;font-size:14px;line-height:1.9;overflow-x:auto;}
+.cb-body pre{white-space:pre-wrap;word-break:break-word;color:var(--tp);}
+.cm{color:var(--tm);font-style:italic;}
+.cs{color:var(--indigo);font-weight:600;}
+.cv{color:var(--green);}
+.cw{color:var(--amber);}
+.cp{color:var(--teal);}
+.cd{color:var(--red);}
+.cg{color:var(--purple);}
+
+/* Cards */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;}
+.card.red{border-color:var(--red-b);background:var(--red-l);}
+.card.amber{border-color:var(--amber-b);background:var(--amber-l);}
+.card.indigo{border-color:var(--indigo-b);background:var(--indigo-l);}
+.card.teal{border-color:var(--teal-b);background:var(--teal-l);}
+.card.green{border-color:var(--green-b);background:var(--green-l);}
+
+/* Tags */
+.tag{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;padding:3px 8px;border-radius:20px;display:inline-block;margin-bottom:6px;border:1px solid transparent;}
+.tag.red{background:var(--red-l);color:var(--red);border-color:var(--red-b);}
+.tag.amber{background:var(--amber-l);color:var(--amber);border-color:var(--amber-b);}
+.tag.indigo{background:var(--indigo-l);color:var(--indigo);border-color:var(--indigo-b);}
+.tag.teal{background:var(--teal-l);color:var(--teal);border-color:var(--teal-b);}
+.tag.green{background:var(--green-l);color:var(--green);border-color:var(--green-b);}
+.tag.gray{background:var(--s2);color:var(--ts);border-color:var(--border);}
+.tag.purple{background:var(--purple-l);color:var(--purple);border-color:var(--purple-b);}
+
+.card-title{font-size:15px;font-weight:600;color:var(--tp);margin-bottom:4px;}
+.card-body{font-size:14px;color:var(--ts);line-height:1.55;}
+
+/* Grid layouts */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:12px;}
+
+/* Callout */
+.callout{display:flex;gap:11px;padding:13px 16px;border-radius:9px;margin-top:12px;font-size:15px;line-height:1.6;border:1px solid transparent;}
+.callout.red{background:var(--red-l);border-color:var(--red-b);color:var(--ts);}
+.callout.amber{background:var(--amber-l);border-color:var(--amber-b);color:var(--ts);}
+.callout.indigo{background:var(--indigo-l);border-color:var(--indigo-b);color:var(--ts);}
+.callout.teal{background:var(--teal-l);border-color:var(--teal-b);color:var(--ts);}
+.callout.green{background:var(--green-l);border-color:var(--green-b);color:var(--ts);}
+.callout-ico{font-size:13px;flex-shrink:0;margin-top:2px;}
+.callout strong{color:var(--tp);font-weight:600;}
+
+/* Inline table */
+.tbl{width:100%;border-collapse:collapse;margin-top:12px;border:1px solid var(--border);border-radius:9px;overflow:hidden;font-size:14px;}
+.tbl th{font-size:12.5px;font-weight:600;color:var(--ts);text-align:left;padding:9px 13px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:0.06em;background:var(--s2);}
+.tbl td{padding:10px 13px;border-bottom:1px solid var(--s3);color:var(--ts);vertical-align:top;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl td:first-child{color:var(--tp);font-family:'Roboto Mono',monospace;font-size:13px;}
+.mono{font-family:'Roboto Mono',monospace;font-size:13px;background:var(--s2);border:1px solid var(--border);padding:1px 5px;border-radius:3px;color:var(--green);}
+
+/* Swatch grid */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-top:12px;}
+.swatch{border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--surface);}
+.sw-color{height:38px;}
+.sw-info{padding:8px 10px;}
+.sw-name{font-size:13px;font-weight:600;color:var(--tp);margin-bottom:2px;}
+.sw-hex{font-family:'Roboto Mono',monospace;font-size:12px;color:var(--tm);}
+.sw-var{font-family:'Roboto Mono',monospace;font-size:11px;color:var(--tm);}
+
+/* Space scale */
+.space-row{display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--border);}
+.space-row:last-child{border-bottom:none;}
+.sp-token{font-family:'Roboto Mono',monospace;font-size:13px;color:var(--indigo);width:84px;flex-shrink:0;}
+.sp-bar-wrap{flex:1;height:8px;background:var(--s3);border-radius:2px;overflow:hidden;}
+.sp-bar{height:100%;background:var(--indigo);border-radius:2px;opacity:0.55;}
+.sp-val{font-family:'Roboto Mono',monospace;font-size:12.5px;color:var(--tm);width:38px;text-align:right;flex-shrink:0;}
+.sp-use{font-size:13px;color:var(--ts);width:140px;flex-shrink:0;}
+
+/* Status pills */
+.spill{font-size:12px;font-weight:600;padding:3px 9px;border-radius:20px;border:1px solid transparent;}
+.spill.done{background:var(--green-l);color:var(--green);border-color:var(--green-b);}
+.spill.wip{background:var(--amber-l);color:var(--amber);border-color:var(--amber-b);}
+.spill.todo{background:var(--s2);color:var(--tm);border-color:var(--border);}
+.spill.lock{background:var(--red-l);color:var(--red);border-color:var(--red-b);}
+
+/* Bug cards */
+.bug{border:1px solid var(--border);border-radius:9px;padding:14px 16px;background:var(--surface);margin-bottom:9px;}
+.bug.crit{border-color:var(--red-b);background:var(--red-l);}
+.bug:last-child{margin-bottom:0;}
+.bug-hd{display:flex;align-items:center;gap:9px;margin-bottom:6px;}
+.bug-id{font-family:'Roboto Mono',monospace;font-size:12px;color:var(--tm);}
+.bug-title{font-size:15px;font-weight:600;color:var(--tp);flex:1;}
+.bug-desc{font-size:14px;color:var(--ts);line-height:1.6;}
+.bug-fix{font-family:'Roboto Mono',monospace;font-size:13px;color:var(--green);margin-top:6px;display:block;}
+
+/* Page list */
+.page-row{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--border);font-size:14px;}
+.page-row:last-child{border-bottom:none;}
+.pr-route{font-family:'Roboto Mono',monospace;font-size:13px;color:var(--indigo);width:170px;flex-shrink:0;}
+.pr-label{color:var(--ts);flex:1;}
+
+/* Right panel */
+.rp{grid-column:3;grid-row:2;background:var(--surface);border-left:1px solid var(--border);overflow-y:auto;padding:20px 16px;min-height:0;}
+.rp-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--ts);margin-bottom:8px;}
+.rp-sep{height:1px;background:var(--border);margin:14px 0;}
+
+.tok-row{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid var(--s3);font-size:13px;}
+.tok-row:last-child{border-bottom:none;}
+.tok-sw{width:13px;height:13px;border-radius:2px;flex-shrink:0;border:1px solid rgba(0,0,0,0.07);}
+.tok-name{font-family:'Roboto Mono',monospace;font-size:12px;color:var(--ts);flex:1;}
+.tok-val{font-family:'Roboto Mono',monospace;font-size:12px;color:var(--tm);}
+
+.ck-row{display:flex;gap:7px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--s3);font-size:13.5px;color:var(--ts);}
+.ck-row:last-child{border-bottom:none;}
+.ck{flex-shrink:0;font-weight:700;margin-top:1px;font-size:13px;}
+.ok{color:var(--green);} .warn{color:var(--amber);} .bad{color:var(--red);}
+
+.progress-bar{height:5px;background:var(--s3);border-radius:3px;overflow:hidden;margin-top:4px;}
+.pb-fill{height:100%;background:var(--indigo);border-radius:3px;}
+
+/* Component spec rows */
+.spec-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--s3);font-size:14px;}
+.spec-row:last-child{border-bottom:none;}
+.spec-key{color:var(--ts);}
+.spec-val{font-family:'Roboto Mono',monospace;font-size:13px;color:var(--indigo);}
+
+@media(max-width:900px){
+  .page{grid-template-columns:1fr;grid-template-rows:var(--header-h) 1fr;}
+  .hdr{grid-column:1;}
+  .nav,.rp{display:none;}
+  .main{grid-column:1;grid-row:2;padding:20px 16px;}
+  .g2,.g3{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-brand">
+    <div class="logo"><svg viewBox="0 0 13 13"><path d="M2 6.5h9M6.5 2l4.5 4.5-4.5 4.5"/></svg></div>
+    <span class="brand">ClearPath FDO</span>
+  </div>
+  <div class="hdr-path">
+    <span class="path-seg">design-system</span>
+    <span style="color:var(--border2);margin:0 2px;">/</span>
+    <span class="path-file">CLAUDE.md</span>
+  </div>
+  <div class="hdr-meta">
+    <span class="hdr-pill pill-teal">Healthcare SaaS</span>
+    <span class="hdr-pill pill-indigo">Vanilla HTML/CSS/JS</span>
+    <span class="sec-count">28 sections</span>
+    <button onclick="downloadClaude()" style="display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:8px;border:1px solid var(--indigo-b);background:var(--indigo-l);color:var(--indigo);font-size:13px;font-weight:600;cursor:pointer;font-family:'Roboto',sans-serif;transition:all 0.15s;" onmouseover="this.style.background='var(--indigo)';this.style.color='#fff'" onmouseout="this.style.background='var(--indigo-l)';this.style.color='var(--indigo)'">
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 2v8M4 7.5l3.5 3.5L11 7.5"/><path d="M2 12h11"/></svg>
+      Download CLAUDE.md
+    </button>
+  </div>
+</header>
+
+<!-- LEFT NAV -->
+<nav class="nav">
+  <div class="nav-group">
+    <span class="nav-glabel">About CLAUDE.md</span>
+    <a class="nav-a" href="#what-is"><div class="nav-pip" style="background:var(--teal);"></div>What it is</a>
+    <a class="nav-a" href="#vs-figma"><div class="nav-pip" style="background:var(--teal);"></div>vs Figma Design System</a>
+    <a class="nav-a" href="#venn"><div class="nav-pip" style="background:var(--teal);"></div>Venn diagram</a>
+    <a class="nav-a" href="#vs-skills"><div class="nav-pip" style="background:var(--teal);"></div>vs Claude Skills</a>
+  </div>
+  <div class="nav-sep"></div>
+  <div class="nav-group">
+    <span class="nav-glabel">Project</span>
+    <a class="nav-a active" href="#stack"><div class="nav-pip" style="background:var(--indigo);"></div>Stack</a>
+    <a class="nav-a" href="#devserver"><div class="nav-pip" style="background:var(--indigo);"></div>Dev server</a>
+    <a class="nav-a" href="#pagetypes"><div class="nav-pip" style="background:var(--indigo);"></div>Page types</a>
+  </div>
+  <div class="nav-sep"></div>
+  <div class="nav-group">
+    <span class="nav-glabel">Design system</span>
+    <a class="nav-a" href="#spacing"><div class="nav-pip" style="background:var(--teal);"></div>Spacing</a>
+    <a class="nav-a" href="#layout-tokens"><div class="nav-pip" style="background:var(--teal);"></div>Layout tokens</a>
+    <a class="nav-a" href="#colors"><div class="nav-pip" style="background:var(--teal);"></div>Colors</a>
+    <a class="nav-a" href="#typography"><div class="nav-pip" style="background:var(--teal);"></div>Typography</a>
+    <a class="nav-a" href="#comp-standards"><div class="nav-pip" style="background:var(--teal);"></div>Component standards</a>
+    <a class="nav-a sub" href="#buttons">→ Buttons</a>
+    <a class="nav-a sub" href="#segmented">→ Segmented control</a>
+    <a class="nav-a sub" href="#timeslots">→ Time slot buttons</a>
+    <a class="nav-a sub" href="#toggle">→ Toggle switch</a>
+    <a class="nav-a sub" href="#cards">→ Cards</a>
+    <a class="nav-a sub" href="#sel-cards">→ Selection cards</a>
+    <a class="nav-a sub" href="#chips">→ Chips / badges</a>
+    <a class="nav-a sub" href="#avatars">→ Avatars</a>
+    <a class="nav-a sub" href="#filter-bar">→ Filter bar</a>
+  </div>
+  <div class="nav-sep"></div>
+  <div class="nav-group">
+    <span class="nav-glabel">Architecture</span>
+    <a class="nav-a" href="#app-shell"><div class="nav-pip" style="background:var(--purple);"></div>App shell</a>
+    <a class="nav-a" href="#data-state"><div class="nav-pip" style="background:var(--purple);"></div>Data &amp; state</a>
+    <a class="nav-a" href="#routing"><div class="nav-pip" style="background:var(--purple);"></div>Navigation &amp; routing</a>
+    <a class="nav-a" href="#forms"><div class="nav-pip" style="background:var(--purple);"></div>Forms &amp; validation</a>
+  </div>
+  <div class="nav-sep"></div>
+  <div class="nav-group">
+    <span class="nav-glabel">Patterns</span>
+    <a class="nav-a" href="#modals"><div class="nav-pip" style="background:var(--amber);"></div>Modals &amp; overlays</a>
+    <a class="nav-a" href="#multistep"><div class="nav-pip" style="background:var(--amber);"></div>Multi-step layout</a>
+    <a class="nav-a" href="#toasts"><div class="nav-pip" style="background:var(--amber);"></div>Toast / notifications</a>
+    <a class="nav-a" href="#empty"><div class="nav-pip" style="background:var(--amber);"></div>Empty states</a>
+    <a class="nav-a" href="#tables"><div class="nav-pip" style="background:var(--amber);"></div>Table patterns</a>
+    <a class="nav-a" href="#loading"><div class="nav-pip" style="background:var(--amber);"></div>Loading states</a>
+    <a class="nav-a" href="#content-cards"><div class="nav-pip" style="background:var(--amber);"></div>Content cards</a>
+    <a class="nav-a" href="#grid-layout"><div class="nav-pip" style="background:var(--amber);"></div>Grid / column layout</a>
+  </div>
+  <div class="nav-sep"></div>
+  <div class="nav-group">
+    <span class="nav-glabel">Standards</span>
+    <a class="nav-a" href="#dark-theme"><div class="nav-pip" style="background:var(--ts);"></div>Dark theme</a>
+    <a class="nav-a" href="#icons"><div class="nav-pip" style="background:var(--ts);"></div>Icons</a>
+    <a class="nav-a" href="#a11y"><div class="nav-pip" style="background:var(--ts);"></div>Accessibility</a>
+    <a class="nav-a" href="#heuristics"><div class="nav-pip" style="background:var(--ts);"></div>Usability heuristics</a>
+    <a class="nav-a" href="#animation"><div class="nav-pip" style="background:var(--ts);"></div>Animation &amp; motion</a>
+  </div>
+  <div class="nav-sep"></div>
+  <div class="nav-group">
+    <span class="nav-glabel">Reference</span>
+    <a class="nav-a" href="#bugs"><div class="nav-pip" style="background:var(--red);"></div>Known bugs</a>
+    <a class="nav-a" href="#pages-built"><div class="nav-pip" style="background:var(--green);"></div>Pages built</a>
+    <a class="nav-a" href="#figma"><div class="nav-pip" style="background:var(--indigo);"></div>Figma integration</a>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- Intro -->
+  <div class="intro">
+    <div class="intro-eye">Design system · CLAUDE.md · 24 sections + 4 explainers</div>
+    <h1 class="intro-h">ClearPath FDO</h1>
+    <p class="intro-p">Complete design system reference for Claude Code. This file is the single source of truth for all visual, structural, and pattern decisions. Before writing any component, page, or layout — read the relevant section here. Every rule exists because of a real decision, bug, or client requirement.</p>
+    <div class="chip-row">
+      <span class="chip i">Roboto · Roboto Mono</span>
+      <span class="chip t">Tabler Icons</span>
+      <span class="chip">Vanilla HTML/CSS/JS</span>
+      <span class="chip">8px grid</span>
+      <span class="chip">Light + Dark theme</span>
+      <span class="chip">Healthcare SaaS</span>
+    </div>
+  </div>
+
+  <!-- ══ WHAT IS CLAUDE.MD ══ -->
+  <section class="section" id="what-is">
+    <div class="sec-hd"><div class="sec-ico">📋</div><div class="sec-title">What is CLAUDE.md?</div><div class="sec-n">00a</div></div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;">
+      <div class="card indigo" style="padding:20px;">
+        <div style="font-size:28px;margin-bottom:10px;">📄</div>
+        <div class="card-title" style="margin-bottom:6px;">A single markdown file</div>
+        <div class="card-body">Placed in your project root. Claude Code reads it automatically at the start of every session before you type a single message.</div>
+      </div>
+      <div class="card teal" style="padding:20px;">
+        <div style="font-size:28px;margin-bottom:10px;">🧠</div>
+        <div class="card-title" style="margin-bottom:6px;">Injected into Claude's context</div>
+        <div class="card-body">Its contents are baked into the system prompt — making Claude permanently aware of your project's rules, stack, tokens, and constraints.</div>
+      </div>
+      <div class="card" style="padding:20px;">
+        <div style="font-size:28px;margin-bottom:10px;">🔁</div>
+        <div class="card-title" style="margin-bottom:6px;">Zero re-explanation</div>
+        <div class="card-body">Without it, you repeat yourself every session. With it, Claude already knows your project before the first message — every time.</div>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-title">When to use it</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div class="card green" style="padding:16px;">
+          <div class="tag green" style="margin-bottom:8px;">Use CLAUDE.md when</div>
+          <div style="font-size:14px;color:var(--ts);line-height:1.7;">
+            You have a specific tech stack Claude must follow<br>
+            You have design tokens or spacing rules that must not drift<br>
+            Multiple sessions need consistent output<br>
+            There are known bugs or patterns Claude must never replicate<br>
+            You're using Claude Code CLI for real project work
+          </div>
+        </div>
+        <div class="card red" style="padding:16px;">
+          <div class="tag red" style="margin-bottom:8px;">Not needed when</div>
+          <div style="font-size:14px;color:var(--ts);line-height:1.7;">
+            You're using the claude.ai web chat (not Claude Code)<br>
+            It's a one-off task with no ongoing project context<br>
+            The task has no design system or code conventions to enforce<br>
+            You're exploring or prototyping, not building production code
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-title">Why it matters for this project</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+        <div class="card" style="padding:14px;">
+          <div class="tag indigo">Without CLAUDE.md</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.65;margin-top:4px;">Claude uses <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">padding: 15px</code> — a non-grid value that breaks spacing consistency across every component.</div>
+        </div>
+        <div class="card green" style="padding:14px;">
+          <div class="tag green">With CLAUDE.md</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.65;margin-top:4px;">Claude uses <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">var(--space-2)</code> — the correct 16px token from the 8px grid system defined in this file.</div>
+        </div>
+        <div class="card green" style="padding:14px;">
+          <div class="tag green">The bridge</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.65;margin-top:4px;">When you say "H1" in Figma, CLAUDE.md maps it to <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">&lt;Typography variant="heading-xl"&gt;</code> — exactly what your project requires.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout teal"><div class="callout-ico">💡</div><div><strong>The golden rule:</strong> If you find yourself explaining the same thing to Claude more than twice in different sessions — it belongs in CLAUDE.md. Every rule in this file exists because of a real decision, real bug, or real client requirement.</div></div>
+  </section>
+
+  <!-- ══ VS FIGMA DS ══ -->
+  <section class="section" id="vs-figma">
+    <div class="sec-hd"><div class="sec-ico">⚖</div><div class="sec-title">CLAUDE.md vs Figma Design System</div><div class="sec-n">00b</div></div>
+
+    <p style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:20px;max-width:640px;">They solve different problems for different audiences. The Figma Design System is the visual language for designers and developers. CLAUDE.md is the operational brief for the AI agent. Both are needed — but they are not substitutes for each other.</p>
+
+    <div class="subsec">
+      <div class="subsec-title">Side-by-side comparison</div>
+      <table class="tbl">
+        <thead><tr><th style="width:160px;">Feature</th><th>Figma Design System</th><th>CLAUDE.md</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Purpose</td>
+            <td style="color:var(--ts);">Defines the visual and functional language of a brand</td>
+            <td style="color:var(--ts);">Provides context and rules for an AI agent</td>
+          </tr>
+          <tr>
+            <td>Format</td>
+            <td style="color:var(--ts);">Figma, Storybook, CSS / Component library</td>
+            <td style="color:var(--ts);">A single Markdown (.md) file in the project root</td>
+          </tr>
+          <tr>
+            <td>Audience</td>
+            <td style="color:var(--ts);">Designers and developers</td>
+            <td style="color:var(--ts);">The Claude AI agent (Claude Code CLI)</td>
+          </tr>
+          <tr>
+            <td>Content</td>
+            <td style="color:var(--ts);">Tokens, UI kits, voice &amp; tone, accessibility guidelines</td>
+            <td style="color:var(--ts);">Commands, file paths, coding preferences, known bugs</td>
+          </tr>
+          <tr>
+            <td>When read</td>
+            <td style="color:var(--ts);">By humans during design and build</td>
+            <td style="color:var(--ts);">By Claude automatically at session start</td>
+          </tr>
+          <tr>
+            <td>Lives in</td>
+            <td style="color:var(--ts);">Figma, Confluence, Notion, Storybook</td>
+            <td style="color:var(--ts);">Project root directory (alongside your code)</td>
+          </tr>
+          <tr>
+            <td>Updates when</td>
+            <td style="color:var(--ts);">Brand or component decisions change</td>
+            <td style="color:var(--ts);">Stack, rules, or page status changes — after every session</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-title">Usage context — what each is used for</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="background:var(--indigo-l);border:1px solid var(--indigo-b);border-radius:10px;padding:18px;">
+          <div style="font-size:13px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Use Figma Design System for</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
+              <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>Visual layouts and "vibes" — the look and feel
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
+              <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>Colour hex codes and typography decisions
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
+              <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>Specific spacing between elements in a design
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
+              <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>"Forbidden" styles — "Don't use gradients", "no shadows"
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
+              <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>Component anatomy and interaction states
+            </div>
+          </div>
+        </div>
+        <div style="background:var(--teal-l);border:1px solid var(--teal-b);border-radius:10px;padding:18px;">
+          <div style="font-size:13px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Use CLAUDE.md for</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
+              <span style="color:var(--teal);font-weight:700;flex-shrink:0;">→</span>Coding syntax and library choices
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
+              <span style="color:var(--teal);font-weight:700;flex-shrink:0;">→</span>File paths for components and shared modules
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
+              <span style="color:var(--teal);font-weight:700;flex-shrink:0;">→</span>Logic rules — "Mobile-first responsive only"
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
+              <span style="color:var(--teal);font-weight:700;flex-shrink:0;">→</span>Known bugs Claude must never replicate
+            </div>
+            <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
+              <span style="color:var(--teal);font-weight:700;flex-shrink:0;">→</span>Current page build status and shared component locations
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-title">The practical impact</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="card" style="padding:16px;border-left:4px solid var(--teal);border-radius:0 10px 10px 0;">
+          <div class="card-title" style="margin-bottom:6px;color:var(--teal);">NEVER use inline hex codes</div>
+          <div class="card-body">Claude might write <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">color: #5B5BD6</code> by default. CLAUDE.md enforces <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">var(--color-primary)</code> so dark theme works automatically across every component.</div>
+        </div>
+        <div class="card" style="padding:16px;border-left:4px solid var(--indigo);border-radius:0 10px 10px 0;">
+          <div class="card-title" style="margin-bottom:6px;color:var(--indigo);">ALWAYS use &lt;DS-Button&gt;</div>
+          <div class="card-body">Without CLAUDE.md, Claude writes raw HTML <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">&lt;button&gt;</code>. With it, Claude uses your <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">.btn-primary</code> class — the design system component with all states built in.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ VENN DIAGRAM ══ -->
+  <section class="section" id="venn">
+    <div class="sec-hd"><div class="sec-ico">◎</div><div class="sec-title">Where they overlap — Venn diagram</div><div class="sec-n">00c</div></div>
+
+    <p style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:24px;max-width:640px;">Neither replaces the other. The Figma Design System is the source of truth for <em>what</em> things should look like. CLAUDE.md is the operational layer that tells Claude <em>how</em> to implement that in code. The overlap is where design intent becomes implementation constraint.</p>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 24px;">
+      <svg viewBox="0 0 700 380" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Venn diagram showing overlap between Figma Design System and CLAUDE.md">
+        <title>Figma Design System vs CLAUDE.md — shared and unique outputs</title>
+
+        <!-- Figma circle -->
+        <ellipse cx="245" cy="190" rx="200" ry="155" fill="#EEEEFF" stroke="#C5C4F0" stroke-width="1.5" opacity="0.9"/>
+        <!-- Claude circle -->
+        <ellipse cx="455" cy="190" rx="200" ry="155" fill="#E8FAF9" stroke="#A4DED9" stroke-width="1.5" opacity="0.9"/>
+        <!-- Overlap zone -->
+        <path d="M350,52 C382,72 410,120 410,190 C410,260 382,308 350,328 C318,308 290,260 290,190 C290,120 318,72 350,52Z" fill="#EDE9FE" opacity="0.6"/>
+
+        <!-- Figma label -->
+        <text x="148" y="56" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="14" font-weight="700" fill="#5B5BD6">Figma</text>
+        <text x="148" y="74" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="14" font-weight="700" fill="#5B5BD6">Design System</text>
+
+        <!-- Claude label -->
+        <text x="556" y="56" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="14" font-weight="700" fill="#0EA5A0">CLAUDE.md</text>
+
+        <!-- Figma-only items -->
+        <text x="148" y="118" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">Visual layouts</text>
+        <text x="148" y="140" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">&amp; "vibes"</text>
+        <text x="148" y="168" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">UI component</text>
+        <text x="148" y="188" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">anatomy</text>
+        <text x="148" y="216" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">Interaction states</text>
+        <text x="148" y="236" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">&amp; animations</text>
+        <text x="148" y="264" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">Brand voice</text>
+        <text x="148" y="284" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">&amp; tone</text>
+        <text x="148" y="308" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">Audience:</text>
+        <text x="148" y="326" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" font-weight="700" fill="#4646C8">Designers &amp; Devs</text>
+
+        <!-- Overlap items -->
+        <text x="350" y="118" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" font-weight="700" fill="#6B3FA0">Colour tokens</text>
+        <text x="350" y="148" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" fill="#6B3FA0">#5B5BD6 →</text>
+        <text x="350" y="164" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" fill="#6B3FA0">--color-primary</text>
+        <text x="350" y="196" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" font-weight="700" fill="#6B3FA0">Spacing rules</text>
+        <text x="350" y="216" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" fill="#6B3FA0">8px grid</text>
+        <text x="350" y="248" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" font-weight="700" fill="#6B3FA0">Typography</text>
+        <text x="350" y="268" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" fill="#6B3FA0">scale &amp; weights</text>
+        <text x="350" y="298" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" font-weight="700" fill="#6B3FA0">Forbidden</text>
+        <text x="350" y="316" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" fill="#6B3FA0">patterns</text>
+
+        <!-- Claude-only items -->
+        <text x="554" y="118" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">Tech stack</text>
+        <text x="554" y="138" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">&amp; libraries</text>
+        <text x="554" y="166" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">File paths &amp;</text>
+        <text x="554" y="186" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">component names</text>
+        <text x="554" y="214" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">Known bugs to</text>
+        <text x="554" y="234" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">never replicate</text>
+        <text x="554" y="262" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">Build status</text>
+        <text x="554" y="282" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">&amp; page list</text>
+        <text x="554" y="308" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">Audience:</text>
+        <text x="554" y="326" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" font-weight="700" fill="#0A7A77">Claude Code AI</text>
+
+        <!-- Overlap label -->
+        <text x="350" y="358" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" font-weight="700" fill="#6B3FA0">Shared: design → code bridge</text>
+      </svg>
+    </div>
+
+    <div class="subsec" style="margin-top:20px;">
+      <div class="subsec-title">Reading the overlap</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
+        <div class="card" style="padding:14px;border-top:3px solid var(--indigo);">
+          <div class="card-title" style="margin-bottom:4px;">Figma only</div>
+          <div class="card-body">Visual decisions that live in the design tool. Layout, component anatomy, interaction states, brand voice. These inform CLAUDE.md but don't live in it.</div>
+        </div>
+        <div class="card" style="padding:14px;border-top:3px solid var(--purple);">
+          <div class="card-title" style="margin-bottom:4px;">The overlap zone</div>
+          <div class="card-body">Where design decisions become code constraints. Colour tokens, spacing values, typography scale, and forbidden patterns all cross both systems — Figma defines them, CLAUDE.md enforces them in code.</div>
+        </div>
+        <div class="card" style="padding:14px;border-top:3px solid var(--teal);">
+          <div class="card-title" style="margin-bottom:4px;">CLAUDE.md only</div>
+          <div class="card-body">Operational rules with no Figma equivalent. Tech stack, file paths, known bugs, build status, library choices, and coding conventions that only Claude Code needs to know.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout indigo"><div class="callout-ico">🔗</div><div><strong>The design-to-code bridge:</strong> When you see an H1 in Figma, CLAUDE.md maps it to <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:rgba(91,91,214,0.1);padding:1px 5px;border-radius:3px;">&lt;Typography variant="heading-xl"&gt;</code>. What you designed in Figma is exactly what Claude writes in code — using the specific names and structures your project requires. That translation layer is what CLAUDE.md provides.</div></div>
+  </section>
+
+  <!-- ══ VS SKILLS ══ -->
+  <section class="section" id="vs-skills">
+    <div class="sec-hd"><div class="sec-ico">⚙</div><div class="sec-title">CLAUDE.md vs Claude Skills</div><div class="sec-n">00d</div></div>
+
+    <p style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:20px;max-width:660px;">Both live in Claude Code. Both shape how Claude behaves. But they work at completely different layers — one is always on, the other fires on demand. Understanding the difference determines what goes where.</p>
+
+    <!-- Core mental model -->
+    <div class="subsec">
+      <div class="subsec-title">The one-line mental model</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div style="background:var(--indigo-l);border:1px solid var(--indigo-b);border-radius:10px;padding:20px 22px;">
+          <div style="font-size:12px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;">CLAUDE.md</div>
+          <div style="font-size:22px;font-weight:700;color:var(--indigo);line-height:1.2;margin-bottom:10px;">"What this project is"</div>
+          <div style="font-size:14px;color:var(--ts);line-height:1.65;">The project brief. Stack, tokens, known bugs, page status, file paths, client rules. Facts that are specific to this one codebase. Loaded automatically before you type a single word.</div>
+        </div>
+        <div style="background:var(--amber-l);border:1px solid var(--amber-b);border-radius:10px;padding:20px 22px;">
+          <div style="font-size:12px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;">Skills</div>
+          <div style="font-size:22px;font-weight:700;color:var(--amber);line-height:1.2;margin-bottom:10px;">"How to do something"</div>
+          <div style="font-size:14px;color:var(--ts);line-height:1.65;">Reusable know-how. Step-by-step instructions, component templates, reference screenshots. Read mid-task only when the task matches the skill's trigger. Portable across projects.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Side by side comparison table -->
+    <div class="subsec">
+      <div class="subsec-title">Side-by-side comparison</div>
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th style="width:150px;"></th>
+            <th style="background:var(--indigo-l);color:var(--indigo);">CLAUDE.md</th>
+            <th style="background:var(--amber-l);color:var(--amber);">Skills (.skill / SKILL.md)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>When loaded</td>
+            <td>Session start — before you type anything</td>
+            <td>Mid-task — when Claude decides the skill is relevant</td>
+          </tr>
+          <tr>
+            <td>How loaded</td>
+            <td>Auto-injected into the system prompt</td>
+            <td>Claude reads the file using the <code class="mono">view</code> tool</td>
+          </tr>
+          <tr>
+            <td>Token cost</td>
+            <td>Always — every session, every message</td>
+            <td>Only when triggered. Unused skills cost nothing</td>
+          </tr>
+          <tr>
+            <td>Scope</td>
+            <td>This project only. Tied to one repo</td>
+            <td>Any project. Drop it in and reuse across repos</td>
+          </tr>
+          <tr>
+            <td>Trigger</td>
+            <td>None — fully automatic at session start</td>
+            <td>Claude matches the task to the skill's description</td>
+          </tr>
+          <tr>
+            <td>Authority level</td>
+            <td>System prompt layer — treated as operator rules</td>
+            <td>Conversational layer — read as reference material</td>
+          </tr>
+          <tr>
+            <td>Updates take effect</td>
+            <td>Next session (restart required)</td>
+            <td>Next task read — immediate, no restart needed</td>
+          </tr>
+          <tr>
+            <td>Contains</td>
+            <td>Facts, constraints, current state, known bugs</td>
+            <td>How-to instructions, templates, reference screenshots</td>
+          </tr>
+          <tr>
+            <td>Written by</td>
+            <td>You — specific to this project</td>
+            <td>You (or shared) — condensed reusable expertise</td>
+          </tr>
+          <tr>
+            <td>Analogy</td>
+            <td>The project brief handed to a contractor on day 1</td>
+            <td>The contractor's professional training manuals</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- How they work together -->
+    <div class="subsec">
+      <div class="subsec-title">How they work together on this project</div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:0;">
+
+        <!-- Timeline row -->
+        <div style="padding:20px 24px;border-bottom:1px solid var(--border);">
+          <div style="font-size:12px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:14px;">Session flow</div>
+          <div style="display:flex;align-items:flex-start;gap:0;">
+
+            <!-- Step 1 -->
+            <div style="flex:1;text-align:center;padding:0 8px;">
+              <div style="width:36px;height:36px;background:var(--indigo);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;color:#fff;font-weight:700;font-size:14px;">1</div>
+              <div style="font-size:13px;font-weight:700;color:var(--tp);margin-bottom:4px;">$ claude</div>
+              <div style="font-size:12px;color:var(--ts);">You launch Claude Code in the project folder</div>
+            </div>
+
+            <div style="color:var(--border2);font-size:20px;padding-top:8px;">→</div>
+
+            <!-- Step 2 -->
+            <div style="flex:1;text-align:center;padding:0 8px;background:var(--indigo-l);border-radius:8px;margin:0 4px;">
+              <div style="width:36px;height:36px;background:var(--indigo);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:8px auto 8px;color:#fff;font-weight:700;font-size:14px;">2</div>
+              <div style="font-size:13px;font-weight:700;color:var(--indigo);margin-bottom:4px;">CLAUDE.md loaded</div>
+              <div style="font-size:12px;color:var(--ts);padding-bottom:8px;">Tokens, rules, bugs, page status — injected into system prompt</div>
+            </div>
+
+            <div style="color:var(--border2);font-size:20px;padding-top:8px;">→</div>
+
+            <!-- Step 3 -->
+            <div style="flex:1;text-align:center;padding:0 8px;">
+              <div style="width:36px;height:36px;background:var(--s3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;color:var(--ts);font-weight:700;font-size:14px;">3</div>
+              <div style="font-size:13px;font-weight:700;color:var(--tp);margin-bottom:4px;">You give a task</div>
+              <div style="font-size:12px;color:var(--ts);">"Build the patients table"</div>
+            </div>
+
+            <div style="color:var(--border2);font-size:20px;padding-top:8px;">→</div>
+
+            <!-- Step 4 -->
+            <div style="flex:1;text-align:center;padding:0 8px;background:var(--amber-l);border-radius:8px;margin:0 4px;">
+              <div style="width:36px;height:36px;background:var(--amber);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:8px auto 8px;color:#fff;font-weight:700;font-size:14px;">4</div>
+              <div style="font-size:13px;font-weight:700;color:var(--amber);margin-bottom:4px;">Skills loaded</div>
+              <div style="font-size:12px;color:var(--ts);padding-bottom:8px;">clearpath-fdo + frontend-design skills read via view tool</div>
+            </div>
+
+            <div style="color:var(--border2);font-size:20px;padding-top:8px;">→</div>
+
+            <!-- Step 5 -->
+            <div style="flex:1;text-align:center;padding:0 8px;">
+              <div style="width:36px;height:36px;background:var(--green);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 8px;color:#fff;font-weight:700;font-size:14px;">5</div>
+              <div style="font-size:13px;font-weight:700;color:var(--tp);margin-bottom:4px;">Claude builds</div>
+              <div style="font-size:12px;color:var(--ts);">Uses CLAUDE.md context + skill knowledge together</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- What each contributes -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;">
+          <div style="padding:20px 24px;border-right:1px solid var(--border);">
+            <div style="font-size:12px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px;">CLAUDE.md contributes</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;gap:10px;font-size:13px;color:var(--ts);">
+                <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">✓</span>Which file to put the table in (<code class="mono">patients.html</code>)
+              </div>
+              <div style="display:flex;gap:10px;font-size:13px;color:var(--ts);">
+                <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">✓</span>Which tokens to use (<code class="mono">--color-primary</code>, <code class="mono">--space-3</code>)
+              </div>
+              <div style="display:flex;gap:10px;font-size:13px;color:var(--ts);">
+                <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">✓</span>Known bugs to avoid (no box-shadow on rows)
+              </div>
+              <div style="display:flex;gap:10px;font-size:13px;color:var(--ts);">
+                <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">✓</span>Current page status (what's done, what exists)
+              </div>
+              <div style="display:flex;gap:10px;font-size:13px;color:var(--ts);">
+                <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">✓</span>Shared components to import, not rewrite
+              </div>
+            </div>
+          </div>
+          <div style="padding:20px 24px;">
+            <div style="font-size:12px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:12px;">Skills contribute</div>
+            <div style="display:flex;flex-direction:column;gap:8px;">
+              <div style="display:flex;gap:10px;font-size:13px;color:var(--ts);">
+                <span style="color:var(--amber);font-weight:700;flex-shrink:0;">✓</span>How to build a ClearPath FDO table component
+              </div>
+              <div style="display:flex;gap:10px;font-size:13px;color:var(--ts);">
+                <span style="color:var(--amber);font-weight:700;flex-shrink:0;">✓</span>Reference screenshots of existing FDO pages
+              </div>
+              <div style="display:flex;gap:10px;font-size:13px;color:var(--ts);">
+                <span style="color:var(--amber);font-weight:700;flex-shrink:0;">✓</span>Component patterns and template HTML structures
+              </div>
+              <div style="display:flex;gap:10px;font-size:13px;color:var(--ts);">
+                <span style="color:var(--amber);font-weight:700;flex-shrink:0;">✓</span>Frontend design principles for production quality
+              </div>
+              <div style="display:flex;gap:10px;font-size:13px;color:var(--ts);">
+                <span style="color:var(--amber);font-weight:700;flex-shrink:0;">✓</span>Step-by-step instructions for complex builds
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- What goes where decision guide -->
+    <div class="subsec">
+      <div class="subsec-title">What goes where — decision guide</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="card indigo" style="padding:18px;">
+          <div style="font-size:13px;font-weight:700;color:var(--indigo);margin-bottom:12px;">Put it in CLAUDE.md if...</div>
+          <div style="display:flex;flex-direction:column;gap:7px;">
+            <div style="display:flex;gap:9px;font-size:13px;color:var(--ts);">
+              <span style="color:var(--indigo);flex-shrink:0;">→</span>It's specific to this project and would change for a new one
+            </div>
+            <div style="display:flex;gap:9px;font-size:13px;color:var(--ts);">
+              <span style="color:var(--indigo);flex-shrink:0;">→</span>It's a fact, constraint, or current state of the project
+            </div>
+            <div style="display:flex;gap:9px;font-size:13px;color:var(--ts);">
+              <span style="color:var(--indigo);flex-shrink:0;">→</span>It's a known bug Claude must never replicate
+            </div>
+            <div style="display:flex;gap:9px;font-size:13px;color:var(--ts);">
+              <span style="color:var(--indigo);flex-shrink:0;">→</span>Claude needs it <em>every single session</em> regardless of task
+            </div>
+            <div style="display:flex;gap:9px;font-size:13px;color:var(--ts);">
+              <span style="color:var(--indigo);flex-shrink:0;">→</span>You've had to explain the same thing more than twice
+            </div>
+          </div>
+        </div>
+        <div class="card amber" style="padding:18px;">
+          <div style="font-size:13px;font-weight:700;color:var(--amber);margin-bottom:12px;">Put it in a Skill if...</div>
+          <div style="display:flex;flex-direction:column;gap:7px;">
+            <div style="display:flex;gap:9px;font-size:13px;color:var(--ts);">
+              <span style="color:var(--amber);flex-shrink:0;">→</span>You'd want to reuse it in a future project
+            </div>
+            <div style="display:flex;gap:9px;font-size:13px;color:var(--ts);">
+              <span style="color:var(--amber);flex-shrink:0;">→</span>It's a process or how-to, not just a fact
+            </div>
+            <div style="display:flex;gap:9px;font-size:13px;color:var(--ts);">
+              <span style="color:var(--amber);flex-shrink:0;">→</span>It includes reference screenshots or templates
+            </div>
+            <div style="display:flex;gap:9px;font-size:13px;color:var(--ts);">
+              <span style="color:var(--amber);flex-shrink:0;">→</span>It only matters for certain task types, not all tasks
+            </div>
+            <div style="display:flex;gap:9px;font-size:13px;color:var(--ts);">
+              <span style="color:var(--amber);flex-shrink:0;">→</span>Multiple different projects could benefit from it
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills used on this project -->
+    <div class="subsec">
+      <div class="subsec-title">Skills active on this project</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:14px 16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;"></div>
+            <div style="font-size:13px;font-weight:700;color:var(--tp);">clearpath-fdo</div>
+            <code class="mono" style="margin-left:auto;font-size:11px;">/mnt/skills/user/</code>
+          </div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Full ClearPath FDO design system — component patterns, colour usage, spacing rules, reference page screenshots.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:14px 16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;"></div>
+            <div style="font-size:13px;font-weight:700;color:var(--tp);">fdo-components</div>
+            <code class="mono" style="margin-left:auto;font-size:11px;">/mnt/skills/user/</code>
+          </div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Individual component templates with HTML structure, class names, state variants, and dark mode patterns.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:14px 16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;"></div>
+            <div style="font-size:13px;font-weight:700;color:var(--tp);">frontend-design</div>
+            <code class="mono" style="margin-left:auto;font-size:11px;">/mnt/skills/public/</code>
+          </div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Production-grade frontend principles — typography, motion, composition, avoiding generic AI aesthetics.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:14px 16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;"></div>
+            <div style="font-size:13px;font-weight:700;color:var(--tp);">appointment-app-ds</div>
+            <code class="mono" style="margin-left:auto;font-size:11px;">/mnt/skills/user/</code>
+          </div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Booking flow specific — time slots, multi-step layout, summary panel, step indicator patterns.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:14px 16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--amber);flex-shrink:0;"></div>
+            <div style="font-size:13px;font-weight:700;color:var(--tp);">design-inspiration</div>
+            <code class="mono" style="margin-left:auto;font-size:11px;">/mnt/skills/user/</code>
+          </div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Visual reference images Claude reads before designing — ensures output matches the intended look and feel.</div>
+        </div>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:14px 16px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <div style="width:8px;height:8px;border-radius:50%;background:var(--indigo);flex-shrink:0;"></div>
+            <div style="font-size:13px;font-weight:700;color:var(--tp);">ds-token-generator</div>
+            <code class="mono" style="margin-left:auto;font-size:11px;">/mnt/skills/user/</code>
+          </div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Generates UI documentation using strict design token rules and the 8px grid system defined in this file.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- The overlap zone -->
+    <div class="subsec">
+      <div class="subsec-title">The overlap — design tokens</div>
+      <div class="card" style="padding:18px;display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;">In CLAUDE.md</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.65;">Quick-access cheat sheet of active token values for this project: <code class="mono">--color-primary: #5B5BD6</code>. The sticky note on your monitor. Always loaded.</div>
+        </div>
+        <div style="text-align:center;color:var(--border2);font-size:24px;font-weight:300;">↔</div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;">In the Skill</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.65;">The comprehensive guide — all tokens, usage rules, dos &amp; don'ts, reference screenshots. The detailed manual. Loaded only when building UI.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout teal">
+      <div class="callout-ico">💡</div>
+      <div><strong>The golden rule:</strong> CLAUDE.md is the project handshake — what makes Claude feel like it never left. Skills are the reusable expertise you build once and carry everywhere. Use them together and Claude Code behaves like a senior developer who already knows your codebase <em>and</em> your craft.</div>
+    </div>
+  </section>
+
+  <!-- ══ 01 STACK ══ -->
+  <section class="section" id="stack">
+    <div class="sec-hd"><div class="sec-ico">📦</div><div class="sec-title">Stack</div><div class="sec-n">01</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Stack</span></div>
+    <div class="cb-body"><pre><span class="cs">## Stack</span>
+HTML:    Vanilla — no framework (React/Vue/Svelte forbidden)
+CSS:     Custom properties + utility classes — no Tailwind
+JS:      Vanilla ES6 modules — no jQuery, no bundler
+Icons:   <span class="cv">Tabler Icons</span> (CDN) — ti-* class names
+Fonts:   <span class="cv">Roboto</span> (body) + <span class="cv">Roboto Mono</span> (code/data)
+Charts:  <span class="cv">Chart.js 4</span> — already loaded in base layout
+Hosting: Static files — no server-side rendering needed</pre></div></div>
+    <div class="callout indigo"><div class="callout-ico">ℹ</div><div><strong>Why vanilla?</strong> The client team maintains this after handoff. No build toolchain means any dev can open a file, edit it, and see the result. Resist the urge to introduce npm or a bundler — it is a deliberate constraint.</div></div>
+  </section>
+
+  <!-- ══ 02 DEV SERVER ══ -->
+  <section class="section" id="devserver">
+    <div class="sec-hd"><div class="sec-ico">⚡</div><div class="sec-title">Dev server</div><div class="sec-n">02</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Dev server</span></div>
+    <div class="cb-body"><pre><span class="cs">## Dev server</span>
+<span class="cv">npx serve .</span>             → serves on http://localhost:3000
+<span class="cv">python3 -m http.server</span>  → fallback if serve not available
+<span class="cv">open index.html</span>         → works for most tasks (no CORS needs)
+
+<span class="cm">No build step. No compilation. No hot reload needed.</span>
+Open the HTML file directly in browser for quick checks.
+Use live-server VS Code extension for auto-refresh.</pre></div></div>
+  </section>
+
+  <!-- ══ 03 PAGE TYPES ══ -->
+  <section class="section" id="pagetypes">
+    <div class="sec-hd"><div class="sec-ico">📑</div><div class="sec-title">Page types</div><div class="sec-n">03</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Page types</span></div>
+    <div class="cb-body"><pre><span class="cs">## Page types</span>
+<span class="cp">list-page</span>       Sidebar + header + data table + side panel
+                e.g. patients.html, providers.html, rooms.html
+
+<span class="cp">calendar-page</span>   Sidebar + header + calendar grid + filters
+                e.g. appointments.html, scheduler.html
+
+<span class="cp">form-page</span>       Centered layout, multi-step, summary panel
+                e.g. booking flow (3–5 steps)
+
+<span class="cp">dashboard-page</span>  Sidebar + header + metric cards + charts
+                e.g. reports.html
+
+<span class="cp">auth-page</span>       Centered card, no sidebar, logo top-left
+                e.g. signin.html, forgot-password.html
+
+<span class="cm">Each type has a fixed shell — see App Shell section.</span>
+<span class="cd">Never invent a new layout without documenting it here.</span></pre></div></div>
+    <div class="g3" style="margin-top:12px;">
+      <div class="card"><div class="tag teal">List</div><div class="card-title">Table + side panel</div><div class="card-body">Patients, Providers, Rooms</div></div>
+      <div class="card"><div class="tag indigo">Calendar</div><div class="card-title">Grid + filters</div><div class="card-body">Appointments, Scheduler</div></div>
+      <div class="card"><div class="tag amber">Form</div><div class="card-title">Multi-step centered</div><div class="card-body">Booking flow</div></div>
+    </div>
+  </section>
+
+  <!-- ══ DESIGN SYSTEM ══ -->
+  <section class="section" id="spacing">
+    <div class="sec-hd"><div class="sec-ico">⊞</div><div class="sec-title">Spacing</div><div class="sec-n">04a</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Spacing — 8px grid only</span></div>
+    <div class="cb-body"><pre><span class="cs">## Spacing (8px grid ONLY)</span>
+--space-1:  <span class="cv">8px</span>    tight gaps, icon padding
+--space-2:  <span class="cv">16px</span>   default component padding
+--space-3:  <span class="cv">24px</span>   card padding, field groups
+--space-4:  <span class="cv">32px</span>   between major sections
+--space-5:  <span class="cv">48px</span>   page-level vertical rhythm
+--space-6:  <span class="cv">64px</span>   hero / large gaps
+
+<span class="cd">FORBIDDEN: 6 10 12 14 18 20 28 36px — use nearest 8px step</span>
+<span class="cw">12px → use 8px or 16px depending on context</span>
+<span class="cw">20px → always use 16px or 24px</span></pre></div></div>
+    <div class="card" style="margin-top:12px;padding:16px 20px;">
+      <div class="space-row"><div class="sp-token">--space-1</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:12.5%;"></div></div><div class="sp-val">8px</div><div class="sp-use">icon padding, tight</div></div>
+      <div class="space-row"><div class="sp-token">--space-2</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:25%;"></div></div><div class="sp-val">16px</div><div class="sp-use">component padding</div></div>
+      <div class="space-row"><div class="sp-token">--space-3</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:37.5%;"></div></div><div class="sp-val">24px</div><div class="sp-use">card padding</div></div>
+      <div class="space-row"><div class="sp-token">--space-4</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:50%;"></div></div><div class="sp-val">32px</div><div class="sp-use">section gaps</div></div>
+      <div class="space-row"><div class="sp-token">--space-5</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:75%;"></div></div><div class="sp-val">48px</div><div class="sp-use">page rhythm</div></div>
+      <div class="space-row"><div class="sp-token">--space-6</div><div class="sp-bar-wrap"><div class="sp-bar" style="width:100%;"></div></div><div class="sp-val">64px</div><div class="sp-use">hero / major</div></div>
+    </div>
+  </section>
+
+  <section class="section" id="layout-tokens">
+    <div class="sec-hd"><div class="sec-ico">⊡</div><div class="sec-title">Layout tokens</div><div class="sec-n">04b</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Layout tokens</span></div>
+    <div class="cb-body"><pre><span class="cs">## Layout tokens</span>
+--sidebar-w:      <span class="cv">240px</span>    fixed left sidebar
+--header-h:       <span class="cv">60px</span>     sticky top header
+--panel-w:        <span class="cv">400px</span>    right side panel (detail)
+--content-max:    <span class="cv">1280px</span>   max content width
+--card-radius:    <span class="cv">12px</span>     standard card rounding
+--input-radius:   <span class="cv">8px</span>      inputs, buttons, chips
+--modal-radius:   <span class="cv">16px</span>     modal containers
+--modal-max-w:    <span class="cv">560px</span>    modal max-width
+--z-sidebar:      <span class="cv">100</span>
+--z-modal:        <span class="cv">500</span>
+--z-toast:        <span class="cv">600</span>
+--z-datepicker:   <span class="cv">9999</span>     must clear sidebar</pre></div></div>
+  </section>
+
+  <section class="section" id="colors">
+    <div class="sec-hd"><div class="sec-ico">🎨</div><div class="sec-title">Colors</div><div class="sec-n">04c</div></div>
+
+    <div class="subsec">
+      <div class="subsec-title">Brand</div>
+      <div class="swatches">
+        <div class="swatch"><div class="sw-color" style="background:#5B5BD6;"></div><div class="sw-info"><div class="sw-name">Primary</div><div class="sw-hex">#5B5BD6</div><div class="sw-var">--color-primary</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#0EA5A0;"></div><div class="sw-info"><div class="sw-name">Accent</div><div class="sw-hex">#0EA5A0</div><div class="sw-var">--color-accent</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#4646C8;"></div><div class="sw-info"><div class="sw-name">Primary dark</div><div class="sw-hex">#4646C8</div><div class="sw-var">--color-primary-dk</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#EEEEFF;border:1px solid #C5C4F0;"></div><div class="sw-info"><div class="sw-name">Primary light</div><div class="sw-hex">#EEEEFF</div><div class="sw-var">--color-primary-lt</div></div></div>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-title">Surfaces</div>
+      <div class="swatches">
+        <div class="swatch"><div class="sw-color" style="background:#F4F4F6;border:1px solid #E5E5E8;"></div><div class="sw-info"><div class="sw-name">Surface</div><div class="sw-hex">#F4F4F6</div><div class="sw-var">--color-surface</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#FFFFFF;border:1px solid #E5E5E8;"></div><div class="sw-info"><div class="sw-name">Card</div><div class="sw-hex">#FFFFFF</div><div class="sw-var">--color-card</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#EBEBED;"></div><div class="sw-info"><div class="sw-name">Surface 2</div><div class="sw-hex">#EBEBED</div><div class="sw-var">--color-surface-2</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#E2E2E4;"></div><div class="sw-info"><div class="sw-name">Border</div><div class="sw-hex">#E2E2E4</div><div class="sw-var">--border</div></div></div>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-title">Text</div>
+      <div class="swatches">
+        <div class="swatch"><div class="sw-color" style="background:#1A1A2E;"></div><div class="sw-info"><div class="sw-name">Primary</div><div class="sw-hex">#1A1A2E</div><div class="sw-var">--text-primary</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#6B7280;"></div><div class="sw-info"><div class="sw-name">Secondary</div><div class="sw-hex">#6B7280</div><div class="sw-var">--text-secondary</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#9CA3AF;"></div><div class="sw-info"><div class="sw-name">Muted</div><div class="sw-hex">#9CA3AF</div><div class="sw-var">--text-muted</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#FFFFFF;border:1px solid #E5E5E8;"></div><div class="sw-info"><div class="sw-name">Inverse</div><div class="sw-hex">#FFFFFF</div><div class="sw-var">--text-inverse</div></div></div>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-title">Semantic</div>
+      <div class="swatches">
+        <div class="swatch"><div class="sw-color" style="background:#10B981;"></div><div class="sw-info"><div class="sw-name">Success</div><div class="sw-hex">#10B981</div><div class="sw-var">--color-success</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#F59E0B;"></div><div class="sw-info"><div class="sw-name">Warning</div><div class="sw-hex">#F59E0B</div><div class="sw-var">--color-warning</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#EF4444;"></div><div class="sw-info"><div class="sw-name">Danger</div><div class="sw-hex">#EF4444</div><div class="sw-var">--color-danger</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#3B82F6;"></div><div class="sw-info"><div class="sw-name">Info</div><div class="sw-hex">#3B82F6</div><div class="sw-var">--color-info</div></div></div>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-title">Appointment type colors</div>
+      <div class="swatches">
+        <div class="swatch"><div class="sw-color" style="background:#8B5CF6;"></div><div class="sw-info"><div class="sw-name">Individual</div><div class="sw-hex">#8B5CF6</div><div class="sw-var">--appt-individual</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#0EA5A0;"></div><div class="sw-info"><div class="sw-name">Group</div><div class="sw-hex">#0EA5A0</div><div class="sw-var">--appt-group</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#F59E0B;"></div><div class="sw-info"><div class="sw-name">Assessment</div><div class="sw-hex">#F59E0B</div><div class="sw-var">--appt-assessment</div></div></div>
+        <div class="swatch"><div class="sw-color" style="background:#6B7280;"></div><div class="sw-info"><div class="sw-name">Discharge</div><div class="sw-hex">#6B7280</div><div class="sw-var">--appt-discharge</div></div></div>
+      </div>
+    </div>
+
+    <div class="subsec">
+      <div class="subsec-title">Color correction reference</div>
+      <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Color corrections</span></div>
+      <div class="cb-body"><pre><span class="cs">## Color correction reference (WCAG AA failures — fix these)</span>
+<span class="cd">FAIL: --text-secondary (#6B7280) on white → ratio 4.48 (need 4.5)</span>
+Fix:  use #636973 for body text on white backgrounds
+
+<span class="cd">FAIL: --color-warning (#F59E0B) as text on white → ratio 2.88</span>
+Fix:  use #92620A for warning text, #F59E0B for bg/icon only
+
+<span class="cd">FAIL: --color-accent (#0EA5A0) as small text on white → 3.01</span>
+Fix:  use #0A7A77 for accent text links on white surfaces
+
+<span class="cw">Always check new colour combinations at webaim.org/resources/contrastchecker</span></pre></div></div>
+    </div>
+  </section>
+
+  <section class="section" id="typography">
+    <div class="sec-hd"><div class="sec-ico">Aa</div><div class="sec-title">Typography</div><div class="sec-n">04d</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Typography</span></div>
+    <div class="cb-body"><pre><span class="cs">## Typography</span>
+Body font:  <span class="cv">Roboto</span>  — weights: 300 400 500 700
+Mono font:  <span class="cv">Roboto Mono</span>  — for data, IDs, codes, timestamps
+
+Scale:
+--text-xs:   <span class="cv">11px</span>   labels, timestamps, captions
+--text-sm:   <span class="cv">12px</span>   secondary text, table cells
+--text-base: <span class="cv">14px</span>   body, form labels
+--text-md:   <span class="cv">16px</span>   card titles, section labels
+--text-lg:   <span class="cv">20px</span>   page headings
+--text-xl:   <span class="cv">24px</span>   modal titles
+--text-2xl:  <span class="cv">32px</span>   display / hero (rare)
+
+Line heights:
+--lh-tight:  <span class="cv">1.3</span>   headings
+--lh-base:   <span class="cv">1.6</span>   body
+--lh-loose:  <span class="cv">1.75</span>  long-form text
+
+<span class="cd">Never exceed font-weight 700 — use 300 400 500 700 only</span>
+<span class="cd">Never use italic for body text — reserve for captions/labels only</span></pre></div></div>
+    <table class="tbl"><thead><tr><th>Token</th><th>Size</th><th>Weight</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr><td>--text-xs</td><td>11px</td><td>400</td><td>Timestamps, caption labels, badge text</td></tr>
+      <tr><td>--text-sm</td><td>12px</td><td>400</td><td>Table cells, secondary info, helper text</td></tr>
+      <tr><td>--text-base</td><td>14px</td><td>400 / 500</td><td>Body text, form labels, nav items</td></tr>
+      <tr><td>--text-md</td><td>16px</td><td>500</td><td>Card titles, modal section headers</td></tr>
+      <tr><td>--text-lg</td><td>20px</td><td>500</td><td>Page headings, sidebar section titles</td></tr>
+      <tr><td>--text-xl</td><td>24px</td><td>300</td><td>Modal titles, empty state headings</td></tr>
+    </tbody></table>
+  </section>
+
+  <!-- Component standards -->
+  <section class="section" id="comp-standards">
+    <div class="sec-hd"><div class="sec-ico">◈</div><div class="sec-title">Component standards</div><div class="sec-n">04e</div></div>
+
+    <div class="subsec" id="buttons">
+      <div class="subsec-title">Button variants</div>
+      <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">buttons</span></div>
+      <div class="cb-body"><pre><span class="cs">## Buttons</span>
+Classes: <span class="cv">.btn-primary</span>  indigo bg, white text — main CTA
+         <span class="cv">.btn-ghost</span>    border only, transparent bg — secondary
+         <span class="cv">.btn-danger</span>   red bg, white text — destructive actions
+         <span class="cv">.btn-link</span>     no border/bg, teal text — inline actions
+
+Sizes:   <span class="cv">.btn-sm</span>  32px h · 12px pad  (table row actions)
+         <span class="cv">.btn-md</span>  40px h · 16px pad  (default — most forms)
+         <span class="cv">.btn-lg</span>  48px h · 24px pad  (primary page CTAs)
+
+Rules:
+- border-radius: var(--input-radius) on all buttons
+- Always include a loading state (spinner icon, disabled)
+- Icon-only buttons need aria-label
+<span class="cd">Never create one-off button styles — use these four only</span></pre></div></div>
+    </div>
+
+    <div class="subsec" id="segmented">
+      <div class="subsec-title">Segmented control</div>
+      <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">segmented control</span></div>
+      <div class="cb-body"><pre><span class="cs">## Segmented control</span>
+Used for: view switchers (Day / Week / Month), filter tabs
+Container: border 1px, border-radius 8px, bg surface-2
+Active segment: bg white, border 1px indigo, indigo text
+Inactive: no bg, muted text, hover → surface
+Height: 36px | min segment width: 64px
+<span class="cw">Max 4 segments — use a dropdown for 5+ options</span>
+Transition: background 0.15s ease on segment switch</pre></div></div>
+    </div>
+
+    <div class="subsec" id="timeslots">
+      <div class="subsec-title">Time slot buttons</div>
+      <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">time slot buttons</span></div>
+      <div class="cb-body"><pre><span class="cs">## Time slot buttons (booking flow specific)</span>
+Default:  border 1px --border, white bg, --text-primary
+Hover:    border-color --color-primary, bg --color-primary-lt
+Selected: bg --color-primary, white text, border --color-primary
+Disabled: bg surface-2, muted text, cursor:not-allowed, opacity 0.5
+Booked:   strikethrough label + "Booked" chip overlay
+
+Grid layout: repeat(auto-fill, minmax(80px, 1fr)) gap 8px
+Height: 40px | border-radius: 8px | font-size: 13px mono</pre></div></div>
+    </div>
+
+    <div class="subsec" id="toggle">
+      <div class="subsec-title">Toggle switch</div>
+      <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">toggle switch</span></div>
+      <div class="cb-body"><pre><span class="cs">## Toggle switch</span>
+Track:  40px × 22px | border-radius: 11px
+Thumb:  18px × 18px | border-radius: 50% | bg white
+OFF:    track bg #D1D5DB | thumb left:2px
+ON:     track bg --color-primary | thumb right:2px
+Transition: background 0.2s, transform 0.2s
+
+Always pair with a visible label (left or right)
+Always include aria-checked and role="switch"
+Disabled: opacity 0.4, pointer-events none</pre></div></div>
+    </div>
+
+    <div class="subsec" id="cards">
+      <div class="subsec-title">Cards</div>
+      <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">cards</span></div>
+      <div class="cb-body"><pre><span class="cs">## Cards</span>
+Base:     bg white | border 1px --border | radius 12px | pad 24px
+Hover:    border-color --border2 (only on clickable cards)
+Active:   border-color --color-primary | bg --color-primary-lt
+<span class="cd">No box-shadow — ever. Border only for elevation.</span>
+<span class="cd">No overflow:hidden — breaks dropdowns inside cards.</span>
+
+Variants:
+.card-flat    → no border, bg surface-2 (metric cards)
+.card-outline → border only, no bg tint (list items)</pre></div></div>
+    </div>
+
+    <div class="subsec" id="sel-cards">
+      <div class="subsec-title">Selection cards</div>
+      <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">selection cards</span></div>
+      <div class="cb-body"><pre><span class="cs">## Selection cards (booking flow — service type picker)</span>
+Default:  border 1px --border, white bg, cursor pointer
+Hover:    border-color --color-primary-lt, slight bg tint
+Selected: border 2px --color-primary, bg --color-primary-lt
+          checkmark icon top-right corner (ti-circle-check filled)
+Disabled: opacity 0.45, pointer-events none
+
+Structure: icon (32px) + title (14px 500) + description (12px muted)
+Width: min 160px | height: auto (min 96px) | radius 12px | pad 16px
+Grid: auto-fill minmax(160px,1fr) gap 12px</pre></div></div>
+    </div>
+
+    <div class="subsec" id="chips">
+      <div class="subsec-title">Chips / badges</div>
+      <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">chips / badges</span></div>
+      <div class="cb-body"><pre><span class="cs">## Chips / badges</span>
+Sizes:  .chip-sm  20px h · 6px pad · 10px font
+        .chip-md  24px h · 8px pad · 11px font (default)
+        .chip-lg  28px h · 12px pad · 12px font
+
+Variants (semantic — not decorative):
+.chip-success   green-light bg, green text, green border
+.chip-warning   amber-light bg, amber text, amber border
+.chip-danger    red-light bg, red text, red border
+.chip-info      blue-light bg, blue text, blue border
+.chip-neutral   surface-2 bg, muted text, border
+
+Appointment type chips use --appt-* color vars (not semantic)
+<span class="cd">Never use status colors decoratively</span></pre></div></div>
+    </div>
+
+    <div class="subsec" id="avatars">
+      <div class="subsec-title">Avatars</div>
+      <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">avatars</span></div>
+      <div class="cb-body"><pre><span class="cs">## Avatars</span>
+Sizes:  .av-xs  24px | .av-sm  32px | .av-md  40px | .av-lg  56px
+
+Initials fallback: first+last initial, uppercase
+Color assignment: hash name → one of 6 bg/text pairs
+  bg --color-primary-lt / text --color-primary (default)
+  bg #FEF3C7 / text #92400E
+  bg #D1FAE5 / text #065F46
+  bg #FCE7F3 / text #9D174D
+  bg #EDE9FE / text #5B21B6
+  bg #FEE2E2 / text #991B1B
+
+Avatar group (stacked): overlap -8px, border 2px white ring
+Max visible: 4 avatars + "+N more" chip</pre></div></div>
+    </div>
+
+    <div class="subsec" id="filter-bar">
+      <div class="subsec-title">Filter bar</div>
+      <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">filter bar</span></div>
+      <div class="cb-body"><pre><span class="cs">## Filter bar</span>
+Position: between page header and table/calendar
+Height: 48px | bg white | border-bottom 1px --border
+
+Contains (left to right):
+1. Search input (flex:1, max 320px)
+2. Filter chips (active filters shown as dismissible chips)
+3. Filter button → opens filter panel
+4. Sort dropdown
+5. View toggle (table / card)
+6. Export button (icon only)
+
+Active filter chip: indigo bg, white text, × dismiss icon
+Filter count badge: red dot on Filter button when filters active</pre></div></div>
+    </div>
+  </section>
+
+  <!-- ══ APP SHELL ══ -->
+  <section class="section" id="app-shell">
+    <div class="sec-hd"><div class="sec-ico">🖥</div><div class="sec-title">App shell</div><div class="sec-n">05</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § App shell</span></div>
+    <div class="cb-body"><pre><span class="cs">## App shell</span>
+<span class="cp">Header (60px fixed top):</span>
+  Left:   hamburger (mobile) | logo | breadcrumb
+  Center: global search (max 480px)
+  Right:  notification bell | dark-mode toggle | user avatar menu
+  bg: white | border-bottom 1px | z-index: var(--z-sidebar)
+
+<span class="cp">Sidebar (240px fixed left):</span>
+  Top:    logo mark + product name
+  Nav:    icon + label items, active state indigo left border
+  Bottom: settings icon | user info | logout
+  bg: white | border-right 1px | z-index: var(--z-sidebar)
+  Mobile: slides in as overlay, backdrop click closes
+
+<span class="cp">Auth layout (no sidebar):</span>
+  Full viewport, bg --color-surface
+  Centered card: max-width 440px, white, radius 16px, pad 40px
+  Logo top-left of card (not page)
+  <span class="cd">Do not show sidebar or header on auth pages</span></pre></div></div>
+  </section>
+
+  <!-- ══ DATA & STATE ══ -->
+  <section class="section" id="data-state">
+    <div class="sec-hd"><div class="sec-ico">⚙</div><div class="sec-title">Data &amp; state management</div><div class="sec-n">06</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Data &amp; state</span></div>
+    <div class="cb-body"><pre><span class="cs">## Data &amp; state management</span>
+State pattern: plain JS module with exported state object
+<span class="cm">// /js/state.js</span>
+<span class="cv">export const state = { patients: [], filters: {}, loading: false }</span>
+<span class="cv">export function setState(patch) { Object.assign(state, patch); render() }</span>
+
+Data fetching:
+- All API calls in /js/api.js — never inline fetch in HTML
+- Always handle loading, error, empty states explicitly
+- Mock data in /js/mock-data.js for dev — swap to API in prod
+- Paginate all lists: default 25 per page
+
+Persistence:
+- localStorage: user preferences (theme, sidebar collapsed)
+- sessionStorage: filter state, active tab
+<span class="cd">Never store patient/clinical data in localStorage</span></pre></div></div>
+  </section>
+
+  <!-- ══ ROUTING ══ -->
+  <section class="section" id="routing">
+    <div class="sec-hd"><div class="sec-ico">↗</div><div class="sec-title">Navigation &amp; routing</div><div class="sec-n">07</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Navigation &amp; routing</span></div>
+    <div class="cb-body"><pre><span class="cs">## Navigation &amp; routing</span>
+No router library — use anchor tags and page files
+Active state: compare window.location.pathname to nav hrefs
+Deep-link support: ?tab= and ?id= query params only
+
+Breadcrumb: page title only (no multi-level — single-page app feel)
+Back navigation: use history.back() — not hardcoded hrefs
+
+Sidebar items:
+  /appointments.html   → Appointments (ti-calendar)
+  /patients.html       → Patients (ti-users)
+  /scheduler.html      → Scheduler (ti-layout-grid)
+  /providers.html      → Providers (ti-stethoscope)
+  /rooms.html          → Rooms (ti-door)
+  /reports.html        → Reports (ti-chart-bar)
+  /settings.html       → Settings (ti-settings)
+
+<span class="cw">Add new pages to sidebar before building them</span></pre></div></div>
+  </section>
+
+  <!-- ══ FORMS ══ -->
+  <section class="section" id="forms">
+    <div class="sec-hd"><div class="sec-ico">📝</div><div class="sec-title">Forms &amp; validation</div><div class="sec-n">08</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Forms &amp; validation</span></div>
+    <div class="cb-body"><pre><span class="cs">## Forms &amp; validation</span>
+Input spec: height 40px | pad 0 12px | radius 8px
+            border 1px --border → --color-primary on focus
+            outline: none (use border change for focus, not outline)
+
+States:
+  Default:  border --border
+  Focus:    border --color-primary, box-shadow 0 0 0 3px rgba(91,91,214,0.15)
+  Error:    border --color-danger, error message below (12px red)
+  Success:  border --color-success (post-submit only)
+  Disabled: bg surface-2, opacity 0.6, cursor not-allowed
+
+Validation timing:
+  Show errors: on blur (not on keystroke, not on submit only)
+  Clear errors: on focus re-entry
+  Required fields: asterisk (*) in label, not placeholder
+
+Labels: always above input (never floating/placeholder-as-label)
+Error messages: below input, --color-danger, 12px, icon prefix (ti-alert-circle)
+Helper text: below input, --text-muted, 12px (shows before error occurs)
+
+Date inputs: always use our custom DatePicker (z-index:9999)
+             never use native &lt;input type="date"&gt;</pre></div></div>
+  </section>
+
+  <!-- ══ MODALS ══ -->
+  <section class="section" id="modals">
+    <div class="sec-hd"><div class="sec-ico">⬜</div><div class="sec-title">Modals &amp; overlays</div><div class="sec-n">09</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Modals &amp; overlays</span></div>
+    <div class="cb-body"><pre><span class="cs">## Modals &amp; overlays</span>
+Backdrop:  rgba(0,0,0,0.4) | z-index var(--z-modal)
+Container: white | radius 16px | max-w 560px | pad 32px
+           centre of viewport (flexbox on backdrop)
+
+<span class="cp">Standard modal:</span>
+  Header: title (16px 500) + close × icon (top-right)
+  Body:   scrollable if content &gt; 60vh
+  Footer: right-aligned buttons (ghost + primary)
+
+<span class="cp">Confirmation modal:</span>
+  Max-w: 400px | Icon centred (40px, coloured by severity)
+  Message: centred, 14px
+  Buttons: full-width stacked (danger first, ghost below)
+
+<span class="cp">Success modal:</span>
+  Green checkmark (56px animated) | centred content
+  Single "Done" or "View details" button
+
+<span class="cp">Side panel (detail panel):</span>
+  Slides in from right: width var(--panel-w) = 400px
+  Full height | bg white | left border | z-index var(--z-modal)
+  Header: title + close × | Body: scrollable | Footer: actions
+  ESC key closes | backdrop click closes
+
+Behaviour (all modals):
+- Trap focus inside modal when open
+- ESC key always closes
+- Restore focus to trigger element on close
+- No nested modals</pre></div></div>
+  </section>
+
+  <!-- ══ MULTI-STEP ══ -->
+  <section class="section" id="multistep">
+    <div class="sec-hd"><div class="sec-ico">⋯</div><div class="sec-title">Multi-step layout</div><div class="sec-n">10</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Multi-step layout</span></div>
+    <div class="cb-body"><pre><span class="cs">## Multi-step layout (booking flow)</span>
+<span class="cp">Step indicator (top):</span>
+  Numbered circles connected by lines
+  Done:    filled indigo circle, check icon, indigo connector line
+  Current: filled indigo circle, white step number, bold label
+  Upcoming: gray circle outline, muted label, gray connector
+
+<span class="cp">Progress indicator:</span>
+  Thin bar below step indicator
+  Fill: (current-step / total-steps) × 100% width
+  Color: --color-primary | Transition: width 0.3s ease
+
+<span class="cp">Summary panel (right side, sticky):</span>
+  Width: 320px | bg white | border-left 1px | pad 24px
+  Shows: all confirmed selections from previous steps
+  Updates: live as user progresses
+  Each row: label (12px muted) + value (14px 500)
+  Dividers between sections
+
+Layout: 2-column grid: [form area 1fr] [summary 320px]
+Mobile: summary collapses to accordion above form
+
+<span class="cw">Never allow navigating forward with invalid step data</span>
+<span class="cw">Always allow navigating backwards freely</span></pre></div></div>
+  </section>
+
+  <!-- ══ TOASTS ══ -->
+  <section class="section" id="toasts">
+    <div class="sec-hd"><div class="sec-ico">🔔</div><div class="sec-title">Toast / notifications</div><div class="sec-n">11</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Toasts</span></div>
+    <div class="cb-body"><pre><span class="cs">## Toast / notifications</span>
+Position: bottom-right, 24px from edges | z-index var(--z-toast)
+Width: 320px | radius 10px | pad 14px 16px | shadow subtle
+
+Variants:
+  .toast-success  green-left-border + ti-circle-check icon
+  .toast-error    red-left-border + ti-alert-circle icon
+  .toast-warning  amber-left-border + ti-alert-triangle icon
+  .toast-info     indigo-left-border + ti-info-circle icon
+
+Timing:
+  Success/info: auto-dismiss after 4000ms
+  Error: persist — user must dismiss manually
+  Warning: auto-dismiss after 6000ms
+
+Stacking: max 3 visible, queue rest | newer toasts push up
+Dismiss: × button always visible | progress bar shows remaining time
+
+Content: title (13px 500) + optional message (12px muted)
+Action button: optional teal link (e.g. "View appointment")</pre></div></div>
+  </section>
+
+  <!-- ══ EMPTY STATES ══ -->
+  <section class="section" id="empty">
+    <div class="sec-hd"><div class="sec-ico">◯</div><div class="sec-title">Empty states</div><div class="sec-n">12</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Empty states</span></div>
+    <div class="cb-body"><pre><span class="cs">## Empty states</span>
+Every list, table, calendar, and search result needs one.
+<span class="cd">Never show a blank area — always show the empty state.</span>
+
+Structure (centred in container):
+  Illustration: Tabler icon 48px, --text-muted color
+  Heading: 16px 500, --text-primary ("No patients yet")
+  Sub-copy: 13px, --text-secondary (explain why + what to do)
+  CTA button: .btn-primary if action is available
+
+Types:
+  first-use   "You haven't added any X yet" + create CTA
+  no-results  "No results for '[query]'" + clear filter link
+  no-access   "You don't have permission to view this" (no CTA)
+  error       "Something went wrong" + retry link
+
+Icons per page:
+  Patients:     ti-users
+  Appointments: ti-calendar-off
+  Search:       ti-search-off
+  Error:        ti-wifi-off or ti-server-off</pre></div></div>
+  </section>
+
+  <!-- ══ TABLES ══ -->
+  <section class="section" id="tables">
+    <div class="sec-hd"><div class="sec-ico">⊟</div><div class="sec-title">Table patterns</div><div class="sec-n">13</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Tables</span></div>
+    <div class="cb-body"><pre><span class="cs">## Table patterns</span>
+Header: sticky top | bg white | border-bottom 2px --color-primary
+        font: 11px 500 uppercase muted | sort icon on hover/active
+Rows:   48px height | border-bottom 1px --border
+        hover: bg surface-2
+        selected: bg --color-primary-lt | left border 2px indigo
+<span class="cd">No box-shadow on rows — conflicts with sticky header</span>
+
+Columns always include:
+  Checkbox (32px) | sortable data columns | Actions (80px, icon-only)
+  Actions: opacity 0 default → opacity 1 on row hover
+
+Row actions (3 dots or inline icons):
+  View/edit: ti-eye or ti-edit  (indigo)
+  Delete:    ti-trash            (red, always confirm)
+
+Pagination bar (below table):
+  Left:  "Showing 1–25 of 142 patients"
+  Right: page buttons (prev · 1 2 3 … · next)
+  Default page size: 25 | Options: 10 25 50 100
+
+Column types:
+  Name:   avatar + name (bold) + secondary info (muted)
+  Status: chip (semantic color)
+  Date:   JetBrains Mono, "Nov 12, 2025" format
+  Number: JetBrains Mono, right-aligned
+  Action: icon buttons only</pre></div></div>
+  </section>
+
+  <!-- ══ LOADING ══ -->
+  <section class="section" id="loading">
+    <div class="sec-hd"><div class="sec-ico">⟳</div><div class="sec-title">Loading states</div><div class="sec-n">14</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Loading states</span></div>
+    <div class="cb-body"><pre><span class="cs">## Loading states</span>
+<span class="cd">Never show a spinner for initial page load — use skeleton screens</span>
+
+Skeleton screens (shimmer animation):
+  Match the exact shape of the content they replace
+  bg: linear-gradient shimmer #EBEBEB → #F5F5F5 → #EBEBEB
+  animation: shimmer 1.5s infinite
+  Use for: table rows, cards, stat numbers, profile blocks
+
+Inline spinner (for actions, not page loads):
+  16px SVG spinner | indigo color | inside button or next to label
+  Show after 300ms delay (prevents flash for fast actions)
+
+Button loading state:
+  Replace label with spinner + "Saving…" text
+  Disable the button | Restore on resolve/reject
+
+Overlay loading (full panel):
+  Semi-transparent bg over panel | centred spinner + label
+  Use for: side panel data fetch, modal submit</pre></div></div>
+  </section>
+
+  <!-- ══ CONTENT CARDS ══ -->
+  <section class="section" id="content-cards">
+    <div class="sec-hd"><div class="sec-ico">🗂</div><div class="sec-title">Content cards</div><div class="sec-n">15</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Content cards (appointment cards)</span></div>
+    <div class="cb-body"><pre><span class="cs">## Content cards (appointment / event cards)</span>
+<span class="cp">Type colors (left border 3px):</span>
+  Individual:  border --appt-individual (#8B5CF6)
+  Group:       border --appt-group      (#0EA5A0)
+  Assessment:  border --appt-assessment (#F59E0B)
+  Discharge:   border --appt-discharge  (#6B7280)
+
+<span class="cp">Status logic:</span>
+  Confirmed: normal card, type-color border
+  Pending:   dashed border, amber tint bg
+  Cancelled: opacity 0.5, strikethrough title, red chip
+  Completed: surface-2 bg, muted text (not removed from view)
+  No-show:   red-light bg, "No-show" chip
+
+<span class="cp">Card structure (calendar cell):</span>
+  Time:     JetBrains Mono 11px muted (top)
+  Title:    14px 500 primary (patient or group name)
+  Provider: 12px muted + avatar 20px
+  Room:     12px muted (bottom-right)
+  Click → opens side panel detail
+
+<span class="cp">Detail panel (side panel, 400px):</span>
+  Header: patient name + status chip + appointment type chip
+  Sections: Details | Participants | Notes | History
+  Actions: Edit | Cancel | Complete | No-show (role-gated)</pre></div></div>
+  </section>
+
+  <!-- ══ GRID / COLUMN LAYOUT ══ -->
+  <section class="section" id="grid-layout">
+    <div class="sec-hd"><div class="sec-ico">⊞</div><div class="sec-title">Grid / column layout</div><div class="sec-n">16</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Grid &amp; column layout</span></div>
+    <div class="cb-body"><pre><span class="cs">## Grid / column layout</span>
+Page grid: sidebar(240px) + main(1fr) using CSS grid
+Main area: max-width 1280px, centered when wider
+
+Stat/metric grids:
+  2-col: repeat(2, 1fr) gap 16px
+  4-col: repeat(4, 1fr) gap 16px (default for metric rows)
+  Responsive: collapse to 2-col at &lt;1024px, 1-col at &lt;640px
+
+Content grids:
+  2-col equal:  grid-template-columns: 1fr 1fr
+  2-col split:  grid-template-columns: 1fr 320px (form + summary)
+  3-col equal:  repeat(3, 1fr)
+
+Card grid (auto-fill):
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))
+  gap: 16px
+
+<span class="cp">Light layout:</span>  bg var(--color-surface) | cards white
+<span class="cp">Dark layout:</span>   bg #0F1117 | cards #1A1D27 (via .dark on body)
+
+Column rules:
+  Always use CSS grid for two-dimensional layouts
+  Flexbox only for one-dimensional (row OR column, not both)
+  Never use float for layout</pre></div></div>
+  </section>
+
+  <!-- ══ DARK THEME ══ -->
+  <section class="section" id="dark-theme">
+    <div class="sec-hd"><div class="sec-ico">◑</div><div class="sec-title">Dark theme</div><div class="sec-n">17</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Dark theme</span></div>
+    <div class="cb-body"><pre><span class="cs">## Dark theme</span>
+Trigger: <span class="cv">.dark</span> on &lt;body&gt; — persisted in localStorage('theme')
+Toggle: icon button in header (ti-sun / ti-moon)
+<span class="cd">All colors must be CSS vars — never hardcode in dark variants</span>
+<span class="cd">Never duplicate component CSS for dark — token overrides only</span>
+
+<span class="cp">Tokens (body.dark override):</span>
+--color-surface:  #0F1117
+--color-card:     #1A1D27
+--color-surface-2:#21262D
+--border:         #2D3748
+--text-primary:   #F3F4F6
+--text-secondary: #9CA3AF
+--text-muted:     #6B7280
+
+<span class="cp">Content cards in dark:</span>
+  Type border colors: same hex values (they pop well on dark bg)
+  Card bg: --color-card (#1A1D27) not hardcoded
+
+<span class="cp">Status variants in dark:</span>
+  success-bg: rgba(16,185,129,0.15)
+  warning-bg: rgba(245,158,11,0.15)
+  danger-bg:  rgba(239,68,68,0.15)
+  <span class="cw">Reduce opacity of semantic BGs in dark — full opacity blinds</span>
+
+<span class="cp">Accessibility rules for dark:</span>
+  Minimum contrast: 4.5:1 for normal text, 3:1 for large
+  Never use pure white (#FFF) text on dark — use #F3F4F6
+  Never use pure black bg — use #0F1117
+  Test every new component in dark before closing task</pre></div></div>
+  </section>
+
+  <!-- ══ ICONS ══ -->
+  <section class="section" id="icons">
+    <div class="sec-hd"><div class="sec-ico">◇</div><div class="sec-title">Icons</div><div class="sec-n">18</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Icons</span></div>
+    <div class="cb-body"><pre><span class="cs">## Icons</span>
+Library: <span class="cv">Tabler Icons</span> (CDN) — outline style only
+Usage: &lt;i class="ti ti-[name]"&gt;&lt;/i&gt;
+<span class="cd">Never mix Tabler with other icon sets (no Heroicons, Lucide, etc.)</span>
+
+Sizes:
+  12px: inline in badges/chips
+  16px: default — table actions, form elements (class="ti-sm")
+  20px: nav items, card titles
+  24px: feature icons, empty states small
+  32px: empty state illustration icons
+  48px: empty state hero icons, onboarding
+
+Color: inherit from parent (do not set explicit color on icon)
+Aria: icon-only buttons need aria-label on the button, not the icon
+
+Key icon mappings (use these — do not guess):
+  Patients:     ti-users        Providers:  ti-stethoscope
+  Appointments: ti-calendar     Rooms:      ti-door
+  Reports:      ti-chart-bar    Settings:   ti-settings
+  Add/Create:   ti-plus         Edit:       ti-edit
+  Delete:       ti-trash        Close:      ti-x
+  Search:       ti-search       Filter:     ti-filter
+  Sort:         ti-arrows-sort  Download:   ti-download
+  Success:      ti-circle-check Warning: ti-alert-triangle
+  Error:        ti-alert-circle Info:    ti-info-circle</pre></div></div>
+  </section>
+
+  <!-- ══ ACCESSIBILITY ══ -->
+  <section class="section" id="a11y">
+    <div class="sec-hd"><div class="sec-ico">♿</div><div class="sec-title">Accessibility</div><div class="sec-n">19</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Accessibility — WCAG AA required</span></div>
+    <div class="cb-body"><pre><span class="cs">## Accessibility (WCAG AA — minimum standard)</span>
+Contrast:  4.5:1 normal text | 3:1 large text (18px+ or 14px bold)
+Focus:     All interactive elements need visible focus ring
+           box-shadow: 0 0 0 3px rgba(91,91,214,0.4)
+           Never use outline:none without a custom focus indicator
+
+Semantics:
+  Use &lt;button&gt; for actions, &lt;a&gt; for navigation
+  Forms: always &lt;label for="id"&gt; — no placeholder-only labels
+  Tables: always &lt;th scope="col"&gt; headers
+  Modals: role="dialog" aria-modal="true" aria-labelledby="title-id"
+  Toggle: role="switch" aria-checked="true/false"
+  Alerts: role="alert" for errors, role="status" for success
+
+Keyboard:
+  Tab: moves through all interactive elements in logical order
+  ESC: closes modals, dropdowns, side panels
+  Enter/Space: activates buttons and toggles
+  Arrow keys: navigates within radio groups, tabs, menus
+
+Images: always alt text | decorative images alt=""
+Motion: respect prefers-reduced-motion for animations</pre></div></div>
+    <div class="callout red"><div class="callout-ico">✕</div><div><strong>Healthcare requirement:</strong> This is a clinical application. Accessibility is non-negotiable — a user who cannot access a patient record because of a missing aria-label is a real patient care risk. Every component must be keyboard-navigable.</div></div>
+  </section>
+
+  <!-- ══ HEURISTICS ══ -->
+  <section class="section" id="heuristics">
+    <div class="sec-hd"><div class="sec-ico">✦</div><div class="sec-title">Usability heuristics</div><div class="sec-n">20</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Usability heuristics</span></div>
+    <div class="cb-body"><pre><span class="cs">## Usability heuristics (apply to every component)</span>
+<span class="cp">1. System status visibility</span>
+   Loading states for every async action (never silent waits)
+   Toast for every save/delete/create action
+   Progress bar for multi-step flows
+
+<span class="cp">2. Error prevention over error recovery</span>
+   Disable submit until required fields are valid
+   Confirmation modals for all destructive actions
+   Show constraints before user hits them (e.g. char count)
+
+<span class="cp">3. Recognition over recall</span>
+   Always show current filter state in filter bar
+   Breadcrumb or page title always visible
+   Selected state always visually distinct from hover state
+
+<span class="cp">4. Flexibility &amp; efficiency</span>
+   Keyboard shortcuts for power users (document them)
+   Bulk selection + bulk actions on tables
+   Filters persist across page reload (sessionStorage)
+
+<span class="cp">5. Aesthetic and minimalist design</span>
+   Every element on screen must earn its place
+   Secondary actions live behind "..." menus
+   Empty cells show "—" not a blank
+
+<span class="cp">6. Clinical-specific rules</span>
+   Patient names: always "Last, First" format in tables
+   Dates: "Nov 12, 2025" — never MM/DD/YY (ambiguous)
+   Times: 12-hour with AM/PM — clinical staff expect this</pre></div></div>
+  </section>
+
+  <!-- ══ ANIMATION ══ -->
+  <section class="section" id="animation">
+    <div class="sec-hd"><div class="sec-ico">▷</div><div class="sec-title">Animation &amp; motion</div><div class="sec-n">21</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Animation &amp; motion</span></div>
+    <div class="cb-body"><pre><span class="cs">## Animation &amp; motion</span>
+Principle: motion communicates, it doesn't decorate
+
+Durations:
+  --dur-fast:   150ms  micro-interactions (hover, toggle)
+  --dur-base:   250ms  component transitions (modal, panel)
+  --dur-slow:   400ms  page-level transitions (rare)
+
+Easing:
+  --ease-out:   cubic-bezier(0,0,0.2,1)   elements entering
+  --ease-in:    cubic-bezier(0.4,0,1,1)   elements leaving
+  --ease-both:  cubic-bezier(0.4,0,0.2,1) repositioning
+
+Allowed animations:
+  Modal enter:  translateY(8px)→0 + opacity 0→1, 250ms ease-out
+  Side panel:   translateX(400px)→0, 250ms ease-out
+  Toast enter:  translateY(16px)→0 + opacity 0→1, 200ms ease-out
+  Skeleton:     shimmer gradient, 1.5s infinite
+  Toggle:       thumb translateX, 200ms ease-both
+  Tab switch:   border-color + bg, 150ms ease-out
+
+<span class="cd">Never animate width/height — use transform:scale instead</span>
+<span class="cd">Never use animation for content that changes data</span>
+Always wrap in: @media (prefers-reduced-motion: no-preference)</pre></div></div>
+  </section>
+
+  <!-- ══ KNOWN BUGS ══ -->
+  <section class="section" id="bugs">
+    <div class="sec-hd"><div class="sec-ico">⚠</div><div class="sec-title">Known bugs — never replicate</div><div class="sec-n">22</div></div>
+    <div class="bug crit"><div class="bug-hd"><div class="tag red">Critical</div><div class="bug-id">#bug-01</div><div class="bug-title">No box-shadow on table rows</div></div><div class="bug-desc">Adding box-shadow to .table-row creates a z-index conflict with the sticky thead. Shadow bleeds through the header on scroll at any scroll position.</div><span class="bug-fix">Fix: background-color change on hover only — no shadow.</span></div>
+    <div class="bug crit"><div class="bug-hd"><div class="tag red">Critical</div><div class="bug-id">#bug-02</div><div class="bug-title">No overflow:hidden on .card</div></div><div class="bug-desc">Clips dropdown menus, DatePickers, and tooltips that render beyond the card boundary. Looks fixed but breaks sub-components.</div><span class="bug-fix">Fix: keep overflow:visible (default). Handle radius with border alone.</span></div>
+    <div class="bug"><div class="bug-hd"><div class="tag amber">Warning</div><div class="bug-id">#bug-03</div><div class="bug-title">DatePicker z-index must stay at 9999</div></div><div class="bug-desc">Sidebar is z-index:100. Any DatePicker below that renders underneath. Already fixed — do not change when refactoring z-index values.</div><span class="bug-fix">Fix: DatePicker wrapper always z-index:9999 — do not revert.</span></div>
+    <div class="bug"><div class="bug-hd"><div class="tag amber">Warning</div><div class="bug-id">#bug-04</div><div class="bug-title">No flex gap inside .modal</div></div><div class="bug-desc">gap shorthand in flex containers inside .modal breaks layout in IE11 (client mandate). Affects modal footer button rows specifically.</div><span class="bug-fix">Fix: use margin-right / margin-bottom inside modals, not gap.</span></div>
+    <div class="bug"><div class="bug-hd"><div class="tag gray">Note</div><div class="bug-id">#bug-05</div><div class="bug-title">Segmented control flicker on Safari</div></div><div class="bug-desc">Transition on the active segment background flickers in Safari 16 when switching tabs quickly. Root cause: Safari GPU compositing bug with border-radius + transition.</div><span class="bug-fix">Fix: add will-change:transform to .segment-active. Already applied in base CSS.</span></div>
+  </section>
+
+  <!-- ══ PAGES BUILT ══ -->
+  <section class="section" id="pages-built">
+    <div class="sec-hd"><div class="sec-ico">📄</div><div class="sec-title">Pages built</div><div class="sec-n">23</div></div>
+    <div class="callout teal"><div class="callout-ico">ℹ</div><div><strong>Update after every session.</strong> Claude uses this to avoid rewriting shared components and to understand the full app state when modifying the sidebar or layout shell.</div></div>
+    <div class="card" style="margin-top:14px;padding:4px 16px;">
+      <div class="page-row"><div class="pr-route">appointments.html</div><div class="pr-label">Calendar + booking flow</div><span class="spill done">Complete</span></div>
+      <div class="page-row"><div class="pr-route">patients.html</div><div class="pr-label">Patient list + detail panel</div><span class="spill done">Complete</span></div>
+      <div class="page-row"><div class="pr-route">scheduler.html</div><div class="pr-label">Staff scheduling calendar</div><span class="spill wip">In progress</span></div>
+      <div class="page-row"><div class="pr-route">providers.html</div><div class="pr-label">Provider management</div><span class="spill todo">Not started</span></div>
+      <div class="page-row"><div class="pr-route">reports.html</div><div class="pr-label">Analytics dashboard</div><span class="spill todo">Not started</span></div>
+      <div class="page-row"><div class="pr-route">rooms.html</div><div class="pr-label">Room / resource management</div><span class="spill todo">Not started</span></div>
+      <div class="page-row"><div class="pr-route">settings.html</div><div class="pr-label">Account &amp; system settings</div><span class="spill todo">Not started</span></div>
+      <div class="page-row"><div class="pr-route">signin.html</div><div class="pr-label">Auth — login page</div><span class="spill done">Complete</span></div>
+    </div>
+    <div class="subsec-title" style="margin-top:20px;">Shared components (import, don't rewrite)</div>
+    <div class="g2">
+      <div class="card"><div class="tag teal">Shared</div><div class="card-title">/components/sidebar.html</div><div class="card-body">Nav, active states, user block</div></div>
+      <div class="card"><div class="tag teal">Shared</div><div class="card-title">/components/header.html</div><div class="card-body">Search, dark toggle, avatar</div></div>
+      <div class="card"><div class="tag teal">Shared</div><div class="card-title">/components/data-table.html</div><div class="card-body">Table shell + pagination</div></div>
+      <div class="card"><div class="tag teal">Shared</div><div class="card-title">/components/modal.html</div><div class="card-body">Modal + side panel shells</div></div>
+    </div>
+  </section>
+
+  <!-- ══ FIGMA ══ -->
+  <section class="section" id="figma">
+    <div class="sec-hd"><div class="sec-ico">◧</div><div class="sec-title">Figma integration</div><div class="sec-n">24</div></div>
+    <div class="cb"><div class="cb-bar"><div class="dot" style="background:#FF5F57;"></div><div class="dot" style="background:#FFBD2E;"></div><div class="dot" style="background:#28CA41;"></div><span class="cb-fn">CLAUDE.md § Figma integration</span></div>
+    <div class="cb-body"><pre><span class="cs">## Figma integration (Claude Code CLI only)</span>
+MCP server:  <span class="cv">figma-remote-mcp</span>  at http://127.0.0.1:3845/mcp
+Target file: <span class="cv">gNQF8eNTjwL4O9o5Mf083C</span>  (Layout-log_Pod-2)
+<span class="cd">Capture script in signin.html head — do not remove</span>
+
+Workflow:
+  "read the providers page design from Figma and build it"
+  Claude pulls specs, spacing, colours directly — no screenshots
+
+Figma variables map to our CSS vars:
+  Figma "Primary/500"  → --color-primary
+  Figma "Teal/500"     → --color-accent
+  Figma "Spacing/3"    → --space-3 (24px)
+
+<span class="cw">Only works in Claude Code CLI — no effect in claude.ai web chat</span>
+<span class="cw">Run: npx figma-remote-mcp before starting Claude Code session</span></pre></div></div>
+    <div class="callout indigo"><div class="callout-ico">◧</div><div><strong>How to use:</strong> Start the MCP server, then in Claude Code say "read the [page] design from Figma and implement it." Claude reads component specs, token values, and spacing directly from the Figma file — no manual description or screenshots needed. The capture script feeds interaction data back.</div></div>
+  </section>
+
+</main>
+
+<!-- RIGHT PANEL -->
+<aside class="rp">
+  <div class="rp-label">Quick tokens</div>
+  <div style="margin-bottom:4px;">
+    <div class="tok-row"><div class="tok-sw" style="background:#5B5BD6;"></div><div class="tok-name">--color-primary</div><div class="tok-val">#5B5BD6</div></div>
+    <div class="tok-row"><div class="tok-sw" style="background:#0EA5A0;"></div><div class="tok-name">--color-accent</div><div class="tok-val">#0EA5A0</div></div>
+    <div class="tok-row"><div class="tok-sw" style="background:#10B981;"></div><div class="tok-name">--color-success</div><div class="tok-val">#10B981</div></div>
+    <div class="tok-row"><div class="tok-sw" style="background:#F59E0B;"></div><div class="tok-name">--color-warning</div><div class="tok-val">#F59E0B</div></div>
+    <div class="tok-row"><div class="tok-sw" style="background:#EF4444;"></div><div class="tok-name">--color-danger</div><div class="tok-val">#EF4444</div></div>
+    <div class="tok-row"><div class="tok-sw" style="background:#1A1A2E;"></div><div class="tok-name">--text-primary</div><div class="tok-val">#1A1A2E</div></div>
+    <div class="tok-row"><div class="tok-sw" style="background:#6B7280;"></div><div class="tok-name">--text-secondary</div><div class="tok-val">#6B7280</div></div>
+    <div class="tok-row"><div class="tok-sw" style="background:#F4F4F6;border:1px solid #ddd;"></div><div class="tok-name">--color-surface</div><div class="tok-val">#F4F4F6</div></div>
+  </div>
+
+  <div class="rp-sep"></div>
+  <div class="rp-label">Build checklist</div>
+  <div style="margin-bottom:4px;">
+    <div class="ck-row"><span class="ck ok">✓</span>CSS vars — no raw hex</div>
+    <div class="ck-row"><span class="ck ok">✓</span>8px grid only</div>
+    <div class="ck-row"><span class="ck ok">✓</span>Semantic status colours</div>
+    <div class="ck-row"><span class="ck ok">✓</span>No box-shadow on rows</div>
+    <div class="ck-row"><span class="ck ok">✓</span>No overflow:hidden on card</div>
+    <div class="ck-row"><span class="ck warn">⚠</span>DatePicker z-index = 9999</div>
+    <div class="ck-row"><span class="ck ok">✓</span>Light + dark tested</div>
+    <div class="ck-row"><span class="ck ok">✓</span>Empty state added</div>
+    <div class="ck-row"><span class="ck ok">✓</span>Loading state added</div>
+    <div class="ck-row"><span class="ck ok">✓</span>Focus rings on all inputs</div>
+    <div class="ck-row"><span class="ck ok">✓</span>Tabler icons only</div>
+    <div class="ck-row"><span class="ck ok">✓</span>prefers-reduced-motion</div>
+  </div>
+
+  <div class="rp-sep"></div>
+  <div class="rp-label">Page progress</div>
+  <div style="margin-bottom:4px;">
+    <div style="font-size:11px;color:var(--ts);margin-bottom:6px;">3 of 8 pages complete</div>
+    <div class="progress-bar"><div class="pb-fill" style="width:37.5%;"></div></div>
+  </div>
+  <div style="margin-top:10px;">
+    <div class="tok-row"><div class="tok-name">appointments.html</div><span class="spill done" style="font-size:9.5px;padding:1px 6px;">done</span></div>
+    <div class="tok-row"><div class="tok-name">patients.html</div><span class="spill done" style="font-size:9.5px;padding:1px 6px;">done</span></div>
+    <div class="tok-row"><div class="tok-name">signin.html</div><span class="spill done" style="font-size:9.5px;padding:1px 6px;">done</span></div>
+    <div class="tok-row"><div class="tok-name">scheduler.html</div><span class="spill wip" style="font-size:9.5px;padding:1px 6px;">wip</span></div>
+    <div class="tok-row"><div class="tok-name">providers.html</div><span class="spill todo" style="font-size:9.5px;padding:1px 6px;">todo</span></div>
+    <div class="tok-row"><div class="tok-name">reports.html</div><span class="spill todo" style="font-size:9.5px;padding:1px 6px;">todo</span></div>
+    <div class="tok-row"><div class="tok-name">rooms.html</div><span class="spill todo" style="font-size:9.5px;padding:1px 6px;">todo</span></div>
+    <div class="tok-row"><div class="tok-name">settings.html</div><span class="spill todo" style="font-size:9.5px;padding:1px 6px;">todo</span></div>
+  </div>
+
+  <div class="rp-sep"></div>
+  <div class="rp-label">Layout tokens</div>
+  <div style="margin-bottom:4px;">
+    <div class="tok-row"><div class="tok-name">--sidebar-w</div><div class="tok-val">240px</div></div>
+    <div class="tok-row"><div class="tok-name">--header-h</div><div class="tok-val">60px</div></div>
+    <div class="tok-row"><div class="tok-name">--panel-w</div><div class="tok-val">400px</div></div>
+    <div class="tok-row"><div class="tok-name">--card-radius</div><div class="tok-val">12px</div></div>
+    <div class="tok-row"><div class="tok-name">--z-datepicker</div><div class="tok-val">9999</div></div>
+  </div>
+
+  <div class="rp-sep"></div>
+  <div class="rp-label">Sections</div>
+  <div style="font-size:11px;color:var(--ts);line-height:2;">
+    <span style="color:var(--teal);font-weight:700;">00a</span> What is CLAUDE.md<br>
+    <span style="color:var(--teal);font-weight:700;">00b</span> vs Figma Design System<br>
+    <span style="color:var(--teal);font-weight:700;">00c</span> Venn diagram<br>
+    <span style="color:var(--teal);font-weight:700;">00d</span> vs Claude Skills<br>
+    01 Stack · 02 Dev server · 03 Page types<br>
+    04a–e Design system · 05 App shell<br>
+    06 Data &amp; state · 07 Routing<br>
+    08 Forms · 09 Modals · 10 Multi-step<br>
+    11 Toasts · 12 Empty · 13 Tables<br>
+    14 Loading · 15 Content cards<br>
+    16 Grid · 17 Dark · 18 Icons<br>
+    19 A11y · 20 Heuristics · 21 Motion<br>
+    22 Bugs · 23 Pages · 24 Figma
+  </div>
+</aside>
+
+</div>
+<script>
+(function() {
+  const main   = document.querySelector('.main');
+  const nav    = document.querySelector('.nav');
+  const links  = document.querySelectorAll('.nav-a[href^="#"]');
+  const secs   = document.querySelectorAll('.section[id], .subsec[id]');
+
+  /* ── Smooth scroll main panel on nav click ── */
+  links.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      var id  = link.getAttribute('href').slice(1);
+      var target = document.getElementById(id);
+      if (!target) return;
+      var offset = target.offsetTop - 20;
+      main.scrollTo({ top: offset, behavior: 'smooth' });
+      setActive(link);
+    });
+  });
+
+  /* ── Mark active link ── */
+  function setActive(el) {
+    links.forEach(function(l) { l.classList.remove('active'); });
+    if (el) {
+      el.classList.add('active');
+      /* Auto-scroll nav so the active item is visible */
+      var navTop  = nav.scrollTop;
+      var navH    = nav.clientHeight;
+      var elTop   = el.offsetTop;
+      var elBot   = elTop + el.offsetHeight;
+      if (elTop < navTop + 40)          nav.scrollTop = elTop - 40;
+      else if (elBot > navTop + navH - 40) nav.scrollTop = elBot - navH + 40;
+    }
+  }
+
+  /* ── IntersectionObserver scoped to .main ── */
+  var obs = new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (!e.isIntersecting) return;
+      var link = document.querySelector('.nav-a[href="#' + e.target.id + '"]');
+      if (link) setActive(link);
+    });
+  }, { root: main, threshold: 0.15, rootMargin: '-60px 0px -40% 0px' });
+
+  secs.forEach(function(s) { obs.observe(s); });
+})();
+</script>
+
+const CLAUDE_MD = `# ClearPath FDO — Design System
+# Stack: Vanilla HTML/CSS/JS | Healthcare SaaS
+# Last updated: 2025-11
+# ─────────────────────────────────────────────────────────────
+
+## 01 · Stack
+
+HTML:    Vanilla — no framework (React/Vue/Svelte forbidden)
+CSS:     Custom properties + utility classes — no Tailwind
+JS:      Vanilla ES6 modules — no jQuery, no bundler
+Icons:   Tabler Icons (CDN) — ti-* class names
+Fonts:   Roboto (body) + Roboto Mono (code/data) via Google Fonts
+Charts:  Chart.js 4 — already loaded in base layout
+Hosting: Static files — no server-side rendering needed
+
+# Why vanilla? Client team maintains after handoff.
+# No build toolchain = any dev can open, edit, see result.
+# Never introduce npm or a bundler — deliberate constraint.
+
+
+## 02 · Dev Server
+
+npx serve .             → serves on http://localhost:3000
+python3 -m http.server  → fallback if serve not available
+open index.html         → works for most tasks (no CORS needs)
+
+# No build step. No compilation. No hot reload needed.
+# Use live-server VS Code extension for auto-refresh.
+
+
+## 03 · Page Types
+
+list-page       Sidebar + header + data table + side panel
+                e.g. patients.html, providers.html, rooms.html
+
+calendar-page   Sidebar + header + calendar grid + filters
+                e.g. appointments.html, scheduler.html
+
+form-page       Centered layout, multi-step, summary panel
+                e.g. booking flow (3–5 steps)
+
+dashboard-page  Sidebar + header + metric cards + charts
+                e.g. reports.html
+
+auth-page       Centered card, no sidebar, logo top-left
+                e.g. signin.html, forgot-password.html
+
+# Each type has a fixed shell — see App Shell section.
+# NEVER invent a new layout without documenting it here.
+
+
+## 04a · Spacing (8px grid ONLY)
+
+--space-1:  8px    tight gaps, icon padding
+--space-2:  16px   default component padding
+--space-3:  24px   card padding, field groups
+--space-4:  32px   between major sections
+--space-5:  48px   page-level vertical rhythm
+--space-6:  64px   hero / large gaps
+
+# FORBIDDEN: 6 10 12 14 18 20 28 36px — use nearest 8px step
+# 12px → use 8px or 16px depending on context
+# 20px → always use 16px or 24px
+
+
+## 04b · Layout Tokens
+
+--sidebar-w:      240px    fixed left sidebar
+--header-h:       60px     sticky top header
+--panel-w:        400px    right side panel (detail)
+--content-max:    1280px   max content width
+--card-radius:    12px     standard card rounding
+--input-radius:   8px      inputs, buttons, chips
+--modal-radius:   16px     modal containers
+--modal-max-w:    560px    modal max-width
+--z-sidebar:      100
+--z-modal:        500
+--z-toast:        600
+--z-datepicker:   9999     must clear sidebar
+
+
+## 04c · Colors
+
+# USE CSS VARIABLES — never raw hex values
+# All color decisions must reference a CSS var so dark theme works automatically.
+
+-- Brand
+--color-primary:    #5B5BD6   /* indigo — primary actions, active states */
+--color-accent:     #0EA5A0   /* teal — highlights, links, badges */
+--color-primary-dk: #4646C8   /* primary hover/pressed */
+--color-primary-lt: #EEEEFF   /* primary tint backgrounds */
+
+-- Surfaces
+--color-surface:    #F4F4F6   /* page background */
+--color-card:       #FFFFFF   /* card / panel background */
+--color-surface-2:  #EBEBED   /* secondary surface */
+--border:           #E2E2E4   /* default border */
+
+-- Text
+--text-primary:     #1A1A2E
+--text-secondary:   #6B7280
+--text-muted:       #9CA3AF
+--text-inverse:     #FFFFFF
+
+-- Status (semantic — never use for decoration)
+--color-success:    #10B981
+--color-warning:    #F59E0B
+--color-danger:     #EF4444
+--color-info:       #3B82F6
+
+-- Appointment types (content colours)
+--appt-individual:  #8B5CF6   /* purple */
+--appt-group:       #0EA5A0   /* teal */
+--appt-assessment:  #F59E0B   /* amber */
+--appt-discharge:   #6B7280   /* gray */
+
+-- Color correction reference (WCAG AA failures):
+# FAIL: --text-secondary (#6B7280) on white → ratio 4.48
+# Fix:  use #636973 for body text on white backgrounds
+# FAIL: --color-warning (#F59E0B) as text on white → ratio 2.88
+# Fix:  use #92620A for warning text, #F59E0B for bg/icon only
+# FAIL: --color-accent (#0EA5A0) as small text on white → 3.01
+# Fix:  use #0A7A77 for accent text links on white surfaces
+
+
+## 04d · Typography
+
+Body font:  Roboto — weights: 300 400 500 700
+Mono font:  Roboto Mono — for data, IDs, codes, timestamps
+
+--text-xs:   11px   labels, timestamps, captions
+--text-sm:   12px   secondary text, table cells
+--text-base: 14px   body, form labels
+--text-md:   16px   card titles, section labels
+--text-lg:   20px   page headings
+--text-xl:   24px   modal titles
+--text-2xl:  32px   display / hero (rare)
+
+--lh-tight:  1.3   headings
+--lh-base:   1.6   body
+--lh-loose:  1.75  long-form text
+
+# Roboto weights: 300 400 500 700 — use these only
+# NEVER use italic for body text — reserve for captions/labels only
+
+
+## 04e · Component Standards
+
+### Buttons
+Classes: .btn-primary  indigo bg, white text — main CTA
+         .btn-ghost    border only, transparent bg — secondary
+         .btn-danger   red bg, white text — destructive actions
+         .btn-link     no border/bg, teal text — inline actions
+
+Sizes:   .btn-sm  32px h · 12px pad  (table row actions)
+         .btn-md  40px h · 16px pad  (default — most forms)
+         .btn-lg  48px h · 24px pad  (primary page CTAs)
+
+# border-radius: var(--input-radius) on all buttons
+# Always include a loading state (spinner icon, disabled)
+# Icon-only buttons need aria-label
+# NEVER create one-off button styles — use these four only
+
+### Segmented Control
+Used for: view switchers (Day / Week / Month), filter tabs
+Container: border 1px, border-radius 8px, bg surface-2
+Active segment: bg white, border 1px indigo, indigo text
+Inactive: no bg, muted text, hover → surface
+Height: 36px | min segment width: 64px
+# Max 4 segments — use a dropdown for 5+ options
+
+### Time Slot Buttons
+Default:  border 1px --border, white bg, --text-primary
+Hover:    border-color --color-primary, bg --color-primary-lt
+Selected: bg --color-primary, white text, border --color-primary
+Disabled: bg surface-2, muted text, cursor:not-allowed, opacity 0.5
+Booked:   strikethrough label + "Booked" chip overlay
+Grid: repeat(auto-fill, minmax(80px, 1fr)) gap 8px
+Height: 40px | border-radius: 8px | font-size: 13px mono
+
+### Toggle Switch
+Track:  40px × 22px | border-radius: 11px
+Thumb:  18px × 18px | border-radius: 50% | bg white
+OFF:    track bg #D1D5DB | thumb left:2px
+ON:     track bg --color-primary | thumb right:2px
+Transition: background 0.2s, transform 0.2s
+# Always pair with visible label (left or right)
+# Always include aria-checked and role="switch"
+# Disabled: opacity 0.4, pointer-events none
+
+### Cards
+Base:     bg white | border 1px --border | radius 12px | pad 24px
+Hover:    border-color --border2 (only on clickable cards)
+Active:   border-color --color-primary | bg --color-primary-lt
+# NO box-shadow — ever. Border only for elevation.
+# NO overflow:hidden — breaks dropdowns inside cards.
+Variants:
+  .card-flat    → no border, bg surface-2 (metric cards)
+  .card-outline → border only, no bg tint (list items)
+
+### Selection Cards
+Default:  border 1px --border, white bg, cursor pointer
+Hover:    border-color --color-primary-lt, slight bg tint
+Selected: border 2px --color-primary, bg --color-primary-lt
+          checkmark icon top-right corner (ti-circle-check filled)
+Disabled: opacity 0.45, pointer-events none
+Structure: icon (32px) + title (14px 500) + description (12px muted)
+Width: min 160px | height: auto (min 96px) | radius 12px | pad 16px
+Grid: auto-fill minmax(160px,1fr) gap 12px
+
+### Chips / Badges
+Sizes:  .chip-sm  20px h · 6px pad · 10px font
+        .chip-md  24px h · 8px pad · 11px font (default)
+        .chip-lg  28px h · 12px pad · 12px font
+
+Variants (semantic — not decorative):
+  .chip-success   green-light bg, green text, green border
+  .chip-warning   amber-light bg, amber text, amber border
+  .chip-danger    red-light bg, red text, red border
+  .chip-info      blue-light bg, blue text, blue border
+  .chip-neutral   surface-2 bg, muted text, border
+
+# Appointment type chips use --appt-* color vars (not semantic)
+# NEVER use status colors decoratively
+
+### Avatars
+Sizes:  .av-xs 24px | .av-sm 32px | .av-md 40px | .av-lg 56px
+Initials fallback: first+last initial, uppercase
+Color assignment: hash name → one of 6 bg/text pairs
+  bg --color-primary-lt / text --color-primary (default)
+  bg #FEF3C7 / text #92400E
+  bg #D1FAE5 / text #065F46
+  bg #FCE7F3 / text #9D174D
+  bg #EDE9FE / text #5B21B6
+  bg #FEE2E2 / text #991B1B
+Avatar group: overlap -8px, border 2px white ring
+Max visible: 4 avatars + "+N more" chip
+
+### Filter Bar
+Position: between page header and table/calendar
+Height: 48px | bg white | border-bottom 1px --border
+Contents (L→R):
+  1. Search input (flex:1, max 320px)
+  2. Active filter chips (dismissible)
+  3. Filter button → opens filter panel
+  4. Sort dropdown
+  5. View toggle (table / card)
+  6. Export button (icon only)
+Active filter chip: indigo bg, white text, × dismiss icon
+Filter count badge: red dot on Filter button when active
+
+
+## 05 · App Shell
+
+### Header (60px fixed top)
+Left:   hamburger (mobile) | logo | breadcrumb
+Center: global search (max 480px)
+Right:  notification bell | dark-mode toggle | user avatar menu
+bg: white | border-bottom 1px | z-index: var(--z-sidebar)
+
+### Sidebar (240px fixed left)
+Top:    logo mark + product name
+Nav:    icon + label items, active state indigo left border
+Bottom: settings icon | user info | logout
+bg: white | border-right 1px | z-index: var(--z-sidebar)
+Mobile: slides in as overlay, backdrop click closes
+
+### Auth Layout (no sidebar)
+Full viewport, bg --color-surface
+Centered card: max-width 440px, white, radius 16px, pad 40px
+Logo top-left of card (not page)
+# DO NOT show sidebar or header on auth pages
+
+
+## 06 · Data & State Management
+
+# State pattern: plain JS module with exported state object
+# /js/state.js
+export const state = { patients: [], filters: {}, loading: false }
+export function setState(patch) { Object.assign(state, patch); render() }
+
+# All API calls in /js/api.js — never inline fetch in HTML
+# Always handle loading, error, empty states explicitly
+# Mock data in /js/mock-data.js for dev — swap to API in prod
+# Paginate all lists: default 25 per page
+
+# Persistence:
+# localStorage: user preferences (theme, sidebar collapsed)
+# sessionStorage: filter state, active tab
+# NEVER store patient/clinical data in localStorage
+
+
+## 07 · Navigation & Routing
+
+# No router library — use anchor tags and page files
+# Active state: compare window.location.pathname to nav hrefs
+# Deep-link support: ?tab= and ?id= query params only
+
+Sidebar items:
+  /appointments.html   → Appointments (ti-calendar)
+  /patients.html       → Patients (ti-users)
+  /scheduler.html      → Scheduler (ti-layout-grid)
+  /providers.html      → Providers (ti-stethoscope)
+  /rooms.html          → Rooms (ti-door)
+  /reports.html        → Reports (ti-chart-bar)
+  /settings.html       → Settings (ti-settings)
+
+# Add new pages to sidebar before building them
+# Back navigation: use history.back() — not hardcoded hrefs
+
+
+## 08 · Forms & Validation
+
+Input spec: height 40px | pad 0 12px | radius 8px
+            border 1px --border → --color-primary on focus
+            outline: none (use border change for focus)
+            focus box-shadow: 0 0 0 3px rgba(91,91,214,0.15)
+
+States:
+  Default:  border --border
+  Focus:    border --color-primary + box-shadow
+  Error:    border --color-danger + error message below (12px red)
+  Success:  border --color-success (post-submit only)
+  Disabled: bg surface-2, opacity 0.6, cursor not-allowed
+
+Validation timing:
+  Show errors: on blur (not on keystroke, not on submit only)
+  Clear errors: on focus re-entry
+  Required fields: asterisk (*) in label, not placeholder
+
+Labels: always above input (never floating/placeholder-as-label)
+Error messages: below input, --color-danger, 12px, ti-alert-circle prefix
+Helper text: below input, --text-muted, 12px
+Date inputs: always use custom DatePicker (z-index:9999)
+             NEVER use native <input type="date">
+
+
+## 09 · Modals & Overlays
+
+Backdrop:  rgba(0,0,0,0.4) | z-index var(--z-modal)
+Container: white | radius 16px | max-w 560px | pad 32px
+
+Standard modal:
+  Header: title (16px 500) + close × icon (top-right)
+  Body:   scrollable if content > 60vh
+  Footer: right-aligned buttons (ghost + primary)
+
+Confirmation modal:
+  Max-w: 400px | Icon centred (40px, coloured by severity)
+  Message: centred, 14px
+  Buttons: full-width stacked (danger first, ghost below)
+
+Success modal:
+  Green checkmark (56px animated) | centred content
+  Single "Done" or "View details" button
+
+Side panel (detail panel):
+  Slides in from right: width var(--panel-w) = 400px
+  Full height | bg white | left border | z-index var(--z-modal)
+  Header: title + close × | Body: scrollable | Footer: actions
+  ESC key closes | backdrop click closes
+
+All modals:
+  - Trap focus inside modal when open
+  - ESC key always closes
+  - Restore focus to trigger element on close
+  - No nested modals
+
+
+## 10 · Multi-Step Layout (Booking Flow)
+
+Step indicator (top):
+  Done:    filled indigo circle, check icon, indigo connector
+  Current: filled indigo circle, white step number, bold label
+  Upcoming: gray circle outline, muted label, gray connector
+
+Progress indicator:
+  Thin bar below step indicator
+  Fill: (current / total) × 100%
+  Color: --color-primary | Transition: width 0.3s ease
+
+Summary panel (right side, sticky):
+  Width: 320px | bg white | border-left 1px | pad 24px
+  Shows all confirmed selections from previous steps
+  Updates live as user progresses
+  Each row: label (12px muted) + value (14px 500)
+
+Layout: grid [form 1fr] [summary 320px]
+Mobile: summary collapses to accordion above form
+
+# NEVER allow navigating forward with invalid step data
+# Always allow navigating backwards freely
+
+
+## 11 · Toast / Notifications
+
+Position: bottom-right, 24px from edges | z-index var(--z-toast)
+Width: 320px | radius 10px | pad 14px 16px
+
+Variants:
+  .toast-success  green-left-border + ti-circle-check icon
+  .toast-error    red-left-border + ti-alert-circle icon
+  .toast-warning  amber-left-border + ti-alert-triangle icon
+  .toast-info     indigo-left-border + ti-info-circle icon
+
+Timing:
+  Success/info: auto-dismiss after 4000ms
+  Error: persist — user must dismiss manually
+  Warning: auto-dismiss after 6000ms
+
+Stacking: max 3 visible, queue rest | newer toasts push up
+Content: title (13px 500) + optional message (12px muted)
+Action button: optional teal link (e.g. "View appointment")
+
+
+## 12 · Empty States
+
+# Every list, table, calendar, search result needs one.
+# NEVER show a blank area — always show the empty state.
+
+Structure (centred in container):
+  Illustration: Tabler icon 48px, --text-muted color
+  Heading: 16px 500, --text-primary ("No patients yet")
+  Sub-copy: 13px, --text-secondary (explain why + what to do)
+  CTA button: .btn-primary if action is available
+
+Types:
+  first-use   "You haven't added any X yet" + create CTA
+  no-results  "No results for '[query]'" + clear filter link
+  no-access   "You don't have permission to view this" (no CTA)
+  error       "Something went wrong" + retry link
+
+Icons per page:
+  Patients:     ti-users
+  Appointments: ti-calendar-off
+  Search:       ti-search-off
+  Error:        ti-wifi-off or ti-server-off
+
+
+## 13 · Table Patterns
+
+Header: sticky top | bg white | border-bottom 2px --color-primary
+        font: 11px 500 uppercase muted | sort icon on hover/active
+Rows:   48px height | border-bottom 1px --border
+        hover: bg surface-2
+        selected: bg --color-primary-lt | left border 2px indigo
+# NO box-shadow on rows — conflicts with sticky header
+
+Columns:
+  Checkbox (32px) | sortable data columns | Actions (80px, icon-only)
+  Actions: opacity 0 default → opacity 1 on row hover
+
+Row actions:
+  View/edit: ti-eye or ti-edit  (indigo)
+  Delete:    ti-trash           (red, always confirm)
+
+Pagination bar:
+  Left:  "Showing 1–25 of 142 patients"
+  Right: page buttons (prev · 1 2 3 … · next)
+  Default page size: 25 | Options: 10 25 50 100
+
+Column types:
+  Name:   avatar + name (bold) + secondary info (muted)
+  Status: chip (semantic color)
+  Date:   JetBrains Mono, "Nov 12, 2025" format
+  Number: JetBrains Mono, right-aligned
+  Action: icon buttons only
+
+
+## 14 · Loading States
+
+# NEVER show a spinner for initial page load — use skeleton screens
+
+Skeleton screens (shimmer animation):
+  Match exact shape of content they replace
+  bg: linear-gradient shimmer #EBEBEB → #F5F5F5 → #EBEBEB
+  animation: shimmer 1.5s infinite
+
+Inline spinner (for actions, not page loads):
+  16px SVG spinner | indigo color | inside button or next to label
+  Show after 300ms delay (prevents flash for fast actions)
+
+Button loading state:
+  Replace label with spinner + "Saving…" text
+  Disable the button | Restore on resolve/reject
+
+Overlay loading (full panel):
+  Semi-transparent bg over panel | centred spinner + label
+  Use for: side panel fetch, modal submit
+
+
+## 15 · Content Cards (Appointment Cards)
+
+Type colors (left border 3px):
+  Individual:  border --appt-individual (#8B5CF6)
+  Group:       border --appt-group      (#0EA5A0)
+  Assessment:  border --appt-assessment (#F59E0B)
+  Discharge:   border --appt-discharge  (#6B7280)
+
+Status logic:
+  Confirmed: normal card, type-color border
+  Pending:   dashed border, amber tint bg
+  Cancelled: opacity 0.5, strikethrough title, red chip
+  Completed: surface-2 bg, muted text
+  No-show:   red-light bg, "No-show" chip
+
+Card structure (calendar cell):
+  Time:     JetBrains Mono 11px muted (top)
+  Title:    14px 500 primary (patient or group name)
+  Provider: 12px muted + avatar 20px
+  Room:     12px muted (bottom-right)
+  Click → opens side panel detail
+
+Detail panel:
+  Header: patient name + status chip + appointment type chip
+  Sections: Details | Participants | Notes | History
+  Actions: Edit | Cancel | Complete | No-show (role-gated)
+
+
+## 16 · Grid / Column Layout
+
+Page grid: sidebar(240px) + main(1fr) using CSS grid
+Main area: max-width 1280px, centered when wider
+
+Stat/metric grids:
+  2-col: repeat(2, 1fr) gap 16px
+  4-col: repeat(4, 1fr) gap 16px (default for metric rows)
+  Responsive: collapse to 2-col at <1024px, 1-col at <640px
+
+Content grids:
+  2-col equal:  grid-template-columns: 1fr 1fr
+  2-col split:  grid-template-columns: 1fr 320px (form + summary)
+  3-col equal:  repeat(3, 1fr)
+
+Card grid (auto-fill):
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))
+  gap: 16px
+
+Light layout: bg var(--color-surface) | cards white
+Dark layout:  bg #0F1117 | cards #1A1D27 (via .dark on body)
+
+# Always use CSS grid for two-dimensional layouts
+# Flexbox only for one-dimensional (row OR column, not both)
+# NEVER use float for layout
+
+
+## 17 · Dark Theme
+
+Trigger: .dark on <body> — persisted in localStorage('theme')
+Toggle: icon button in header (ti-sun / ti-moon)
+# ALL colors must be CSS vars — never hardcode in dark variants
+# NEVER duplicate component CSS for dark — token overrides only
+
+body.dark token overrides:
+  --color-surface:    #0F1117
+  --color-card:       #1A1D27
+  --color-surface-2:  #21262D
+  --border:           #2D3748
+  --text-primary:     #F3F4F6
+  --text-secondary:   #9CA3AF
+  --text-muted:       #6B7280
+
+Content cards in dark:
+  Type border colors: same hex values (pop well on dark bg)
+  Card bg: --color-card (#1A1D27) not hardcoded
+
+Status variants in dark (reduce opacity — full opacity blinds):
+  success-bg: rgba(16,185,129,0.15)
+  warning-bg: rgba(245,158,11,0.15)
+  danger-bg:  rgba(239,68,68,0.15)
+
+Accessibility rules for dark:
+  Minimum contrast: 4.5:1 normal text, 3:1 large text
+  Never use pure white (#FFF) — use #F3F4F6
+  Never use pure black bg — use #0F1117
+  Test every new component in dark before closing task
+
+
+## 18 · Icons
+
+Library: Tabler Icons (CDN) — outline style only
+Usage:   <i class="ti ti-[name]"></i>
+# NEVER mix Tabler with other icon sets (no Heroicons, Lucide, etc.)
+
+Sizes:
+  12px: inline in badges/chips
+  16px: default — table actions, form elements
+  20px: nav items, card titles
+  24px: feature icons, empty states small
+  32px: empty state illustration icons
+  48px: empty state hero icons, onboarding
+
+# Color: inherit from parent — do not set explicit color on icon
+# Icon-only buttons: aria-label on the button, not the icon
+
+Key icon mappings (use these — do not guess):
+  Patients:     ti-users        Providers:  ti-stethoscope
+  Appointments: ti-calendar     Rooms:      ti-door
+  Reports:      ti-chart-bar    Settings:   ti-settings
+  Add/Create:   ti-plus         Edit:       ti-edit
+  Delete:       ti-trash        Close:      ti-x
+  Search:       ti-search       Filter:     ti-filter
+  Sort:         ti-arrows-sort  Download:   ti-download
+  Success:      ti-circle-check Warning:    ti-alert-triangle
+  Error:        ti-alert-circle Info:       ti-info-circle
+
+
+## 19 · Accessibility (WCAG AA — Minimum Standard)
+
+Contrast: 4.5:1 normal text | 3:1 large text (18px+ or 14px bold)
+
+Focus rings (all interactive elements):
+  box-shadow: 0 0 0 3px rgba(91,91,214,0.4)
+  NEVER use outline:none without a custom focus indicator
+
+Semantics:
+  Use <button> for actions, <a> for navigation
+  Forms: always <label for="id"> — no placeholder-only labels
+  Tables: always <th scope="col"> headers
+  Modals: role="dialog" aria-modal="true" aria-labelledby="title-id"
+  Toggle: role="switch" aria-checked="true/false"
+  Alerts: role="alert" for errors, role="status" for success
+
+Keyboard:
+  Tab: all interactive elements in logical order
+  ESC: closes modals, dropdowns, side panels
+  Enter/Space: activates buttons and toggles
+  Arrow keys: navigates radio groups, tabs, menus
+
+# Healthcare requirement: clinical application — accessibility is non-negotiable.
+# A user who cannot access a patient record = real patient care risk.
+# Every component must be keyboard-navigable.
+
+
+## 20 · Usability Heuristics
+
+1. System status visibility
+   Loading states for every async action (never silent waits)
+   Toast for every save/delete/create action
+   Progress bar for multi-step flows
+
+2. Error prevention over error recovery
+   Disable submit until required fields are valid
+   Confirmation modals for all destructive actions
+   Show constraints before user hits them (e.g. char count)
+
+3. Recognition over recall
+   Always show current filter state in filter bar
+   Breadcrumb or page title always visible
+   Selected state always visually distinct from hover state
+
+4. Flexibility & efficiency
+   Keyboard shortcuts for power users (document them)
+   Bulk selection + bulk actions on tables
+   Filters persist across page reload (sessionStorage)
+
+5. Aesthetic and minimalist design
+   Every element on screen must earn its place
+   Secondary actions live behind "..." menus
+   Empty cells show "—" not a blank
+
+6. Clinical-specific rules
+   Patient names: always "Last, First" format in tables
+   Dates: "Nov 12, 2025" — NEVER MM/DD/YY (ambiguous)
+   Times: 12-hour with AM/PM — clinical staff expect this
+
+
+## 21 · Animation & Motion
+
+Principle: motion communicates, it doesn't decorate
+
+--dur-fast:   150ms  micro-interactions (hover, toggle)
+--dur-base:   250ms  component transitions (modal, panel)
+--dur-slow:   400ms  page-level transitions (rare)
+
+--ease-out:   cubic-bezier(0,0,0.2,1)     elements entering
+--ease-in:    cubic-bezier(0.4,0,1,1)     elements leaving
+--ease-both:  cubic-bezier(0.4,0,0.2,1)  repositioning
+
+Allowed animations:
+  Modal enter:  translateY(8px)→0 + opacity 0→1, 250ms ease-out
+  Side panel:   translateX(400px)→0, 250ms ease-out
+  Toast enter:  translateY(16px)→0 + opacity 0→1, 200ms ease-out
+  Skeleton:     shimmer gradient, 1.5s infinite
+  Toggle:       thumb translateX, 200ms ease-both
+  Tab switch:   border-color + bg, 150ms ease-out
+
+# NEVER animate width/height — use transform:scale instead
+# NEVER use animation for content that changes data
+# Always wrap in: @media (prefers-reduced-motion: no-preference)
+
+
+## 22 · Known Bugs — NEVER Replicate These Patterns
+
+### #bug-01 — No box-shadow on table rows [CRITICAL]
+Problem: box-shadow on .table-row creates z-index conflict with sticky thead
+         Shadow bleeds through header on scroll at any scroll position
+Fix:     Background-color change on hover only — no shadow
+
+### #bug-02 — No overflow:hidden on .card [CRITICAL]
+Problem: Clips dropdown menus, DatePickers, and tooltips beyond card boundary
+         Looks fixed but silently breaks sub-components
+Fix:     Keep overflow:visible (default). Handle radius with border alone.
+
+### #bug-03 — DatePicker z-index must stay at 9999
+Problem: Sidebar is z-index:100. DatePicker renders underneath.
+Fix:     DatePicker wrapper always z-index:9999 — do not revert.
+         Already fixed — do not change when refactoring z-index values.
+
+### #bug-04 — No flex gap inside .modal
+Problem: gap shorthand in flex containers inside .modal breaks IE11 (client mandate)
+         Affects modal footer button rows specifically
+Fix:     Use margin-right / margin-bottom inside modals — not gap.
+
+### #bug-05 — Segmented control flicker on Safari
+Problem: Transition on active segment bg flickers in Safari 16 on quick tab switch
+         Root cause: Safari GPU compositing bug with border-radius + transition
+Fix:     Add will-change:transform to .segment-active. Already applied in base CSS.
+
+
+## 23 · Pages Built (update after every session)
+
+appointments.html   ✓ complete — do not break
+patients.html       ✓ complete — do not break
+signin.html         ✓ complete — do not break
+scheduler.html      → in progress (60% done)
+providers.html      → not started
+reports.html        → not started
+rooms.html          → not started
+settings.html       → not started
+
+Shared components (import, don't rewrite):
+  /components/sidebar.html      nav, active states, user block
+  /components/header.html       search, dark toggle, avatar
+  /components/data-table.html   table shell + pagination
+  /components/modal.html        modal + side panel shells
+
+
+## 24 · Figma Integration (Claude Code CLI only)
+
+MCP server:  figma-remote-mcp  at http://127.0.0.1:3845/mcp
+Target file: gNQF8eNTjwL4O9o5Mf083C  (Layout-log_Pod-2)
+
+# Capture script in signin.html head — DO NOT REMOVE
+# Only works in Claude Code CLI — no effect in claude.ai web chat
+# Run: npx figma-remote-mcp before starting Claude Code session
+
+Usage:
+  "read the providers page design from Figma and build it"
+  Claude pulls specs, spacing, colours directly — no screenshots needed
+
+Figma variables → CSS vars mapping:
+  Figma "Primary/500"  → --color-primary
+  Figma "Teal/500"     → --color-accent
+  Figma "Spacing/3"    → --space-3 (24px)
+
+# ─────────────────────────────────────────────────────────────
+# END OF CLAUDE.md
+# ─────────────────────────────────────────────────────────────
+`;
+
+function downloadClaude() {
+  const blob = new Blob([CLAUDE_MD], { type: 'text/markdown;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'CLAUDE.md';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
