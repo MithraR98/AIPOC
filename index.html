@@ -29,7 +29,7 @@ body{background:var(--bg);color:var(--tp);font-family:'Roboto',sans-serif;font-s
 a{text-decoration:none;}
 
 /* Layout */
-.page{display:grid;grid-template-columns:var(--nav-w) 1fr var(--right-w);grid-template-rows:var(--header-h) 1fr;height:100vh;overflow:hidden;}
+.page{display:grid;grid-template-columns:var(--nav-w) 1fr;grid-template-rows:var(--header-h) 1fr;height:100vh;overflow:hidden;}
 
 /* Header */
 .hdr{grid-column:1/-1;grid-row:1;background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:0;z-index:100;min-height:0;}
@@ -180,25 +180,6 @@ a{text-decoration:none;}
 .pr-route{font-family:'Roboto Mono',monospace;font-size:13px;color:var(--indigo);width:170px;flex-shrink:0;}
 .pr-label{color:var(--ts);flex:1;}
 
-/* Right panel */
-.rp{grid-column:3;grid-row:2;background:var(--surface);border-left:1px solid var(--border);overflow-y:auto;padding:20px 16px;min-height:0;}
-.rp-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--ts);margin-bottom:8px;}
-.rp-sep{height:1px;background:var(--border);margin:14px 0;}
-
-.tok-row{display:flex;align-items:center;gap:7px;padding:6px 0;border-bottom:1px solid var(--s3);font-size:13px;}
-.tok-row:last-child{border-bottom:none;}
-.tok-sw{width:13px;height:13px;border-radius:2px;flex-shrink:0;border:1px solid rgba(0,0,0,0.07);}
-.tok-name{font-family:'Roboto Mono',monospace;font-size:12px;color:var(--ts);flex:1;}
-.tok-val{font-family:'Roboto Mono',monospace;font-size:12px;color:var(--tm);}
-
-.ck-row{display:flex;gap:7px;align-items:flex-start;padding:6px 0;border-bottom:1px solid var(--s3);font-size:13.5px;color:var(--ts);}
-.ck-row:last-child{border-bottom:none;}
-.ck{flex-shrink:0;font-weight:700;margin-top:1px;font-size:13px;}
-.ok{color:var(--green);} .warn{color:var(--amber);} .bad{color:var(--red);}
-
-.progress-bar{height:5px;background:var(--s3);border-radius:3px;overflow:hidden;margin-top:4px;}
-.pb-fill{height:100%;background:var(--indigo);border-radius:3px;}
-
 /* Component spec rows */
 .spec-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid var(--s3);font-size:14px;}
 .spec-row:last-child{border-bottom:none;}
@@ -208,7 +189,7 @@ a{text-decoration:none;}
 @media(max-width:900px){
   .page{grid-template-columns:1fr;grid-template-rows:var(--header-h) 1fr;}
   .hdr{grid-column:1;}
-  .nav,.rp{display:none;}
+  .nav{display:none;}
   .main{grid-column:1;grid-row:2;padding:20px 16px;}
   .g2,.g3{grid-template-columns:1fr;}
 }
@@ -233,8 +214,8 @@ a{text-decoration:none;}
     <span class="hdr-pill pill-indigo">Vanilla HTML/CSS/JS</span>
     <span class="sec-count">28 sections</span>
     <button onclick="downloadClaude()" style="display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:8px;border:1px solid var(--indigo-b);background:var(--indigo-l);color:var(--indigo);font-size:13px;font-weight:600;cursor:pointer;font-family:'Roboto',sans-serif;transition:all 0.15s;" onmouseover="this.style.background='var(--indigo)';this.style.color='#fff'" onmouseout="this.style.background='var(--indigo-l)';this.style.color='var(--indigo)'">
-      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 2v8M4 7.5l3.5 3.5L11 7.5"/><path d="M2 12h11"/></svg>
-      Download CLAUDE.md
+      <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="8" height="9" rx="1.5"/><path d="M3 11H2.5A1.5 1.5 0 011 9.5v-7A1.5 1.5 0 012.5 1h7A1.5 1.5 0 0111 2.5V3"/></svg>
+      Get CLAUDE.md
     </button>
   </div>
 </header>
@@ -247,6 +228,7 @@ a{text-decoration:none;}
     <a class="nav-a" href="#vs-figma"><div class="nav-pip" style="background:var(--teal);"></div>vs Figma Design System</a>
     <a class="nav-a" href="#venn"><div class="nav-pip" style="background:var(--teal);"></div>Venn diagram</a>
     <a class="nav-a" href="#vs-skills"><div class="nav-pip" style="background:var(--teal);"></div>vs Claude Skills</a>
+    <a class="nav-a" href="#skills-venn"><div class="nav-pip" style="background:var(--amber);"></div>Skills Venn diagram</a>
   </div>
   <div class="nav-sep"></div>
   <div class="nav-group">
@@ -514,62 +496,113 @@ a{text-decoration:none;}
 
     <p style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:24px;max-width:640px;">Neither replaces the other. The Figma Design System is the source of truth for <em>what</em> things should look like. CLAUDE.md is the operational layer that tells Claude <em>how</em> to implement that in code. The overlap is where design intent becomes implementation constraint.</p>
 
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:28px 24px;">
-      <svg viewBox="0 0 700 380" width="100%" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Venn diagram showing overlap between Figma Design System and CLAUDE.md">
-        <title>Figma Design System vs CLAUDE.md — shared and unique outputs</title>
+    <!-- Venn diagram — HTML layout with CSS circle overlays -->
+    <div style="position:relative;border-radius:16px;overflow:hidden;background:var(--bg);border:1px solid var(--border);">
 
-        <!-- Figma circle -->
-        <ellipse cx="245" cy="190" rx="200" ry="155" fill="#EEEEFF" stroke="#C5C4F0" stroke-width="1.5" opacity="0.9"/>
-        <!-- Claude circle -->
-        <ellipse cx="455" cy="190" rx="200" ry="155" fill="#E8FAF9" stroke="#A4DED9" stroke-width="1.5" opacity="0.9"/>
-        <!-- Overlap zone -->
-        <path d="M350,52 C382,72 410,120 410,190 C410,260 382,308 350,328 C318,308 290,260 290,190 C290,120 318,72 350,52Z" fill="#EDE9FE" opacity="0.6"/>
+      <!-- Column headers -->
+      <div style="display:grid;grid-template-columns:1fr 220px 1fr;gap:0;border-bottom:1px solid var(--border);">
+        <div style="padding:16px 20px 14px;background:#EEEEFF;border-right:1px solid var(--indigo-b);">
+          <div style="display:inline-flex;align-items:center;gap:8px;background:var(--indigo);border-radius:8px;padding:5px 12px;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="1" y="1" width="5" height="5" rx="1" fill="white" opacity="0.9"/><rect x="8" y="1" width="5" height="5" rx="1" fill="white" opacity="0.6"/><rect x="1" y="8" width="5" height="5" rx="1" fill="white" opacity="0.6"/><rect x="8" y="8" width="5" height="5" rx="1" fill="white" opacity="0.3"/></svg>
+            <span style="font-size:13px;font-weight:700;color:#fff;letter-spacing:0.01em;">Figma Design System</span>
+          </div>
+          <div style="font-size:12px;color:#5B5BD6;margin-top:6px;">For designers &amp; developers</div>
+        </div>
+        <div style="padding:16px 12px 14px;background:#F5EEFF;border-right:1px solid var(--purple-b);text-align:center;border-left:1px solid var(--purple-b);">
+          <div style="display:inline-flex;align-items:center;gap:6px;background:#6B3FA0;border-radius:8px;padding:5px 12px;">
+            <span style="font-size:13px;font-weight:700;color:#fff;">Shared</span>
+          </div>
+          <div style="font-size:12px;color:#6B3FA0;margin-top:6px;">Design → code bridge</div>
+        </div>
+        <div style="padding:16px 20px 14px;background:#E8FAF9;border-left:1px solid var(--teal-b);">
+          <div style="display:inline-flex;align-items:center;gap:8px;background:var(--teal);border-radius:8px;padding:5px 12px;float:right;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2 4h10M2 7h7M2 10h5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span style="font-size:13px;font-weight:700;color:#fff;letter-spacing:0.01em;">CLAUDE.md</span>
+          </div>
+          <div style="clear:both;"></div>
+          <div style="font-size:12px;color:#0EA5A0;margin-top:6px;text-align:right;">For the Claude AI agent</div>
+        </div>
+      </div>
 
-        <!-- Figma label -->
-        <text x="148" y="56" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="14" font-weight="700" fill="#5B5BD6">Figma</text>
-        <text x="148" y="74" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="14" font-weight="700" fill="#5B5BD6">Design System</text>
+      <!-- Main venn body -->
+      <div style="display:grid;grid-template-columns:1fr 220px 1fr;min-height:320px;">
 
-        <!-- Claude label -->
-        <text x="556" y="56" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="14" font-weight="700" fill="#0EA5A0">CLAUDE.md</text>
+        <!-- Left zone: Figma only -->
+        <div style="background:#EEEEFF;padding:20px;display:flex;flex-direction:column;gap:8px;border-right:1px solid var(--indigo-b);">
+          <div style="font-size:11px;font-weight:700;color:#5B5BD6;text-transform:uppercase;letter-spacing:0.09em;margin-bottom:4px;">Figma only</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#fff;border:1px solid #C5C4F0;border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Visual layouts</span>
+            <span style="background:#fff;border:1px solid #C5C4F0;border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Brand "vibes"</span>
+            <span style="background:#fff;border:1px solid #C5C4F0;border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Component anatomy</span>
+            <span style="background:#fff;border:1px solid #C5C4F0;border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Interaction states</span>
+            <span style="background:#fff;border:1px solid #C5C4F0;border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Animations</span>
+            <span style="background:#fff;border:1px solid #C5C4F0;border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Brand voice &amp; tone</span>
+            <span style="background:#fff;border:1px solid #C5C4F0;border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">UI kit components</span>
+            <span style="background:#fff;border:1px solid #C5C4F0;border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Responsive layouts</span>
+            <span style="background:#fff;border:1px solid #C5C4F0;border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Grid structures</span>
+          </div>
+          <div style="margin-top:auto;padding-top:16px;border-top:1px solid #C5C4F0;">
+            <div style="font-size:11px;color:#5B5BD6;font-weight:600;">Format</div>
+            <div style="font-size:12px;color:#4646C8;margin-top:2px;">Figma · Storybook · CSS lib</div>
+          </div>
+        </div>
 
-        <!-- Figma-only items -->
-        <text x="148" y="118" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">Visual layouts</text>
-        <text x="148" y="140" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">&amp; "vibes"</text>
-        <text x="148" y="168" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">UI component</text>
-        <text x="148" y="188" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">anatomy</text>
-        <text x="148" y="216" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">Interaction states</text>
-        <text x="148" y="236" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">&amp; animations</text>
-        <text x="148" y="264" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">Brand voice</text>
-        <text x="148" y="284" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">&amp; tone</text>
-        <text x="148" y="308" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#4646C8">Audience:</text>
-        <text x="148" y="326" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" font-weight="700" fill="#4646C8">Designers &amp; Devs</text>
+        <!-- Centre zone: Shared -->
+        <div style="background:#F5EEFF;padding:20px;display:flex;flex-direction:column;gap:8px;border-left:1px solid var(--purple-b);border-right:1px solid var(--purple-b);">
+          <div style="font-size:11px;font-weight:700;color:#6B3FA0;text-transform:uppercase;letter-spacing:0.09em;margin-bottom:4px;">Both define</div>
+          <div style="display:flex;flex-direction:column;gap:7px;">
+            <div style="background:#fff;border:1px solid #D4B8F5;border-radius:10px;padding:9px 12px;">
+              <div style="font-size:12px;font-weight:700;color:#6B3FA0;margin-bottom:2px;">Colour tokens</div>
+              <div style="font-size:11px;color:#8B6BBF;font-family:'Roboto Mono',monospace;">#5B5BD6 → --color-primary</div>
+            </div>
+            <div style="background:#fff;border:1px solid #D4B8F5;border-radius:10px;padding:9px 12px;">
+              <div style="font-size:12px;font-weight:700;color:#6B3FA0;margin-bottom:2px;">Spacing rules</div>
+              <div style="font-size:11px;color:#8B6BBF;font-family:'Roboto Mono',monospace;">8px grid → --space-*</div>
+            </div>
+            <div style="background:#fff;border:1px solid #D4B8F5;border-radius:10px;padding:9px 12px;">
+              <div style="font-size:12px;font-weight:700;color:#6B3FA0;margin-bottom:2px;">Typography scale</div>
+              <div style="font-size:11px;color:#8B6BBF;font-family:'Roboto Mono',monospace;">--text-base → 14px</div>
+            </div>
+            <div style="background:#fff;border:1px solid #D4B8F5;border-radius:10px;padding:9px 12px;">
+              <div style="font-size:12px;font-weight:700;color:#6B3FA0;margin-bottom:2px;">Forbidden patterns</div>
+              <div style="font-size:11px;color:#8B6BBF;">No gradients · No shadows</div>
+            </div>
+          </div>
+        </div>
 
-        <!-- Overlap items -->
-        <text x="350" y="118" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" font-weight="700" fill="#6B3FA0">Colour tokens</text>
-        <text x="350" y="148" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" fill="#6B3FA0">#5B5BD6 →</text>
-        <text x="350" y="164" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" fill="#6B3FA0">--color-primary</text>
-        <text x="350" y="196" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" font-weight="700" fill="#6B3FA0">Spacing rules</text>
-        <text x="350" y="216" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" fill="#6B3FA0">8px grid</text>
-        <text x="350" y="248" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" font-weight="700" fill="#6B3FA0">Typography</text>
-        <text x="350" y="268" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" fill="#6B3FA0">scale &amp; weights</text>
-        <text x="350" y="298" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" font-weight="700" fill="#6B3FA0">Forbidden</text>
-        <text x="350" y="316" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" fill="#6B3FA0">patterns</text>
+        <!-- Right zone: CLAUDE.md only -->
+        <div style="background:#E8FAF9;padding:20px;display:flex;flex-direction:column;gap:8px;border-left:1px solid var(--teal-b);">
+          <div style="font-size:11px;font-weight:700;color:#0EA5A0;text-transform:uppercase;letter-spacing:0.09em;margin-bottom:4px;">CLAUDE.md only</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#fff;border:1px solid #A4DED9;border-radius:20px;padding:4px 11px;font-size:12px;color:#0A7A77;font-weight:500;">Tech stack</span>
+            <span style="background:#fff;border:1px solid #A4DED9;border-radius:20px;padding:4px 11px;font-size:12px;color:#0A7A77;font-weight:500;">Library choices</span>
+            <span style="background:#fff;border:1px solid #A4DED9;border-radius:20px;padding:4px 11px;font-size:12px;color:#0A7A77;font-weight:500;">File paths</span>
+            <span style="background:#fff;border:1px solid #A4DED9;border-radius:20px;padding:4px 11px;font-size:12px;color:#0A7A77;font-weight:500;">Known bugs</span>
+            <span style="background:#fff;border:1px solid #A4DED9;border-radius:20px;padding:4px 11px;font-size:12px;color:#0A7A77;font-weight:500;">Build status</span>
+            <span style="background:#fff;border:1px solid #A4DED9;border-radius:20px;padding:4px 11px;font-size:12px;color:#0A7A77;font-weight:500;">Component names</span>
+            <span style="background:#fff;border:1px solid #A4DED9;border-radius:20px;padding:4px 11px;font-size:12px;color:#0A7A77;font-weight:500;">Coding rules</span>
+            <span style="background:#fff;border:1px solid #A4DED9;border-radius:20px;padding:4px 11px;font-size:12px;color:#0A7A77;font-weight:500;">Pages built</span>
+            <span style="background:#fff;border:1px solid #A4DED9;border-radius:20px;padding:4px 11px;font-size:12px;color:#0A7A77;font-weight:500;">Dev server cmd</span>
+          </div>
+          <div style="margin-top:auto;padding-top:16px;border-top:1px solid #A4DED9;">
+            <div style="font-size:11px;color:#0EA5A0;font-weight:600;">Format</div>
+            <div style="font-size:12px;color:#0A7A77;margin-top:2px;">Single CLAUDE.md file</div>
+          </div>
+        </div>
+      </div>
 
-        <!-- Claude-only items -->
-        <text x="554" y="118" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">Tech stack</text>
-        <text x="554" y="138" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">&amp; libraries</text>
-        <text x="554" y="166" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">File paths &amp;</text>
-        <text x="554" y="186" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">component names</text>
-        <text x="554" y="214" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">Known bugs to</text>
-        <text x="554" y="234" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">never replicate</text>
-        <text x="554" y="262" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">Build status</text>
-        <text x="554" y="282" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">&amp; page list</text>
-        <text x="554" y="308" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" fill="#0A7A77">Audience:</text>
-        <text x="554" y="326" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="11" font-weight="700" fill="#0A7A77">Claude Code AI</text>
-
-        <!-- Overlap label -->
-        <text x="350" y="358" text-anchor="middle" font-family="'Roboto',sans-serif" font-size="12" font-weight="700" fill="#6B3FA0">Shared: design → code bridge</text>
-      </svg>
+      <!-- Footer connector row -->
+      <div style="display:grid;grid-template-columns:1fr 220px 1fr;border-top:1px solid var(--border);">
+        <div style="padding:12px 20px;background:#EEEEFF;border-right:1px solid var(--indigo-b);">
+          <div style="font-size:12px;color:#5B5BD6;font-weight:600;">👥 Audience: Designers &amp; Devs</div>
+        </div>
+        <div style="padding:12px 16px;background:#F5EEFF;text-align:center;border-left:1px solid var(--purple-b);border-right:1px solid var(--purple-b);">
+          <div style="font-size:12px;color:#6B3FA0;font-weight:600;">↔ Design → Code bridge</div>
+        </div>
+        <div style="padding:12px 20px;background:#E8FAF9;border-left:1px solid var(--teal-b);text-align:right;">
+          <div style="font-size:12px;color:#0EA5A0;font-weight:600;">🤖 Audience: Claude Code AI</div>
+        </div>
+      </div>
     </div>
 
     <div class="subsec" style="margin-top:20px;">
@@ -904,6 +937,161 @@ a{text-decoration:none;}
     <div class="callout teal">
       <div class="callout-ico">💡</div>
       <div><strong>The golden rule:</strong> CLAUDE.md is the project handshake — what makes Claude feel like it never left. Skills are the reusable expertise you build once and carry everywhere. Use them together and Claude Code behaves like a senior developer who already knows your codebase <em>and</em> your craft.</div>
+    </div>
+  </section>
+
+  <!-- ══ SKILLS VENN ══ -->
+  <section class="section" id="skills-venn">
+    <div class="sec-hd"><div class="sec-ico">◉</div><div class="sec-title">CLAUDE.md vs Skills — overlap diagram</div><div class="sec-n">00e</div></div>
+
+    <p style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:24px;max-width:660px;">Both live inside Claude Code and both shape how Claude behaves — but at different layers. CLAUDE.md is always on; Skills fire only when needed. The overlap is where design tokens live in both, serving different purposes.</p>
+
+    <div style="position:relative;border-radius:16px;overflow:hidden;background:var(--bg);border:1px solid var(--border);">
+
+      <!-- Column headers -->
+      <div style="display:grid;grid-template-columns:1fr 230px 1fr;gap:0;border-bottom:1px solid var(--border);">
+
+        <div style="padding:16px 20px 14px;background:#EEEEFF;border-right:1px solid var(--indigo-b);">
+          <div style="display:inline-flex;align-items:center;gap:8px;background:var(--indigo);border-radius:8px;padding:5px 12px;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 3h10M2 7h10M2 11h6" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+            <span style="font-size:13px;font-weight:700;color:#fff;">CLAUDE.md</span>
+          </div>
+          <div style="font-size:12px;color:#5B5BD6;margin-top:6px;">Auto-loaded · Session start</div>
+        </div>
+
+        <div style="padding:16px 12px 14px;background:#FDF6E7;text-align:center;border-left:1px solid var(--amber-b);border-right:1px solid var(--amber-b);">
+          <div style="display:inline-flex;align-items:center;gap:6px;background:var(--amber);border-radius:8px;padding:5px 12px;">
+            <span style="font-size:13px;font-weight:700;color:#fff;">Shared</span>
+          </div>
+          <div style="font-size:12px;color:var(--amber);margin-top:6px;">Both can carry</div>
+        </div>
+
+        <div style="padding:16px 20px 14px;background:#FDF6E7;border-left:1px solid var(--amber-b);">
+          <div style="display:inline-flex;align-items:center;gap:8px;background:var(--amber);border-radius:8px;padding:5px 12px;float:right;">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="white" stroke-width="1.5"/><path d="M5 7l1.5 1.5L9 5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="font-size:13px;font-weight:700;color:#fff;">Skills</span>
+          </div>
+          <div style="clear:both;"></div>
+          <div style="font-size:12px;color:var(--amber);margin-top:6px;text-align:right;">On-demand · Mid-task</div>
+        </div>
+      </div>
+
+      <!-- Main body -->
+      <div style="display:grid;grid-template-columns:1fr 230px 1fr;min-height:340px;">
+
+        <!-- Left: CLAUDE.md only -->
+        <div style="background:#EEEEFF;padding:20px;display:flex;flex-direction:column;gap:8px;border-right:1px solid var(--indigo-b);">
+          <div style="font-size:11px;font-weight:700;color:#5B5BD6;text-transform:uppercase;letter-spacing:0.09em;margin-bottom:4px;">CLAUDE.md only</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#fff;border:1px solid var(--indigo-b);border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Injected at session start</span>
+            <span style="background:#fff;border:1px solid var(--indigo-b);border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Project-specific facts</span>
+            <span style="background:#fff;border:1px solid var(--indigo-b);border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Tech stack rules</span>
+            <span style="background:#fff;border:1px solid var(--indigo-b);border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Known bugs</span>
+            <span style="background:#fff;border:1px solid var(--indigo-b);border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">File paths</span>
+            <span style="background:#fff;border:1px solid var(--indigo-b);border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Pages built status</span>
+            <span style="background:#fff;border:1px solid var(--indigo-b);border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Always costs tokens</span>
+            <span style="background:#fff;border:1px solid var(--indigo-b);border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Restart to update</span>
+            <span style="background:#fff;border:1px solid var(--indigo-b);border-radius:20px;padding:4px 11px;font-size:12px;color:#4646C8;font-weight:500;">Tied to one project</span>
+          </div>
+          <div style="margin-top:auto;padding-top:14px;border-top:1px solid var(--indigo-b);">
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#5B5BD6;">
+                <span style="font-weight:700;">Authority:</span> System prompt layer
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:#5B5BD6;">
+                <span style="font-weight:700;">Portability:</span> This repo only
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Centre: Shared -->
+        <div style="background:#FDF6E7;padding:20px;display:flex;flex-direction:column;gap:8px;border-left:1px solid var(--amber-b);border-right:1px solid var(--amber-b);">
+          <div style="font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:4px;">Both carry</div>
+          <div style="display:flex;flex-direction:column;gap:7px;">
+            <div style="background:#fff;border:1px solid var(--amber-b);border-radius:10px;padding:10px 12px;">
+              <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:3px;">Design tokens</div>
+              <div style="font-size:11px;color:var(--ts);">CLAUDE.md = quick list</div>
+              <div style="font-size:11px;color:var(--ts);">Skill = full guide + screenshots</div>
+            </div>
+            <div style="background:#fff;border:1px solid var(--amber-b);border-radius:10px;padding:10px 12px;">
+              <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:3px;">Spacing rules</div>
+              <div style="font-size:11px;color:var(--ts);">CLAUDE.md = the 8px law</div>
+              <div style="font-size:11px;color:var(--ts);">Skill = usage patterns</div>
+            </div>
+            <div style="background:#fff;border:1px solid var(--amber-b);border-radius:10px;padding:10px 12px;">
+              <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:3px;">Component names</div>
+              <div style="font-size:11px;color:var(--ts);">CLAUDE.md = class names</div>
+              <div style="font-size:11px;color:var(--ts);">Skill = full templates</div>
+            </div>
+            <div style="background:#fff;border:1px solid var(--amber-b);border-radius:10px;padding:10px 12px;">
+              <div style="font-size:12px;font-weight:700;color:var(--amber);margin-bottom:3px;">Forbidden patterns</div>
+              <div style="font-size:11px;color:var(--ts);">CLAUDE.md = the rule</div>
+              <div style="font-size:11px;color:var(--ts);">Skill = why + examples</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Skills only -->
+        <div style="background:#FDF6E7;padding:20px;display:flex;flex-direction:column;gap:8px;border-left:1px solid var(--amber-b);">
+          <div style="font-size:11px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.09em;margin-bottom:4px;">Skills only</div>
+          <div style="display:flex;flex-wrap:wrap;gap:6px;">
+            <span style="background:#fff;border:1px solid var(--amber-b);border-radius:20px;padding:4px 11px;font-size:12px;color:var(--amber);font-weight:500;">Read via view tool</span>
+            <span style="background:#fff;border:1px solid var(--amber-b);border-radius:20px;padding:4px 11px;font-size:12px;color:var(--amber);font-weight:500;">Loaded mid-task</span>
+            <span style="background:#fff;border:1px solid var(--amber-b);border-radius:20px;padding:4px 11px;font-size:12px;color:var(--amber);font-weight:500;">Reusable across repos</span>
+            <span style="background:#fff;border:1px solid var(--amber-b);border-radius:20px;padding:4px 11px;font-size:12px;color:var(--amber);font-weight:500;">How-to instructions</span>
+            <span style="background:#fff;border:1px solid var(--amber-b);border-radius:20px;padding:4px 11px;font-size:12px;color:var(--amber);font-weight:500;">Reference screenshots</span>
+            <span style="background:#fff;border:1px solid var(--amber-b);border-radius:20px;padding:4px 11px;font-size:12px;color:var(--amber);font-weight:500;">Component templates</span>
+            <span style="background:#fff;border:1px solid var(--amber-b);border-radius:20px;padding:4px 11px;font-size:12px;color:var(--amber);font-weight:500;">Free when unused</span>
+            <span style="background:#fff;border:1px solid var(--amber-b);border-radius:20px;padding:4px 11px;font-size:12px;color:var(--amber);font-weight:500;">Instant updates</span>
+            <span style="background:#fff;border:1px solid var(--amber-b);border-radius:20px;padding:4px 11px;font-size:12px;color:var(--amber);font-weight:500;">Task-triggered only</span>
+          </div>
+          <div style="margin-top:auto;padding-top:14px;border-top:1px solid var(--amber-b);">
+            <div style="display:flex;flex-direction:column;gap:5px;">
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--amber);">
+                <span style="font-weight:700;">Authority:</span> Conversational layer
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--amber);">
+                <span style="font-weight:700;">Portability:</span> Any project
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div style="display:grid;grid-template-columns:1fr 230px 1fr;border-top:1px solid var(--border);">
+        <div style="padding:12px 20px;background:#EEEEFF;border-right:1px solid var(--indigo-b);">
+          <div style="font-size:12px;color:#5B5BD6;font-weight:600;">📋 The project brief — always present</div>
+        </div>
+        <div style="padding:12px 16px;background:#FDF6E7;text-align:center;border-left:1px solid var(--amber-b);border-right:1px solid var(--amber-b);">
+          <div style="font-size:12px;color:var(--amber);font-weight:600;">↔ Sticky note vs Manual</div>
+        </div>
+        <div style="padding:12px 20px;background:#FDF6E7;border-left:1px solid var(--amber-b);text-align:right;">
+          <div style="font-size:12px;color:var(--amber);font-weight:600;">🛠 Reusable expertise — on demand</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reading guide -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:16px;">
+      <div class="card" style="padding:14px;border-top:3px solid var(--indigo);">
+        <div class="card-title" style="margin-bottom:4px;">CLAUDE.md only</div>
+        <div class="card-body">Project state and hard rules Claude needs before every task — what exists, what's broken, what's forbidden. Always in context, zero setup required.</div>
+      </div>
+      <div class="card" style="padding:14px;border-top:3px solid var(--amber);">
+        <div class="card-title" style="margin-bottom:4px;">The shared zone</div>
+        <div class="card-body">Tokens, spacing, component names and forbidden patterns appear in both — but differently. CLAUDE.md has the quick list; the skill has the full guide with screenshots and usage examples.</div>
+      </div>
+      <div class="card" style="padding:14px;border-top:3px solid var(--amber);">
+        <div class="card-title" style="margin-bottom:4px;">Skills only</div>
+        <div class="card-body">Reusable how-to knowledge with no project ties. Templates, screenshots, build patterns. Costs nothing until triggered — then delivers the full guide exactly when needed.</div>
+      </div>
+    </div>
+
+    <div class="callout indigo" style="margin-top:12px;">
+      <div class="callout-ico">📎</div>
+      <div><strong>Sticky note vs manual:</strong> Think of CLAUDE.md as the sticky note on your monitor — terse, always visible, this project only. Skills are the training manuals on the shelf — comprehensive, available to everyone, pulled out when a specific task demands it. Both are essential. Neither replaces the other.</div>
     </div>
   </section>
 
@@ -1827,83 +2015,6 @@ Figma variables map to our CSS vars:
 
 </main>
 
-<!-- RIGHT PANEL -->
-<aside class="rp">
-  <div class="rp-label">Quick tokens</div>
-  <div style="margin-bottom:4px;">
-    <div class="tok-row"><div class="tok-sw" style="background:#5B5BD6;"></div><div class="tok-name">--color-primary</div><div class="tok-val">#5B5BD6</div></div>
-    <div class="tok-row"><div class="tok-sw" style="background:#0EA5A0;"></div><div class="tok-name">--color-accent</div><div class="tok-val">#0EA5A0</div></div>
-    <div class="tok-row"><div class="tok-sw" style="background:#10B981;"></div><div class="tok-name">--color-success</div><div class="tok-val">#10B981</div></div>
-    <div class="tok-row"><div class="tok-sw" style="background:#F59E0B;"></div><div class="tok-name">--color-warning</div><div class="tok-val">#F59E0B</div></div>
-    <div class="tok-row"><div class="tok-sw" style="background:#EF4444;"></div><div class="tok-name">--color-danger</div><div class="tok-val">#EF4444</div></div>
-    <div class="tok-row"><div class="tok-sw" style="background:#1A1A2E;"></div><div class="tok-name">--text-primary</div><div class="tok-val">#1A1A2E</div></div>
-    <div class="tok-row"><div class="tok-sw" style="background:#6B7280;"></div><div class="tok-name">--text-secondary</div><div class="tok-val">#6B7280</div></div>
-    <div class="tok-row"><div class="tok-sw" style="background:#F4F4F6;border:1px solid #ddd;"></div><div class="tok-name">--color-surface</div><div class="tok-val">#F4F4F6</div></div>
-  </div>
-
-  <div class="rp-sep"></div>
-  <div class="rp-label">Build checklist</div>
-  <div style="margin-bottom:4px;">
-    <div class="ck-row"><span class="ck ok">✓</span>CSS vars — no raw hex</div>
-    <div class="ck-row"><span class="ck ok">✓</span>8px grid only</div>
-    <div class="ck-row"><span class="ck ok">✓</span>Semantic status colours</div>
-    <div class="ck-row"><span class="ck ok">✓</span>No box-shadow on rows</div>
-    <div class="ck-row"><span class="ck ok">✓</span>No overflow:hidden on card</div>
-    <div class="ck-row"><span class="ck warn">⚠</span>DatePicker z-index = 9999</div>
-    <div class="ck-row"><span class="ck ok">✓</span>Light + dark tested</div>
-    <div class="ck-row"><span class="ck ok">✓</span>Empty state added</div>
-    <div class="ck-row"><span class="ck ok">✓</span>Loading state added</div>
-    <div class="ck-row"><span class="ck ok">✓</span>Focus rings on all inputs</div>
-    <div class="ck-row"><span class="ck ok">✓</span>Tabler icons only</div>
-    <div class="ck-row"><span class="ck ok">✓</span>prefers-reduced-motion</div>
-  </div>
-
-  <div class="rp-sep"></div>
-  <div class="rp-label">Page progress</div>
-  <div style="margin-bottom:4px;">
-    <div style="font-size:11px;color:var(--ts);margin-bottom:6px;">3 of 8 pages complete</div>
-    <div class="progress-bar"><div class="pb-fill" style="width:37.5%;"></div></div>
-  </div>
-  <div style="margin-top:10px;">
-    <div class="tok-row"><div class="tok-name">appointments.html</div><span class="spill done" style="font-size:9.5px;padding:1px 6px;">done</span></div>
-    <div class="tok-row"><div class="tok-name">patients.html</div><span class="spill done" style="font-size:9.5px;padding:1px 6px;">done</span></div>
-    <div class="tok-row"><div class="tok-name">signin.html</div><span class="spill done" style="font-size:9.5px;padding:1px 6px;">done</span></div>
-    <div class="tok-row"><div class="tok-name">scheduler.html</div><span class="spill wip" style="font-size:9.5px;padding:1px 6px;">wip</span></div>
-    <div class="tok-row"><div class="tok-name">providers.html</div><span class="spill todo" style="font-size:9.5px;padding:1px 6px;">todo</span></div>
-    <div class="tok-row"><div class="tok-name">reports.html</div><span class="spill todo" style="font-size:9.5px;padding:1px 6px;">todo</span></div>
-    <div class="tok-row"><div class="tok-name">rooms.html</div><span class="spill todo" style="font-size:9.5px;padding:1px 6px;">todo</span></div>
-    <div class="tok-row"><div class="tok-name">settings.html</div><span class="spill todo" style="font-size:9.5px;padding:1px 6px;">todo</span></div>
-  </div>
-
-  <div class="rp-sep"></div>
-  <div class="rp-label">Layout tokens</div>
-  <div style="margin-bottom:4px;">
-    <div class="tok-row"><div class="tok-name">--sidebar-w</div><div class="tok-val">240px</div></div>
-    <div class="tok-row"><div class="tok-name">--header-h</div><div class="tok-val">60px</div></div>
-    <div class="tok-row"><div class="tok-name">--panel-w</div><div class="tok-val">400px</div></div>
-    <div class="tok-row"><div class="tok-name">--card-radius</div><div class="tok-val">12px</div></div>
-    <div class="tok-row"><div class="tok-name">--z-datepicker</div><div class="tok-val">9999</div></div>
-  </div>
-
-  <div class="rp-sep"></div>
-  <div class="rp-label">Sections</div>
-  <div style="font-size:11px;color:var(--ts);line-height:2;">
-    <span style="color:var(--teal);font-weight:700;">00a</span> What is CLAUDE.md<br>
-    <span style="color:var(--teal);font-weight:700;">00b</span> vs Figma Design System<br>
-    <span style="color:var(--teal);font-weight:700;">00c</span> Venn diagram<br>
-    <span style="color:var(--teal);font-weight:700;">00d</span> vs Claude Skills<br>
-    01 Stack · 02 Dev server · 03 Page types<br>
-    04a–e Design system · 05 App shell<br>
-    06 Data &amp; state · 07 Routing<br>
-    08 Forms · 09 Modals · 10 Multi-step<br>
-    11 Toasts · 12 Empty · 13 Tables<br>
-    14 Loading · 15 Content cards<br>
-    16 Grid · 17 Dark · 18 Icons<br>
-    19 A11y · 20 Heuristics · 21 Motion<br>
-    22 Bugs · 23 Pages · 24 Figma
-  </div>
-</aside>
-
 </div>
 <script>
 (function() {
@@ -2715,15 +2826,91 @@ Figma variables → CSS vars mapping:
 `;
 
 function downloadClaude() {
-  const blob = new Blob([CLAUDE_MD], { type: 'text/markdown;charset=utf-8' });
-  const url  = URL.createObjectURL(blob);
-  const a    = document.createElement('a');
-  a.href     = url;
-  a.download = 'CLAUDE.md';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  if (document.getElementById('claude-modal')) return;
+
+  var overlay = document.createElement('div');
+  overlay.id = 'claude-modal';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;';
+
+  overlay.innerHTML =
+    '<div style="background:#fff;border-radius:14px;width:100%;max-width:640px;box-shadow:0 24px 64px rgba(0,0,0,0.22);font-family:Roboto,sans-serif;display:flex;flex-direction:column;max-height:90vh;">'
+
+    /* header */
+    + '<div style="display:flex;align-items:center;justify-content:space-between;padding:20px 24px 16px;border-bottom:1px solid #E8E7E2;flex-shrink:0;">'
+    +   '<div>'
+    +     '<div style="font-size:15px;font-weight:700;color:#1C1B18;margin-bottom:2px;">CLAUDE.md — copy to save</div>'
+    +     '<div style="font-size:12px;color:#9B998F;">Click <strong style="color:#1C1B18;">Copy all</strong>, then paste into a new file named <code style="background:#F0EFEB;padding:1px 6px;border-radius:4px;font-family:Roboto Mono,monospace;font-size:11px;">CLAUDE.md</code> in your project root.</div>'
+    +   '</div>'
+    +   '<button onclick="document.getElementById(\'claude-modal\').remove()" style="background:#F0EFEB;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:16px;color:#5C5A53;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-left:16px;">×</button>'
+    + '</div>'
+
+    /* textarea */
+    + '<div style="padding:16px 24px;flex:1;overflow:hidden;display:flex;flex-direction:column;">'
+    +   '<textarea id="claude-copy-ta" spellcheck="false" style="flex:1;min-height:300px;font-family:Roboto Mono,monospace;font-size:11.5px;line-height:1.75;border:1px solid #DDD9D0;border-radius:8px;padding:14px;resize:none;color:#1C1B18;background:#F5F4F0;outline:none;"></textarea>'
+    + '</div>'
+
+    /* footer */
+    + '<div style="display:flex;gap:10px;padding:0 24px 20px;flex-shrink:0;">'
+    +   '<button id="copy-btn" onclick="copyAll()" style="flex:1;padding:10px;background:#5B5BD6;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:Roboto,sans-serif;transition:background 0.15s;">Copy all</button>'
+    +   '<button onclick="document.getElementById(\'claude-modal\').remove()" style="padding:10px 20px;background:none;border:1px solid #DDD9D0;border-radius:8px;font-size:14px;color:#5C5A53;cursor:pointer;font-family:Roboto,sans-serif;">Close</button>'
+    + '</div>'
+    + '</div>';
+
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) overlay.remove(); });
+
+  /* set value directly — avoids HTML entity escaping entirely */
+  setTimeout(function(){
+    var ta = document.getElementById('claude-copy-ta');
+    if (ta) {
+      ta.value = CLAUDE_MD;
+      ta.focus();
+      ta.select();
+      ta.setSelectionRange(0, 999999);
+    }
+  }, 80);
+}
+
+function copyAll() {
+  var btn = document.getElementById('copy-btn');
+
+  /* Modern clipboard API — most reliable */
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(CLAUDE_MD)
+      .then(function() { flashCopied(btn); })
+      .catch(function() { fallbackCopy(btn); });
+    return;
+  }
+
+  /* Fallback for browsers without Clipboard API */
+  fallbackCopy(btn);
+}
+
+function fallbackCopy(btn) {
+  var ta = document.getElementById('claude-copy-ta');
+  if (!ta) return;
+  /* Set raw value (not the escaped display value) */
+  ta.value = CLAUDE_MD;
+  ta.select();
+  ta.setSelectionRange(0, 999999);
+  try {
+    var ok = document.execCommand('copy');
+    if (ok) { flashCopied(btn); return; }
+  } catch(e) {}
+  /* If all else fails, tell user to Cmd+A / Ctrl+A */
+  if (btn) { btn.textContent = 'Select all then Ctrl+C'; btn.style.background = '#92620A'; }
+}
+
+function flashCopied(btn) {
+  if (!btn) btn = document.getElementById('copy-btn');
+  if (!btn) return;
+  btn.textContent = '✓ Copied to clipboard!';
+  btn.style.background = '#197A4A';
+  setTimeout(function(){ btn.textContent = 'Copy all'; btn.style.background = '#5B5BD6'; }, 2500);
+}
+
+function escapeHtml(s) {
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 </script>
 </body>
