@@ -6,7 +6,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CLAUDE.md — ClearPath FDO Design System</title>
+<title>CLAUDE.md — Project Context File Reference</title>
 
 
 
@@ -202,17 +202,17 @@ a{text-decoration:none;}
 <header class="hdr">
   <div class="hdr-brand">
     <div class="logo"><svg viewBox="0 0 13 13"><path d="M2 6.5h9M6.5 2l4.5 4.5-4.5 4.5"/></svg></div>
-    <span class="brand">ClearPath FDO</span>
+    <span class="brand">Claude Code</span>
   </div>
   <div class="hdr-path">
-    <span class="path-seg">design-system</span>
+    <span class="path-seg">project-root</span>
     <span style="color:var(--border2);margin:0 2px;">/</span>
     <span class="path-file">CLAUDE.md</span>
   </div>
   <div class="hdr-meta">
-    <span class="hdr-pill pill-teal">Healthcare SaaS</span>
-    <span class="hdr-pill pill-indigo">Vanilla HTML/CSS/JS</span>
-    <span class="sec-count">28 sections</span>
+    <span class="hdr-pill pill-teal">Context File</span>
+    <span class="hdr-pill pill-indigo">Auto-loaded</span>
+    <span class="sec-count">Reference guide</span>
     <button onclick="downloadClaude()" style="display:flex;align-items:center;gap:7px;padding:7px 14px;border-radius:8px;border:1px solid var(--indigo-b);background:var(--indigo-l);color:var(--indigo);font-size:13px;font-weight:600;cursor:pointer;font-family:'Roboto',sans-serif;transition:all 0.15s;" onmouseover="this.style.background='var(--indigo)';this.style.color='#fff'" onmouseout="this.style.background='var(--indigo-l)';this.style.color='var(--indigo)'">
       <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="8" height="9" rx="1.5"/><path d="M3 11H2.5A1.5 1.5 0 011 9.5v-7A1.5 1.5 0 012.5 1h7A1.5 1.5 0 0111 2.5V3"/></svg>
       Get CLAUDE.md
@@ -298,16 +298,21 @@ a{text-decoration:none;}
 
   <!-- Intro -->
   <div class="intro">
-    <div class="intro-eye">Design system · CLAUDE.md · 24 sections + 4 explainers</div>
-    <h1 class="intro-h">ClearPath FDO</h1>
-    <p class="intro-p">Complete design system reference for Claude Code. This file is the single source of truth for all visual, structural, and pattern decisions. Before writing any component, page, or layout — read the relevant section here. Every rule exists because of a real decision, bug, or client requirement.</p>
+    <div class="intro-eye">Project context file · Auto-loaded by Claude Code · Design system reference</div>
+    <h1 class="intro-h">CLAUDE.md Reference</h1>
+    <div style="font-size:15px;color:var(--ts);line-height:1.75;max-width:580px;margin-bottom:14px;">
+      • Project-specific context file for Claude Code CLI<br>
+      • Defines stack, tokens, rules, and constraints<br>
+      • Auto-loaded at session start — before you type<br>
+      • Example implementation for design system documentation
+    </div>
     <div class="chip-row">
-      <span class="chip i">Roboto · Roboto Mono</span>
-      <span class="chip t">Tabler Icons</span>
-      <span class="chip">Vanilla HTML/CSS/JS</span>
-      <span class="chip">8px grid</span>
-      <span class="chip">Light + Dark theme</span>
-      <span class="chip">Healthcare SaaS</span>
+      <span class="chip i">Context file</span>
+      <span class="chip t">Auto-loaded</span>
+      <span class="chip">Session start</span>
+      <span class="chip">Design system</span>
+      <span class="chip">Project constraints</span>
+      <span class="chip">Claude Code CLI</span>
     </div>
   </div>
 
@@ -319,17 +324,29 @@ a{text-decoration:none;}
       <div class="card indigo" style="padding:20px;">
         <div style="font-size:28px;margin-bottom:10px;">📄</div>
         <div class="card-title" style="margin-bottom:6px;">A single markdown file</div>
-        <div class="card-body">Placed in your project root. Claude Code reads it automatically at the start of every session before you type a single message.</div>
+        <div class="card-body">
+          • Lives in project root<br>
+          • Auto-read at session start<br>
+          • Before you type a word
+        </div>
       </div>
       <div class="card teal" style="padding:20px;">
         <div style="font-size:28px;margin-bottom:10px;">🧠</div>
         <div class="card-title" style="margin-bottom:6px;">Injected into Claude's context</div>
-        <div class="card-body">Its contents are baked into the system prompt — making Claude permanently aware of your project's rules, stack, tokens, and constraints.</div>
+        <div class="card-body">
+          • Baked into system prompt<br>
+          • Permanent awareness of:<br>
+          &nbsp;&nbsp;→ Stack, tokens, rules, constraints
+        </div>
       </div>
       <div class="card" style="padding:20px;">
         <div style="font-size:28px;margin-bottom:10px;">🔁</div>
         <div class="card-title" style="margin-bottom:6px;">Zero re-explanation</div>
-        <div class="card-body">Without it, you repeat yourself every session. With it, Claude already knows your project before the first message — every time.</div>
+        <div class="card-body">
+          • Without it: re-brief every session<br>
+          • With it: Claude knows the project<br>
+          • Every time, no warm-up
+        </div>
       </div>
     </div>
 
@@ -339,20 +356,20 @@ a{text-decoration:none;}
         <div class="card green" style="padding:16px;">
           <div class="tag green" style="margin-bottom:8px;">Use CLAUDE.md when</div>
           <div style="font-size:14px;color:var(--ts);line-height:1.7;">
-            You have a specific tech stack Claude must follow<br>
-            You have design tokens or spacing rules that must not drift<br>
-            Multiple sessions need consistent output<br>
-            There are known bugs or patterns Claude must never replicate<br>
+            You have a tech stack Claude must follow precisely<br>
+            You have design tokens or spacing rules that can't drift<br>
+            Multiple sessions need consistent, repeatable output<br>
+            There are known bugs or patterns Claude must never ship again<br>
             You're using Claude Code CLI for real project work
           </div>
         </div>
         <div class="card red" style="padding:16px;">
           <div class="tag red" style="margin-bottom:8px;">Not needed when</div>
           <div style="font-size:14px;color:var(--ts);line-height:1.7;">
-            You're using the claude.ai web chat (not Claude Code)<br>
-            It's a one-off task with no ongoing project context<br>
-            The task has no design system or code conventions to enforce<br>
-            You're exploring or prototyping, not building production code
+            You're using claude.ai web chat (not Claude Code)<br>
+            It's a one-off task with no lasting project context<br>
+            There's no design system or code convention to enforce<br>
+            You're exploring or prototyping, not shipping production code
           </div>
         </div>
       </div>
@@ -363,27 +380,44 @@ a{text-decoration:none;}
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
         <div class="card" style="padding:14px;">
           <div class="tag indigo">Without CLAUDE.md</div>
-          <div style="font-size:13px;color:var(--ts);line-height:1.65;margin-top:4px;">Claude uses <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">padding: 15px</code> — a non-grid value that breaks spacing consistency across every component.</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.65;margin-top:4px;">
+            • Default: <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">padding: 15px</code><br>
+            • Non-grid value<br>
+            • Breaks spacing consistency
+          </div>
         </div>
         <div class="card green" style="padding:14px;">
           <div class="tag green">With CLAUDE.md</div>
-          <div style="font-size:13px;color:var(--ts);line-height:1.65;margin-top:4px;">Claude uses <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">var(--space-2)</code> — the correct 16px token from the 8px grid system defined in this file.</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.65;margin-top:4px;">
+            • Uses <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">var(--space-2)</code><br>
+            • Correct 16px token<br>
+            • 8px grid aligned
+          </div>
         </div>
         <div class="card green" style="padding:14px;">
           <div class="tag green">The bridge</div>
-          <div style="font-size:13px;color:var(--ts);line-height:1.65;margin-top:4px;">When you say "H1" in Figma, CLAUDE.md maps it to <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">&lt;Typography variant="heading-xl"&gt;</code> — exactly what your project requires.</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.65;margin-top:4px;">
+            • Figma "H1" →<br>
+            • <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">&lt;Typography variant="heading-xl"&gt;</code><br>
+            • Exact API your codebase expects
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="callout teal"><div class="callout-ico">💡</div><div><strong>The golden rule:</strong> If you find yourself explaining the same thing to Claude more than twice in different sessions — it belongs in CLAUDE.md. Every rule in this file exists because of a real decision, real bug, or real client requirement.</div></div>
+    <div class="callout teal"><div class="callout-ico">💡</div><div><strong>The golden rule:</strong> If you're explaining the same thing to Claude across more than two sessions, it belongs in CLAUDE.md. Every rule in this file earned its place through a real decision, a real bug, or a real client requirement.</div></div>
   </section>
 
   <!-- ══ VS FIGMA DS ══ -->
   <section class="section" id="vs-figma">
     <div class="sec-hd"><div class="sec-ico">⚖</div><div class="sec-title">CLAUDE.md vs Figma Design System</div><div class="sec-n">00b</div></div>
 
-    <p style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:20px;max-width:640px;">They solve different problems for different audiences. The Figma Design System is the visual language for designers and developers. CLAUDE.md is the operational brief for the AI agent. Both are needed — but they are not substitutes for each other.</p>
+    <div style="font-size:15px;color:var(--ts);line-height:1.75;margin-bottom:20px;max-width:640px;">
+      • Different problems, different audiences<br>
+      • Figma = visual language for designers & developers<br>
+      • CLAUDE.md = operational brief for AI agent<br>
+      • Need both — neither substitutes the other
+    </div>
 
     <div class="subsec">
       <div class="subsec-title">Side-by-side comparison</div>
@@ -392,38 +426,38 @@ a{text-decoration:none;}
         <tbody>
           <tr>
             <td>Purpose</td>
-            <td style="color:var(--ts);">Defines the visual and functional language of a brand</td>
-            <td style="color:var(--ts);">Provides context and rules for an AI agent</td>
+            <td style="color:var(--ts);">Defines the visual and functional language of the brand</td>
+            <td style="color:var(--ts);">Provides project context and hard rules for the AI agent</td>
           </tr>
           <tr>
             <td>Format</td>
-            <td style="color:var(--ts);">Figma, Storybook, CSS / Component library</td>
-            <td style="color:var(--ts);">A single Markdown (.md) file in the project root</td>
+            <td style="color:var(--ts);">Figma, Storybook, CSS or component library</td>
+            <td style="color:var(--ts);">A single Markdown file in the project root</td>
           </tr>
           <tr>
             <td>Audience</td>
             <td style="color:var(--ts);">Designers and developers</td>
-            <td style="color:var(--ts);">The Claude AI agent (Claude Code CLI)</td>
+            <td style="color:var(--ts);">Claude Code — the AI agent</td>
           </tr>
           <tr>
             <td>Content</td>
             <td style="color:var(--ts);">Tokens, UI kits, voice &amp; tone, accessibility guidelines</td>
-            <td style="color:var(--ts);">Commands, file paths, coding preferences, known bugs</td>
+            <td style="color:var(--ts);">Commands, file paths, coding conventions, known bugs</td>
           </tr>
           <tr>
             <td>When read</td>
-            <td style="color:var(--ts);">By humans during design and build</td>
-            <td style="color:var(--ts);">By Claude automatically at session start</td>
+            <td style="color:var(--ts);">By humans, during design and build</td>
+            <td style="color:var(--ts);">By Claude, automatically at session start</td>
           </tr>
           <tr>
             <td>Lives in</td>
             <td style="color:var(--ts);">Figma, Confluence, Notion, Storybook</td>
-            <td style="color:var(--ts);">Project root directory (alongside your code)</td>
+            <td style="color:var(--ts);">Project root — alongside the code it governs</td>
           </tr>
           <tr>
             <td>Updates when</td>
             <td style="color:var(--ts);">Brand or component decisions change</td>
-            <td style="color:var(--ts);">Stack, rules, or page status changes — after every session</td>
+            <td style="color:var(--ts);">Stack, rules, or page status change — ideally after every session</td>
           </tr>
         </tbody>
       </table>
@@ -436,19 +470,19 @@ a{text-decoration:none;}
           <div style="font-size:13px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Use Figma Design System for</div>
           <div style="display:flex;flex-direction:column;gap:10px;">
             <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
-              <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>Visual layouts and "vibes" — the look and feel
+              <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>Visual layouts and overall look-and-feel
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
               <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>Colour hex codes and typography decisions
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
-              <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>Specific spacing between elements in a design
+              <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>Precise spacing between elements in a design
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
-              <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>"Forbidden" styles — "Don't use gradients", "no shadows"
+              <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>Forbidden styles — no gradients, no shadows
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
-              <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>Component anatomy and interaction states
+              <span style="color:var(--indigo);font-weight:700;flex-shrink:0;">→</span>Component anatomy and every interaction state
             </div>
           </div>
         </div>
@@ -462,13 +496,13 @@ a{text-decoration:none;}
               <span style="color:var(--teal);font-weight:700;flex-shrink:0;">→</span>File paths for components and shared modules
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
-              <span style="color:var(--teal);font-weight:700;flex-shrink:0;">→</span>Logic rules — "Mobile-first responsive only"
+              <span style="color:var(--teal);font-weight:700;flex-shrink:0;">→</span>Logic rules — e.g. "mobile-first responsive only"
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
-              <span style="color:var(--teal);font-weight:700;flex-shrink:0;">→</span>Known bugs Claude must never replicate
+              <span style="color:var(--teal);font-weight:700;flex-shrink:0;">→</span>Known bugs Claude must never reintroduce
             </div>
             <div style="display:flex;align-items:flex-start;gap:10px;font-size:14px;color:var(--ts);">
-              <span style="color:var(--teal);font-weight:700;flex-shrink:0;">→</span>Current page build status and shared component locations
+              <span style="color:var(--teal);font-weight:700;flex-shrink:0;">→</span>Current page-build status and shared component locations
             </div>
           </div>
         </div>
@@ -480,11 +514,19 @@ a{text-decoration:none;}
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
         <div class="card" style="padding:16px;border-left:4px solid var(--teal);border-radius:0 10px 10px 0;">
           <div class="card-title" style="margin-bottom:6px;color:var(--teal);">NEVER use inline hex codes</div>
-          <div class="card-body">Claude might write <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">color: #5B5BD6</code> by default. CLAUDE.md enforces <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">var(--color-primary)</code> so dark theme works automatically across every component.</div>
+          <div class="card-body">
+            • Default: <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">color: #5B5BD6</code><br>
+            • CLAUDE.md enforces: <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">var(--color-primary)</code><br>
+            • Dark mode works automatically
+          </div>
         </div>
         <div class="card" style="padding:16px;border-left:4px solid var(--indigo);border-radius:0 10px 10px 0;">
           <div class="card-title" style="margin-bottom:6px;color:var(--indigo);">ALWAYS use &lt;DS-Button&gt;</div>
-          <div class="card-body">Without CLAUDE.md, Claude writes raw HTML <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">&lt;button&gt;</code>. With it, Claude uses your <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">.btn-primary</code> class — the design system component with all states built in.</div>
+          <div class="card-body">
+            • Default: raw <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">&lt;button&gt;</code><br>
+            • With CLAUDE.md: <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:var(--s2);padding:1px 4px;border-radius:3px;">.btn-primary</code><br>
+            • DS component, all states wired
+          </div>
         </div>
       </div>
     </div>
@@ -494,7 +536,12 @@ a{text-decoration:none;}
   <section class="section" id="venn">
     <div class="sec-hd"><div class="sec-ico">◎</div><div class="sec-title">Where they overlap — Venn diagram</div><div class="sec-n">00c</div></div>
 
-    <p style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:24px;max-width:640px;">Neither replaces the other. The Figma Design System is the source of truth for <em>what</em> things should look like. CLAUDE.md is the operational layer that tells Claude <em>how</em> to implement that in code. The overlap is where design intent becomes implementation constraint.</p>
+    <div style="font-size:15px;color:var(--ts);line-height:1.75;margin-bottom:24px;max-width:640px;">
+      • Neither replaces the other<br>
+      • Figma = source of truth for <em>what</em> things look like<br>
+      • CLAUDE.md = <em>how</em> to ship that in code<br>
+      • Overlap = design intent → implementation constraint
+    </div>
 
     <!-- Venn diagram — HTML layout with CSS circle overlays -->
     <div style="position:relative;border-radius:16px;overflow:hidden;background:var(--bg);border:1px solid var(--border);">
@@ -605,24 +652,6 @@ a{text-decoration:none;}
       </div>
     </div>
 
-    <div class="subsec" style="margin-top:20px;">
-      <div class="subsec-title">Reading the overlap</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;">
-        <div class="card" style="padding:14px;border-top:3px solid var(--indigo);">
-          <div class="card-title" style="margin-bottom:4px;">Figma only</div>
-          <div class="card-body">Visual decisions that live in the design tool. Layout, component anatomy, interaction states, brand voice. These inform CLAUDE.md but don't live in it.</div>
-        </div>
-        <div class="card" style="padding:14px;border-top:3px solid var(--purple);">
-          <div class="card-title" style="margin-bottom:4px;">The overlap zone</div>
-          <div class="card-body">Where design decisions become code constraints. Colour tokens, spacing values, typography scale, and forbidden patterns all cross both systems — Figma defines them, CLAUDE.md enforces them in code.</div>
-        </div>
-        <div class="card" style="padding:14px;border-top:3px solid var(--teal);">
-          <div class="card-title" style="margin-bottom:4px;">CLAUDE.md only</div>
-          <div class="card-body">Operational rules with no Figma equivalent. Tech stack, file paths, known bugs, build status, library choices, and coding conventions that only Claude Code needs to know.</div>
-        </div>
-      </div>
-    </div>
-
     <div class="callout indigo"><div class="callout-ico">🔗</div><div><strong>The design-to-code bridge:</strong> When you see an H1 in Figma, CLAUDE.md maps it to <code style="font-family:'Roboto Mono',monospace;font-size:12px;background:rgba(91,91,214,0.1);padding:1px 5px;border-radius:3px;">&lt;Typography variant="heading-xl"&gt;</code>. What you designed in Figma is exactly what Claude writes in code — using the specific names and structures your project requires. That translation layer is what CLAUDE.md provides.</div></div>
   </section>
 
@@ -630,7 +659,13 @@ a{text-decoration:none;}
   <section class="section" id="vs-skills">
     <div class="sec-hd"><div class="sec-ico">⚙</div><div class="sec-title">CLAUDE.md vs Claude Skills</div><div class="sec-n">00d</div></div>
 
-    <p style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:20px;max-width:660px;">Both live in Claude Code. Both shape how Claude behaves. But they work at completely different layers — one is always on, the other fires on demand. Understanding the difference determines what goes where.</p>
+    <div style="font-size:15px;color:var(--ts);line-height:1.75;margin-bottom:20px;max-width:660px;">
+      • Both live in Claude Code, both shape behavior<br>
+      • Work at different layers<br>
+      • CLAUDE.md = always on<br>
+      • Skills = fire on demand<br>
+      • Difference determines what goes where
+    </div>
 
     <!-- Core mental model -->
     <div class="subsec">
@@ -639,12 +674,24 @@ a{text-decoration:none;}
         <div style="background:var(--indigo-l);border:1px solid var(--indigo-b);border-radius:10px;padding:20px 22px;">
           <div style="font-size:12px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;">CLAUDE.md</div>
           <div style="font-size:22px;font-weight:700;color:var(--indigo);line-height:1.2;margin-bottom:10px;">"What this project is"</div>
-          <div style="font-size:14px;color:var(--ts);line-height:1.65;">The project brief. Stack, tokens, known bugs, page status, file paths, client rules. Facts that are specific to this one codebase. Loaded automatically before you type a single word.</div>
+          <div style="font-size:14px;color:var(--ts);line-height:1.65;">
+            • The project brief<br>
+            • Stack, tokens, bugs, page status<br>
+            • File paths, client rules<br>
+            • Facts for this codebase<br>
+            • Loaded before you type
+          </div>
         </div>
         <div style="background:var(--amber-l);border:1px solid var(--amber-b);border-radius:10px;padding:20px 22px;">
           <div style="font-size:12px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:10px;">Skills</div>
           <div style="font-size:22px;font-weight:700;color:var(--amber);line-height:1.2;margin-bottom:10px;">"How to do something"</div>
-          <div style="font-size:14px;color:var(--ts);line-height:1.65;">Reusable know-how. Step-by-step instructions, component templates, reference screenshots. Read mid-task only when the task matches the skill's trigger. Portable across projects.</div>
+          <div style="font-size:14px;color:var(--ts);line-height:1.65;">
+            • Reusable know-how<br>
+            • Step-by-step instructions<br>
+            • Component templates, screenshots<br>
+            • Read mid-task when triggered<br>
+            • Portable across projects
+          </div>
         </div>
       </div>
     </div>
@@ -664,37 +711,37 @@ a{text-decoration:none;}
           <tr>
             <td>When loaded</td>
             <td>Session start — before you type anything</td>
-            <td>Mid-task — when Claude decides the skill is relevant</td>
+            <td>Mid-task — when Claude decides it's relevant</td>
           </tr>
           <tr>
             <td>How loaded</td>
-            <td>Auto-injected into the system prompt</td>
+            <td>Auto-injected into system prompt</td>
             <td>Claude reads the file using the <code class="mono">view</code> tool</td>
           </tr>
           <tr>
             <td>Token cost</td>
             <td>Always — every session, every message</td>
-            <td>Only when triggered. Unused skills cost nothing</td>
+            <td>Only when triggered. Unused skills are free</td>
           </tr>
           <tr>
             <td>Scope</td>
-            <td>This project only. Tied to one repo</td>
-            <td>Any project. Drop it in and reuse across repos</td>
+            <td>This project only — tied to one repo</td>
+            <td>Any project — drop in and reuse anywhere</td>
           </tr>
           <tr>
             <td>Trigger</td>
             <td>None — fully automatic at session start</td>
-            <td>Claude matches the task to the skill's description</td>
+            <td>Claude matches the task to skill's description</td>
           </tr>
           <tr>
             <td>Authority level</td>
-            <td>System prompt layer — treated as operator rules</td>
-            <td>Conversational layer — read as reference material</td>
+            <td>System prompt — treated as operator rules</td>
+            <td>Conversational layer — reference material</td>
           </tr>
           <tr>
             <td>Updates take effect</td>
-            <td>Next session (restart required)</td>
-            <td>Next task read — immediate, no restart needed</td>
+            <td>Next session — restart required</td>
+            <td>Next task read — instant, no restart</td>
           </tr>
           <tr>
             <td>Contains</td>
@@ -881,7 +928,7 @@ a{text-decoration:none;}
             <div style="font-size:13px;font-weight:700;color:var(--tp);">fdo-components</div>
             <code class="mono" style="margin-left:auto;font-size:11px;">/mnt/skills/user/</code>
           </div>
-          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Individual component templates with HTML structure, class names, state variants, and dark mode patterns.</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Component templates with HTML structure, class names, state variants, and dark mode patterns — all specific to FDO.</div>
         </div>
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:14px 16px;">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
@@ -889,7 +936,7 @@ a{text-decoration:none;}
             <div style="font-size:13px;font-weight:700;color:var(--tp);">frontend-design</div>
             <code class="mono" style="margin-left:auto;font-size:11px;">/mnt/skills/public/</code>
           </div>
-          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Production-grade frontend principles — typography, motion, composition, avoiding generic AI aesthetics.</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Production-grade frontend principles — typography, motion, composition. How to avoid generic AI aesthetics.</div>
         </div>
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:14px 16px;">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
@@ -897,7 +944,7 @@ a{text-decoration:none;}
             <div style="font-size:13px;font-weight:700;color:var(--tp);">appointment-app-ds</div>
             <code class="mono" style="margin-left:auto;font-size:11px;">/mnt/skills/user/</code>
           </div>
-          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Booking flow specific — time slots, multi-step layout, summary panel, step indicator patterns.</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Booking flow patterns — time slots, multi-step layout, summary panels, step indicators.</div>
         </div>
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:14px 16px;">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
@@ -905,7 +952,7 @@ a{text-decoration:none;}
             <div style="font-size:13px;font-weight:700;color:var(--tp);">design-inspiration</div>
             <code class="mono" style="margin-left:auto;font-size:11px;">/mnt/skills/user/</code>
           </div>
-          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Visual reference images Claude reads before designing — ensures output matches the intended look and feel.</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Visual references Claude reads before designing — ensures output matches intended look and feel.</div>
         </div>
         <div style="background:var(--surface);border:1px solid var(--border);border-radius:9px;padding:14px 16px;">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
@@ -913,7 +960,7 @@ a{text-decoration:none;}
             <div style="font-size:13px;font-weight:700;color:var(--tp);">ds-token-generator</div>
             <code class="mono" style="margin-left:auto;font-size:11px;">/mnt/skills/user/</code>
           </div>
-          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Generates UI documentation using strict design token rules and the 8px grid system defined in this file.</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.55;">Generates UI docs using strict design token rules and the 8px grid defined in this file.</div>
         </div>
       </div>
     </div>
@@ -924,19 +971,29 @@ a{text-decoration:none;}
       <div class="card" style="padding:18px;display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;">
         <div>
           <div style="font-size:12px;font-weight:700;color:var(--indigo);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;">In CLAUDE.md</div>
-          <div style="font-size:13px;color:var(--ts);line-height:1.65;">Quick-access cheat sheet of active token values for this project: <code class="mono">--color-primary: #5B5BD6</code>. The sticky note on your monitor. Always loaded.</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.65;">
+            • Quick-reference cheat sheet<br>
+            • Active tokens: <code class="mono">--color-primary: #5B5BD6</code><br>
+            • The sticky note on your monitor<br>
+            • Always loaded
+          </div>
         </div>
         <div style="text-align:center;color:var(--border2);font-size:24px;font-weight:300;">↔</div>
         <div>
           <div style="font-size:12px;font-weight:700;color:var(--amber);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:8px;">In the Skill</div>
-          <div style="font-size:13px;color:var(--ts);line-height:1.65;">The comprehensive guide — all tokens, usage rules, dos &amp; don'ts, reference screenshots. The detailed manual. Loaded only when building UI.</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.65;">
+            • Comprehensive guide<br>
+            • All tokens + usage rules<br>
+            • Dos & don'ts + screenshots<br>
+            • Loaded only when building UI
+          </div>
         </div>
       </div>
     </div>
 
     <div class="callout teal">
       <div class="callout-ico">💡</div>
-      <div><strong>The golden rule:</strong> CLAUDE.md is the project handshake — what makes Claude feel like it never left. Skills are the reusable expertise you build once and carry everywhere. Use them together and Claude Code behaves like a senior developer who already knows your codebase <em>and</em> your craft.</div>
+      <div><strong>The golden rule:</strong> CLAUDE.md is the project handshake — what makes Claude feel like it never left. Skills are reusable expertise you build once and carry everywhere. Use them together and Claude Code behaves like a senior developer who already knows your codebase <em>and</em> your craft.</div>
     </div>
   </section>
 
@@ -944,7 +1001,13 @@ a{text-decoration:none;}
   <section class="section" id="skills-venn">
     <div class="sec-hd"><div class="sec-ico">◉</div><div class="sec-title">CLAUDE.md vs Skills — overlap diagram</div><div class="sec-n">00e</div></div>
 
-    <p style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:24px;max-width:660px;">Both live inside Claude Code and both shape how Claude behaves — but at different layers. CLAUDE.md is always on; Skills fire only when needed. The overlap is where design tokens live in both, serving different purposes.</p>
+    <div style="font-size:15px;color:var(--ts);line-height:1.75;margin-bottom:24px;max-width:660px;">
+      • Both in Claude Code, both shape behavior<br>
+      • Different layers<br>
+      • CLAUDE.md = always on<br>
+      • Skills = fire when triggered<br>
+      • Overlap = design tokens in both, different purposes
+    </div>
 
     <div style="position:relative;border-radius:16px;overflow:hidden;background:var(--bg);border:1px solid var(--border);">
 
@@ -1073,25 +1136,9 @@ a{text-decoration:none;}
       </div>
     </div>
 
-    <!-- Reading guide -->
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-top:16px;">
-      <div class="card" style="padding:14px;border-top:3px solid var(--indigo);">
-        <div class="card-title" style="margin-bottom:4px;">CLAUDE.md only</div>
-        <div class="card-body">Project state and hard rules Claude needs before every task — what exists, what's broken, what's forbidden. Always in context, zero setup required.</div>
-      </div>
-      <div class="card" style="padding:14px;border-top:3px solid var(--amber);">
-        <div class="card-title" style="margin-bottom:4px;">The shared zone</div>
-        <div class="card-body">Tokens, spacing, component names and forbidden patterns appear in both — but differently. CLAUDE.md has the quick list; the skill has the full guide with screenshots and usage examples.</div>
-      </div>
-      <div class="card" style="padding:14px;border-top:3px solid var(--amber);">
-        <div class="card-title" style="margin-bottom:4px;">Skills only</div>
-        <div class="card-body">Reusable how-to knowledge with no project ties. Templates, screenshots, build patterns. Costs nothing until triggered — then delivers the full guide exactly when needed.</div>
-      </div>
-    </div>
-
     <div class="callout indigo" style="margin-top:12px;">
       <div class="callout-ico">📎</div>
-      <div><strong>Sticky note vs manual:</strong> Think of CLAUDE.md as the sticky note on your monitor — terse, always visible, this project only. Skills are the training manuals on the shelf — comprehensive, available to everyone, pulled out when a specific task demands it. Both are essential. Neither replaces the other.</div>
+      <div><strong>Sticky note vs manual:</strong> CLAUDE.md is the sticky note on your monitor — terse, always visible, this project only. Skills are the training manuals on the shelf — comprehensive, available to everyone, pulled when a specific task demands it. Both essential. Neither replaces the other.</div>
     </div>
   </section>
 
@@ -1107,7 +1154,7 @@ Icons:   <span class="cv">Tabler Icons</span> (CDN) — ti-* class names
 Fonts:   <span class="cv">Roboto</span> (body) + <span class="cv">Roboto Mono</span> (code/data)
 Charts:  <span class="cv">Chart.js 4</span> — already loaded in base layout
 Hosting: Static files — no server-side rendering needed</pre></div></div>
-    <div class="callout indigo"><div class="callout-ico">ℹ</div><div><strong>Why vanilla?</strong> The client team maintains this after handoff. No build toolchain means any dev can open a file, edit it, and see the result. Resist the urge to introduce npm or a bundler — it is a deliberate constraint.</div></div>
+    <div class="callout indigo"><div class="callout-ico">ℹ</div><div><strong>Why vanilla?</strong> The client team maintains this post-handoff. No build toolchain means any dev can open a file, edit it, and see results. Resist the urge to add npm or a bundler — it's a deliberate constraint.</div></div>
   </section>
 
   <!-- ══ 02 DEV SERVER ══ -->
