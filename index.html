@@ -33,7 +33,7 @@ a{text-decoration:none;color:inherit;}
 .tooltip .tooltiptext::after{content:"";position:absolute;top:100%;left:50%;margin-left:-5px;border-width:5px;border-style:solid;border-color:var(--tp) transparent transparent transparent;}
 .tooltip:hover .tooltiptext{visibility:visible;opacity:1;}
 
-.page{display:grid;grid-template-columns:1fr;grid-template-rows:auto 1fr;overflow:hidden;}
+.page{display:flex;flex-direction:column;min-height:100vh;}
 
 .hdr{grid-column:1;grid-row:1;background:var(--surface);border-bottom:1px solid var(--border);z-index:100;display:flex;flex-direction:column;}
 .hdr-top{display:flex;align-items:center;padding:16px 32px;border-bottom:1px solid var(--border);min-height:70px;}
@@ -66,12 +66,12 @@ a{text-decoration:none;color:inherit;}
 .hdr-nav::-webkit-scrollbar-thumb{background:rgba(255,107,53,0.3);border-radius:2px;}
 .hdr-nav::-webkit-scrollbar-thumb:hover{background:rgba(255,107,53,0.5);}
 
-.content-grid{display:grid;grid-template-columns:var(--nav-w) 1fr;grid-row:2;}
+.content-grid{display:flex;flex:1;align-items:stretch;}
 
-.sidebar{background:var(--surface);border-right:1px solid var(--border);overflow:visible;padding:24px 0;width:var(--nav-w);display:block;position:relative;align-self:start;}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);overflow-y:auto;padding:24px 0;width:var(--nav-w);flex-shrink:0;position:sticky;top:126px;height:calc(100vh - 126px);align-self:flex-start;}
 .sidebar[style*="display: none"]{display:none !important;width:0 !important;padding:0 !important;border:none !important;}
 .sidebar.hidden{display:none !important;width:0 !important;padding:0 !important;border:none !important;}
-.content-grid:has(.sidebar[style*="display: none"]),.content-grid:has(.sidebar.hidden){grid-template-columns:1fr !important;}
+.content-grid:has(.sidebar[style*="display: none"]),.content-grid:has(.sidebar.hidden){display:block;}
 .sidebar,.sidebar *{list-style:none !important;list-style-type:none !important;margin:0;padding-left:0 !important;}
 .sidebar::before,.sidebar::after,.sidebar *::before,.sidebar *::after{content:none !important;}
 .sidebar-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--tm);padding:0 24px !important;margin-bottom:12px;display:block;}
@@ -80,9 +80,9 @@ a{text-decoration:none;color:inherit;}
 .sidebar-item.active{color:#FF6B35;border-left-color:#FF6B35;background:rgba(255,107,53,0.1);font-weight:600;}
 .sidebar-pip{width:5px;height:5px;border-radius:50%;flex-shrink:0;display:block;}
 
-.main{padding:40px 56px 120px 56px;background:var(--bg);position:relative;min-height:100vh;}
+.main{flex:1;padding:40px 56px 120px 56px;background:var(--bg);position:relative;min-height:100vh;min-width:0;}
 
-.intro{margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid var(--border);}
+.intro{margin-bottom:32px;padding-bottom:24px;border-bottom:1px solid var(--border);}
 .intro-eye{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:6px;}
 .intro-h{font-family:'Roboto Flex',sans-serif;font-size:34px;font-weight:700;color:var(--tp);letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px;}
 .chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
@@ -90,8 +90,9 @@ a{text-decoration:none;color:inherit;}
 .chip.i{background:var(--indigo-l);border-color:var(--indigo-b);color:var(--indigo);}
 .chip.t{background:var(--teal-l);border-color:var(--teal-b);color:var(--teal);}
 
-.section{margin-bottom:64px;scroll-margin-top:20px;}
-.sec-hd{display:flex;align-items:center;gap:24px;padding-bottom:16px;margin-bottom:24px;border-bottom:1px solid var(--border);}
+.section{margin-top:0;margin-bottom:32px;scroll-margin-top:20px;}
+.section + .section{margin-top:0;}
+.sec-hd{display:flex;align-items:center;gap:12px;padding-bottom:14px;margin-bottom:20px;border-bottom:1px solid var(--border);}
 .sec-ico{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
 .sec-title{font-size:24px;font-weight:700;color:var(--tp);letter-spacing:-0.02em;}
 
@@ -145,10 +146,10 @@ a{text-decoration:none;color:inherit;}
   margin-bottom: 16px;
   border: 1px solid transparent;
 }
-.ux-stage-label.discovery { background: #E6F7F6; border-color: #B3E5E2; color: #00867E; }
-.ux-stage-label.define    { background: var(--orange-l); border-color: var(--indigo-b); color: var(--orange-d); }
-.ux-stage-label.design    { background: #F3F0FF; border-color: #D6CDFF; color: #5B4FCF; }
-.ux-stage-label.validate  { background: #FFF7ED; border-color: #FFE0B2; color: #B45309; }
+.ux-stage-label.discovery { background: #E6F7F6; border-color: #7DCECA; color: #005C56; }
+.ux-stage-label.define    { background: var(--orange-l); border-color: var(--indigo-b); color: #B83A10; }
+.ux-stage-label.design    { background: #F3F0FF; border-color: #D6CDFF; color: #3D2FAB; }
+.ux-stage-label.validate  { background: #FFF7ED; border-color: #FFD08A; color: #7C3A00; }
 
 .ux-tool-badge {
   font-size: 11px;
@@ -160,12 +161,12 @@ a{text-decoration:none;color:inherit;}
   border: 1px solid transparent;
   display: inline-block;
 }
-.ux-tool-badge.claude-code  { background: #E6F7F6; border-color: #B3E5E2; color: #00867E; }
-.ux-tool-badge.claude-skills{ background: var(--orange-l); border-color: var(--indigo-b); color: var(--orange-d); }
-.ux-tool-badge.figjam       { background: #F3F0FF; border-color: #D6CDFF; color: #5B4FCF; }
-.ux-tool-badge.figma        { background: #FFF0ED; border-color: #FFD4C8; color: #C2410C; }
-.ux-tool-badge.figma-make   { background: #FFF7ED; border-color: #FFE0B2; color: #B45309; }
-.ux-tool-badge.tbt          { background: var(--s2); border-color: var(--border); color: var(--tm); }
+.ux-tool-badge.claude-code  { background: #E6F7F6; border-color: #7DCECA; color: #005C56; }
+.ux-tool-badge.claude-skills{ background: var(--orange-l); border-color: var(--indigo-b); color: #B83A10; }
+.ux-tool-badge.figjam       { background: #F3F0FF; border-color: #D6CDFF; color: #3D2FAB; }
+.ux-tool-badge.figma        { background: #FFF0ED; border-color: #FFD4C8; color: #9A2A00; }
+.ux-tool-badge.figma-make   { background: #FFF7ED; border-color: #FFD08A; color: #7C3A00; }
+.ux-tool-badge.tbt          { background: var(--s2); border-color: var(--border2); color: #4A5568; }
 
 /* Deliverable Table */
 .ux-table {
@@ -199,7 +200,7 @@ a{text-decoration:none;color:inherit;}
 .ux-table td.num {
   font-size: 12px;
   font-weight: 700;
-  color: var(--tl);
+  color: #4A5568;
   white-space: nowrap;
   width: 36px;
 }
@@ -208,14 +209,14 @@ a{text-decoration:none;color:inherit;}
   color: var(--tp);
   width: 200px;
 }
-.ux-table td.need { color: var(--ts); }
-.ux-table td.desc { color: var(--ts); }
+.ux-table td.need { color: #2D3748; }
+.ux-table td.desc { color: #2D3748; }
 .ux-table td.tip-cell { width: 240px; }
 .ux-tip-inline {
   font-size: 12px;
-  color: #B45309;
+  color: #7C3A00;
   background: #FFF7ED;
-  border-left: 3px solid #FFA726;
+  border-left: 3px solid #D97706;
   padding: 5px 10px;
   border-radius: 0 4px 4px 0;
   line-height: 1.5;
@@ -257,9 +258,9 @@ a{text-decoration:none;color:inherit;}
   color: var(--ts);
 }
 .ux-input-item .ico { font-size: 18px; flex-shrink: 0; }
-.ux-input-item.bad  { background: var(--red-l); border-color: #FECACA; color: #B91C1C; }
-.ux-input-item.warn { background: #FFF7ED; border-color: #FFE0B2; color: #92400E; }
-.ux-input-item.good { background: var(--green-l); border-color: #A7F3D0; color: #065F46; }
+.ux-input-item.bad  { background: var(--red-l); border-color: #FECACA; color: #991B1B; }
+.ux-input-item.warn { background: #FFF7ED; border-color: #FFD08A; color: #7C3A00; }
+.ux-input-item.good { background: var(--green-l); border-color: #A7F3D0; color: #064E3B; }
 
 .ux-cheat-grid {
   display: grid;
@@ -347,6 +348,7 @@ a{text-decoration:none;color:inherit;}
     <div class="hdr-nav-item active" onclick="switchSection('getting-started')">🚀 Getting Started</div>
     <div class="hdr-nav-item" onclick="switchSection('claude-md')">📄 CLAUDE.md</div>
     <div class="hdr-nav-item" onclick="switchSection('skills')">📚 Claude Skills</div>
+    <div class="hdr-nav-item" onclick="switchSection('projects')">📁 Claude Projects</div>
   </div>
 </header>
 
@@ -386,8 +388,8 @@ pageContent['ai-ux-workflow'] = `
       Match every design deliverable to the right AI tool — with exactly what input you need to get high-quality results.
     </div>
     <div class="chip-row">
-      <span class="chip i">Discovery</span>
-      <span class="chip t">Define</span>
+      <span class="chip">Discovery</span>
+      <span class="chip">Define</span>
       <span class="chip">Design</span>
       <span class="chip">Validate</span>
     </div>
@@ -852,7 +854,7 @@ pageContent['claude-md-reference'] = `
     </div>
   </section>
 
-  <section class="section" style="margin-top:64px;" id="vs-figma">
+  <section class="section" id="vs-figma">
     <div class="sec-hd">
       <div class="sec-ico">🎨</div>
       <div class="sec-title">How it differs from Design System?</div>
@@ -895,7 +897,7 @@ pageContent['claude-md-reference'] = `
     </div>
   </section>
 
-  <section class="section" style="margin-top:64px;" id="vs-skills">
+  <section class="section" id="vs-skills">
     <div class="sec-hd">
       <div class="sec-ico">📚</div>
       <div class="sec-title">How it differs from Skills?</div>
@@ -943,7 +945,7 @@ pageContent['intro'] = `
   <div class="intro">
     <div class="intro-eye">Welcome</div>
     <h1 class="intro-h">Getting Started with Claude</h1>
-    <div style="font-size:16px;color:var(--ts);line-height:1.7;max-width:880px;margin-bottom:32px;">
+    <div style="font-size:16px;color:var(--ts);line-height:1.7;max-width:880px;">
       Welcome to the Claude for Designers playbook. Get started by exploring these essential resources.
     </div>
   </div>
@@ -974,11 +976,1101 @@ pageContent['intro'] = `
 `;
 
 pageContent['skills-overview'] = `
-  <div class="coming-soon">
-    <div class="coming-soon-icon">📚</div>
-    <h2>Skills System</h2>
-    <p>Learn how to create and use Skills for reusable expertise across all your projects.</p>
+  <div class="intro">
+    <div class="intro-eye">Practical Guide</div>
+    <h1 class="intro-h">Claude Skills for Designers</h1>
+    <div style="font-size:17px;color:var(--ts);line-height:1.7;max-width:880px;">
+      Reusable AI instructions that work exactly the way you do — built once, used forever, shared with your whole team.
+    </div>
   </div>
+
+  <!-- Section 1: What are Claude Skills -->
+  <section class="section" id="what-are-skills">
+    <div class="sec-hd">
+      <div class="sec-ico">🧠</div>
+      <div class="sec-title">What are Claude Skills?</div>
+    </div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:24px;">
+      A Claude Skill is a reusable instruction file that teaches Claude how to perform a specific task <em>your way</em>, every single time. Unlike a one-off prompt you type in chat, a skill is saved, named, and produces consistent, high-quality output whenever you need it.
+    </p>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:24px;">
+      If you have used AI tools like ChatGPT or Gemini before, think of skills as a step beyond prompting — instead of explaining what you need every time, you encode your expertise once and Claude follows it automatically.
+    </p>
+    <div style="padding:20px 24px;background:linear-gradient(135deg,var(--teal-l) 0%,rgba(0,181,173,0.06) 100%);border-left:4px solid var(--teal);border-radius:4px;max-width:700px;margin-bottom:0;">
+      <div style="font-size:16px;color:var(--tp);line-height:1.7;">
+        <strong>💡 The best analogy:</strong> A prompt is a sticky note you write fresh each time. A skill is a trained team member who already knows exactly what you need and how you like it done.
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Skills vs Prompts -->
+  <section class="section" id="skills-vs-prompts">
+    <div class="sec-hd">
+      <div class="sec-ico">⚖️</div>
+      <div class="sec-title">Skills vs Prompts</div>
+    </div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:20px;">
+      Both are ways to instruct Claude — but they serve very different purposes. Use prompts for quick one-off tasks; use skills for anything you do repeatedly.
+    </p>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;max-width:800px;border-collapse:collapse;font-size:15px;">
+        <thead>
+          <tr style="background:var(--s2);">
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);font-weight:600;width:28%;">  </th>
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);font-weight:600;">💬 Prompt</th>
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);font-weight:600;background:#E6F7F6;">📚 Skill</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Lifespan</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">One conversation</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">Reusable forever</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Setup time</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Seconds</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">10–30 minutes</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Consistency</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Varies each time</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">Always the same quality</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Shareable</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">No</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">Yes — across your whole team</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Best for</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Quick one-off tasks</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">Repeated design workflows</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Section 3: Benefits for Designers -->
+  <section class="section" id="benefits">
+    <div class="sec-hd">
+      <div class="sec-ico">🎯</div>
+      <div class="sec-title">Why Designers Should Care</div>
+    </div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:20px;">
+      Skills are not just a productivity hack — they change how design teams operate. Here is what becomes possible when your team uses them well.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;border-top:3px solid var(--teal);">
+        <div style="font-size:22px;margin-bottom:10px;">⚡</div>
+        <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Speed</div>
+        <div style="font-size:14px;color:var(--ts);line-height:1.6;">Run a heuristic evaluation or persona generation in seconds instead of hours. Repetitive documentation becomes instant.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;border-top:3px solid var(--orange-d);">
+        <div style="font-size:22px;margin-bottom:10px;">🎯</div>
+        <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Consistency</div>
+        <div style="font-size:14px;color:var(--ts);line-height:1.6;">Every output follows the same format and quality bar — whether it is Monday morning or a Friday deadline crunch.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;border-top:3px solid #5B4FCF;">
+        <div style="font-size:22px;margin-bottom:10px;">🤝</div>
+        <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Team Alignment</div>
+        <div style="font-size:14px;color:var(--ts);line-height:1.6;">Share one skill across your whole team. Everyone gets the same output standard — no more "I got a different result" conversations.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;border-top:3px solid var(--amber);">
+        <div style="font-size:22px;margin-bottom:10px;">🧠</div>
+        <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Captured Expertise</div>
+        <div style="font-size:14px;color:var(--ts);line-height:1.6;">Encode your best thinking once. Your most experienced designer's judgment becomes accessible to every new team member from day one.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 4: Real Skill Examples -->
+  <section class="section" id="skill-examples">
+    <div class="sec-hd">
+      <div class="sec-ico">💡</div>
+      <div class="sec-title">Real Skill Examples for UX Designers</div>
+    </div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:20px;">
+      These are practical skills you can build and start using immediately. Each one targets a real, recurring design task.
+    </p>
+    <table class="ux-table">
+      <thead>
+        <tr>
+          <th>Skill Name</th>
+          <th>What It Does</th>
+          <th>Input You Provide</th>
+          <th>Time Saved</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;color:var(--tp);">Heuristic Evaluator</td>
+          <td>Reviews screens against Nielsen's 10 usability principles with severity ratings</td>
+          <td>Screenshots + screen context</td>
+          <td style="font-weight:600;color:var(--teal);">2–3 hrs</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--tp);">Persona Generator</td>
+          <td>Turns raw research notes into structured user personas</td>
+          <td>Interview notes or survey data</td>
+          <td style="font-weight:600;color:var(--teal);">1–2 hrs</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--tp);">Accessibility Auditor</td>
+          <td>Flags WCAG issues with severity ratings and fix suggestions</td>
+          <td>Screen designs or live URL</td>
+          <td style="font-weight:600;color:var(--teal);">1–2 hrs</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--tp);">UX Copy Editor</td>
+          <td>Rewrites UI text for clarity, tone consistency, and brevity</td>
+          <td>Screen copy or content doc</td>
+          <td style="font-weight:600;color:var(--teal);">30–60 min</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--tp);">Design QA Checklist</td>
+          <td>Validates designs against your design system before handoff</td>
+          <td>Figma link or screenshots</td>
+          <td style="font-weight:600;color:var(--teal);">45 min</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--tp);">Feature Prioritizer</td>
+          <td>Applies MoSCoW or RICE framework to rank your feature list</td>
+          <td>Feature list + business goals</td>
+          <td style="font-weight:600;color:var(--teal);">1 hr</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Section 5: Anatomy of a Skill -->
+  <section class="section" id="skill-anatomy">
+    <div class="sec-hd">
+      <div class="sec-ico">🔬</div>
+      <div class="sec-title">Anatomy of a Skill</div>
+    </div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:24px;">
+      Every well-written skill has five key parts. Miss any one of them and your output quality drops significantly.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:32px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:28px;height:28px;border-radius:50%;background:#E6F7F6;border:1px solid #7DCECA;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#005C56;flex-shrink:0;">1</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tp);margin-bottom:4px;">Role</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">What Claude should act as. e.g. "You are a senior UX designer specialising in accessibility."</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--orange-l);border:1px solid var(--indigo-b);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#B83A10;flex-shrink:0;">2</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tp);margin-bottom:4px;">Context</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Background about your project, team, or product. The more specific, the better the output.</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:28px;height:28px;border-radius:50%;background:#F3F0FF;border:1px solid #D6CDFF;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#3D2FAB;flex-shrink:0;">3</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tp);margin-bottom:4px;">Task</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Exactly what Claude needs to do when this skill is triggered. Be precise and action-oriented.</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:28px;height:28px;border-radius:50%;background:#FFF7ED;border:1px solid #FFD08A;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#7C3A00;flex-shrink:0;">4</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tp);margin-bottom:4px;">Output Format</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Exactly how the response should look — table, numbered list, sections with headers, etc.</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;gap:14px;align-items:flex-start;">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--red-l);border:1px solid #FECACA;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#991B1B;flex-shrink:0;">5</div>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tp);margin-bottom:4px;">Constraints</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">What Claude should never do — keeps output focused and prevents common mistakes.</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:var(--s2);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:860px;">
+      <div style="font-size:13px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:14px;">Example — Heuristic Evaluation Skill</div>
+      <pre style="font-family:'Roboto Mono',monospace;font-size:13px;line-height:1.8;color:var(--tp);white-space:pre-wrap;margin:0;"><span style="color:#005C56;font-weight:700;">## Role</span>
+You are a senior UX designer and usability expert. You evaluate
+digital interfaces against Nielsen Norman's 10 usability heuristics.
+
+<span style="color:#B83A10;font-weight:700;">## Context</span>
+You are reviewing screens for a B2B SaaS product used by
+operations teams. Users are non-technical and time-pressured.
+
+<span style="color:#3D2FAB;font-weight:700;">## Task</span>
+When given a screen or user flow, evaluate it against all 10
+heuristics. Identify every violation, explain why it is a problem,
+and suggest a specific fix.
+
+<span style="color:#7C3A00;font-weight:700;">## Output Format</span>
+Return a table with columns: Heuristic | Issue Found | Severity
+(1–3) | Suggested Fix. End with a summary score out of 10.
+
+<span style="color:#991B1B;font-weight:700;">## Constraints</span>
+- Never give generic advice. Every fix must be specific to the screen.
+- Do not flag issues you are not confident about.
+- Severity 1 = minor, 2 = moderate, 3 = critical.</pre>
+    </div>
+  </section>
+
+  <!-- Section 6: How to Create a Skill -->
+  <section class="section" id="how-to-create">
+    <div class="sec-hd">
+      <div class="sec-ico">🛠️</div>
+      <div class="sec-title">How to Create a Skill</div>
+    </div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:28px;">
+      There are two ways to create and use skills depending on how your team works. Choose the method that fits your setup.
+    </p>
+
+    <!-- Tab toggle -->
+    <div style="display:flex;gap:0;margin-bottom:32px;border:1px solid var(--border);border-radius:10px;overflow:hidden;max-width:480px;">
+      <button onclick="switchSkillTab('web')" id="tab-web" style="flex:1;padding:12px 20px;font-size:14px;font-weight:600;border:none;cursor:pointer;background:#FF6B35;color:#fff;transition:all 0.2s;">
+        🌐 Claude.ai (Web)
+      </button>
+      <button onclick="switchSkillTab('code')" id="tab-code" style="flex:1;padding:12px 20px;font-size:14px;font-weight:600;border:none;cursor:pointer;background:var(--s2);color:var(--ts);transition:all 0.2s;">
+        💻 Claude Code
+      </button>
+    </div>
+
+    <!-- Web Steps -->
+    <div id="skill-steps-web" style="max-width:860px;">
+      <div style="display:flex;flex-direction:column;gap:0;">
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;z-index:1;">1</div>
+            <div style="width:2px;flex:1;background:var(--border);margin-top:4px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Open Claude.ai and go to Projects</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">Log in to claude.ai. In the left sidebar, click <strong>Projects</strong>. Projects are where skills live — each project can have its own set of instructions Claude follows automatically.</div>
+            <div style="background:var(--s2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ts);border-left:3px solid #FF6B35;">💡 Think of a Project as a dedicated workspace for a specific design discipline or product area.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;z-index:1;">2</div>
+            <div style="width:2px;flex:1;background:var(--border);margin-top:4px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Create a new Project</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">Click <strong>New Project</strong> and give it a clear name — e.g. "UX Research Skills" or "Accessibility Reviews". A focused project name helps your team know exactly what skills live inside.</div>
+            <div style="background:var(--s2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ts);border-left:3px solid #FF6B35;">💡 Create separate projects per skill type rather than dumping everything in one project.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;z-index:1;">3</div>
+            <div style="width:2px;flex:1;background:var(--border);margin-top:4px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Add your skill in Project Instructions</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">Inside your project, open <strong>Project Instructions</strong>. Paste your skill here using the 5-part anatomy — Role, Context, Task, Output Format, Constraints. Claude reads this before every conversation in this project.</div>
+            <div style="background:var(--s2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ts);border-left:3px solid #FF6B35;">💡 Use clear section headers (## Role, ## Task) so Claude can parse your skill correctly.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;z-index:1;">4</div>
+            <div style="width:2px;flex:1;background:var(--border);margin-top:4px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Test it with a real design task</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">Start a new chat inside the project and give it a real task — paste a screenshot, describe a flow, or upload a file. Check if the output matches the format and quality you specified in your skill.</div>
+            <div style="background:var(--s2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ts);border-left:3px solid #FF6B35;">💡 Test with 2–3 different inputs before sharing with your team. Edge cases reveal gaps in your instructions.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;z-index:1;">5</div>
+            <div style="width:2px;flex:1;background:transparent;margin-top:4px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Refine based on output quality</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">If the output is off — wrong format, missing details, too generic — go back to Project Instructions and tighten the relevant section. Skill writing is iterative; most skills need 2–3 refinement rounds.</div>
+            <div style="background:var(--green-l);border-radius:8px;padding:12px 14px;font-size:13px;color:#064E3B;border-left:3px solid var(--green);">✅ You know your skill is ready when the output is good enough to hand directly to a client or developer.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Code Steps -->
+    <div id="skill-steps-code" style="max-width:860px;display:none;">
+      <div style="display:flex;flex-direction:column;gap:0;">
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#3D2FAB;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;">1</div>
+            <div style="width:2px;flex:1;background:var(--border);margin-top:4px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Create a <code style="background:var(--s2);padding:2px 6px;border-radius:4px;font-family:monospace;">/skills</code> folder in your project</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">In your project's root directory, create a <code style="background:var(--s2);padding:2px 6px;border-radius:4px;font-family:monospace;">skills/</code> folder. This is where all your skill files will live. Keep one skill per file for clarity.</div>
+            <div style="background:var(--s2);border-radius:8px;padding:10px 14px;font-family:'Roboto Mono',monospace;font-size:13px;color:var(--tp);">your-project/<br>├── skills/<br>│   ├── heuristic-eval.md<br>│   ├── persona-generator.md<br>│   └── accessibility-audit.md<br>└── CLAUDE.md</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#3D2FAB;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;">2</div>
+            <div style="width:2px;flex:1;background:var(--border);margin-top:4px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Write your skill as a <code style="background:var(--s2);padding:2px 6px;border-radius:4px;font-family:monospace;">.md</code> file</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">Each skill is a plain Markdown file using the 5-part anatomy. Name it clearly after what it does — <code style="background:var(--s2);padding:2px 6px;border-radius:4px;font-family:monospace;">heuristic-eval.md</code>, not <code style="background:var(--s2);padding:2px 6px;border-radius:4px;font-family:monospace;">skill1.md</code>.</div>
+            <div style="background:var(--s2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ts);border-left:3px solid #3D2FAB;">💡 Add a version comment at the top: <code style="font-family:monospace;"><!-- v1.2 — updated output format --></code></div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#3D2FAB;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;">3</div>
+            <div style="width:2px;flex:1;background:var(--border);margin-top:4px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Reference it in your <code style="background:var(--s2);padding:2px 6px;border-radius:4px;font-family:monospace;">CLAUDE.md</code></div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">In your root <code style="background:var(--s2);padding:2px 6px;border-radius:4px;font-family:monospace;">CLAUDE.md</code>, add a Skills section that lists available skills and when to use each one.</div>
+            <div style="background:var(--s2);border-radius:8px;padding:10px 14px;font-family:'Roboto Mono',monospace;font-size:13px;color:var(--tp);">## Available Skills<br><br>- heuristic-eval.md → Use when reviewing UI screens<br>- persona-generator.md → Use with research notes<br>- accessibility-audit.md → Use before handoff</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#3D2FAB;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;">4</div>
+            <div style="width:2px;flex:1;background:transparent;margin-top:4px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Call it in Claude Code by name</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">When using Claude Code in your terminal, simply tell Claude which skill to use: <em>"Use the heuristic-eval skill to review these screens."</em> Claude will read the file and apply it automatically.</div>
+            <div style="background:var(--green-l);border-radius:8px;padding:12px 14px;font-size:13px;color:#064E3B;border-left:3px solid var(--green);">✅ Because the skill is in your repo, every team member who clones the project automatically has access to all your skills.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 7: Share Skills -->
+  <section class="section" id="share-skills">
+    <div class="sec-hd">
+      <div class="sec-ico">🤝</div>
+      <div class="sec-title">How to Share Skills with Your Team</div>
+    </div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:24px;">
+      Skills become exponentially more valuable when your whole team uses them. Here are two ways to share depending on how your team works.
+    </p>
+    <div class="g2" style="margin-top:0;margin-bottom:24px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;border-top:3px solid #FF6B35;">
+        <div style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#FF6B35;margin-bottom:12px;">🌐 Via Claude.ai Projects</div>
+        <ol style="padding-left:18px;font-size:14px;color:var(--ts);line-height:2;">
+          <li>Open your Project in Claude.ai</li>
+          <li>Click <strong>Invite Members</strong></li>
+          <li>Add teammates by email</li>
+          <li>They instantly get access to all skills in that project</li>
+        </ol>
+        <div style="margin-top:14px;font-size:13px;color:var(--ts);background:var(--s2);padding:10px 14px;border-radius:8px;">Best for: small teams, design-only workflows, non-technical teammates</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:22px;border-top:3px solid #3D2FAB;">
+        <div style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#3D2FAB;margin-bottom:12px;">💻 Via GitHub / Shared Repo</div>
+        <ol style="padding-left:18px;font-size:14px;color:var(--ts);line-height:2;">
+          <li>Store skills in a <code style="background:var(--s2);padding:1px 5px;border-radius:3px;font-family:monospace;">skills/</code> folder in your repo</li>
+          <li>Commit and push to your shared branch</li>
+          <li>Team members pull the latest version</li>
+          <li>Everyone runs the same skill version</li>
+        </ol>
+        <div style="margin-top:14px;font-size:13px;color:var(--ts);background:var(--s2);padding:10px 14px;border-radius:8px;">Best for: cross-functional teams, versioned workflows, orgs with existing GitHub processes</div>
+      </div>
+    </div>
+    <div style="padding:16px 20px;background:#FFF7ED;border-left:4px solid var(--amber);border-radius:4px;max-width:800px;font-size:15px;color:var(--ts);line-height:1.7;">
+      <strong style="color:var(--tp);">Best practice:</strong> Version your skills using a comment at the top — e.g. <code style="font-family:monospace;background:var(--s2);padding:1px 6px;border-radius:3px;">v1.2 — updated output format, added severity scale</code>. This way your team always knows which version is current and what changed.
+    </div>
+  </section>
+
+  <!-- Section 8: Update Skills -->
+  <section class="section" id="update-skills">
+    <div class="sec-hd">
+      <div class="sec-ico">🔄</div>
+      <div class="sec-title">How to Update an Existing Skill</div>
+    </div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:24px;">
+      Skills are never truly "finished" — as your design process evolves, your skills should too. Here is a simple 4-step update process.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:24px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">🔍</div>
+        <div style="font-size:13px;font-weight:700;color:var(--tp);margin-bottom:6px;">1. Identify the gap</div>
+        <div style="font-size:13px;color:var(--ts);line-height:1.5;">Notice which outputs are consistently off — wrong format, missing sections, or too generic.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">✏️</div>
+        <div style="font-size:13px;font-weight:700;color:var(--tp);margin-bottom:6px;">2. Edit the right section</div>
+        <div style="font-size:13px;color:var(--ts);line-height:1.5;">Only change the part causing the issue — Role, Output Format, or Constraints. Surgical edits prevent new problems.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">🧪</div>
+        <div style="font-size:13px;font-weight:700;color:var(--tp);margin-bottom:6px;">3. Test with the same input</div>
+        <div style="font-size:13px;color:var(--ts);line-height:1.5;">Use the exact same input that produced the bad output before. This confirms the fix worked without breaking other cases.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:18px 20px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:10px;">📝</div>
+        <div style="font-size:13px;font-weight:700;color:var(--tp);margin-bottom:6px;">4. Document the change</div>
+        <div style="font-size:13px;color:var(--ts);line-height:1.5;">Update the version comment at the top of the skill file. One line is enough — what changed and why.</div>
+      </div>
+    </div>
+    <div style="padding:16px 20px;background:#FFF7ED;border-left:4px solid var(--amber);border-radius:4px;max-width:800px;font-size:15px;color:var(--ts);line-height:1.7;">
+      <strong style="color:var(--tp);">Tip:</strong> Keep a changelog comment block at the top of every skill file so your team can trace what changed and when — especially useful when a skill is shared across multiple projects.
+    </div>
+  </section>
+
+  <!-- Section 9: Dos and Don'ts -->
+  <section class="section" id="dos-donts">
+    <div class="sec-hd">
+      <div class="sec-ico">⚖️</div>
+      <div class="sec-title">Do's and Don'ts</div>
+    </div>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;max-width:860px;border-collapse:collapse;font-size:15px;">
+        <thead>
+          <tr>
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);background:var(--green-l);color:#064E3B;font-weight:700;">✅ Do</th>
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);background:var(--red-l);color:#991B1B;font-weight:700;">🚫 Don't</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Be specific about output format — show an example if possible</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Write vague instructions like "be helpful" or "do your best"</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Include a real example inside the skill to show expected output</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Assume Claude knows your project context — always state it explicitly</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Test with edge cases before sharing with your team</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Use the same skill for wildly different task types</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Version your skills so the team knows what is current</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Overload one skill with too many jobs — one skill, one purpose</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Refine iteratively — most skills need 2–3 rounds before they're solid</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Share a skill with your team before testing it yourself thoroughly</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Section 10: When NOT to use a Skill -->
+  <section class="section" id="when-not">
+    <div class="sec-hd">
+      <div class="sec-ico">🚫</div>
+      <div class="sec-title">When NOT to Use a Skill</div>
+    </div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:20px;">
+      Skills are powerful — but they are overkill in some situations. Use a regular prompt instead when:
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;max-width:860px;">
+      <div style="background:var(--red-l);border:1px solid #FECACA;border-radius:10px;padding:16px 18px;display:flex;gap:12px;">
+        <span style="font-size:20px;flex-shrink:0;">1️⃣</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#991B1B;margin-bottom:4px;">One-off tasks</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">If you will only do this task once, a prompt is faster. Skills pay off through repetition.</div>
+        </div>
+      </div>
+      <div style="background:var(--red-l);border:1px solid #FECACA;border-radius:10px;padding:16px 18px;display:flex;gap:12px;">
+        <span style="font-size:20px;flex-shrink:0;">2️⃣</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#991B1B;margin-bottom:4px;">Highly creative open-ended work</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Exploratory brainstorming or concept generation benefits from Claude's full creative range — constraints can limit it.</div>
+        </div>
+      </div>
+      <div style="background:var(--red-l);border:1px solid #FECACA;border-radius:10px;padding:16px 18px;display:flex;gap:12px;">
+        <span style="font-size:20px;flex-shrink:0;">3️⃣</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#991B1B;margin-bottom:4px;">Tasks that change every time</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">If the task requirements shift significantly with each project, a fixed skill instruction will feel too rigid.</div>
+        </div>
+      </div>
+      <div style="background:var(--red-l);border:1px solid #FECACA;border-radius:10px;padding:16px 18px;display:flex;gap:12px;">
+        <span style="font-size:20px;flex-shrink:0;">4️⃣</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#991B1B;margin-bottom:4px;">Quick questions</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Asking Claude a quick question or getting a definition does not need a skill — just ask directly.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  function switchSkillTab(tab) {
+    const webSteps = document.getElementById('skill-steps-web');
+    const codeSteps = document.getElementById('skill-steps-code');
+    const tabWeb = document.getElementById('tab-web');
+    const tabCode = document.getElementById('tab-code');
+    if (tab === 'web') {
+      webSteps.style.display = 'block';
+      codeSteps.style.display = 'none';
+      tabWeb.style.background = '#FF6B35';
+      tabWeb.style.color = '#fff';
+      tabCode.style.background = 'var(--s2)';
+      tabCode.style.color = 'var(--ts)';
+    } else {
+      webSteps.style.display = 'none';
+      codeSteps.style.display = 'block';
+      tabCode.style.background = '#3D2FAB';
+      tabCode.style.color = '#fff';
+      tabWeb.style.background = 'var(--s2)';
+      tabWeb.style.color = 'var(--ts)';
+    }
+  }
+  <\/script>
+`;
+
+pageContent['projects-overview'] = `
+  <div class="intro">
+    <div class="intro-eye">Practical Guide</div>
+    <h1 class="intro-h">Claude Projects for Designers</h1>
+    <div style="font-size:17px;color:var(--ts);line-height:1.7;max-width:880px;">
+      A persistent workspace where Claude remembers your context, holds your files, and works with your whole team — across every conversation.
+    </div>
+  </div>
+
+  <!-- Section 1: What is a Claude Project -->
+  <section class="section" id="what-is-project">
+    <div class="sec-hd"><div class="sec-ico">📁</div><div class="sec-title">What is a Claude Project?</div></div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:24px;">
+      A Claude Project is a dedicated workspace inside Claude that remembers context across every conversation. Unlike a regular chat that starts completely fresh each time, a Project holds your instructions, uploaded files, and history — so Claude always knows your background, your standards, and your goals without you repeating yourself every session.
+    </p>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:24px;">
+      If you are new to Claude or have used other AI tools like ChatGPT or Gemini, think of Projects as a major step up — instead of starting from zero every time, you build a shared working context with Claude that grows over time.
+    </p>
+    <div style="padding:20px 24px;background:linear-gradient(135deg,var(--teal-l) 0%,rgba(0,181,173,0.06) 100%);border-left:4px solid var(--teal);border-radius:4px;max-width:700px;">
+      <div style="font-size:16px;color:var(--tp);line-height:1.7;">
+        <strong>💡 The best analogy:</strong> A regular chat is a temp worker who forgets everything the next day. A Claude Project is a full-time team member who knows your work, your standards, and your goals inside out.
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Projects vs Skills vs Prompts -->
+  <section class="section" id="projects-vs-all">
+    <div class="sec-hd"><div class="sec-ico">⚖️</div><div class="sec-title">Projects vs Skills vs Prompts</div></div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:20px;">
+      All three are ways to work with Claude — but they operate at different levels. Understanding the difference helps you pick the right tool for each situation.
+    </p>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;max-width:900px;border-collapse:collapse;font-size:15px;">
+        <thead>
+          <tr style="background:var(--s2);">
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);font-weight:600;width:24%;"> </th>
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);font-weight:600;">💬 Prompt</th>
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);font-weight:600;background:#E6F7F6;">📚 Skill</th>
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);font-weight:600;background:var(--orange-l);">📁 Project</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Remembers context</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">No</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">No</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#FFF8F5;font-weight:600;color:#B83A10;">Yes — across sessions</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Reusable</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">No</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">Yes</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#FFF8F5;">Yes</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Holds files/docs</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">No</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">No</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#FFF8F5;font-weight:600;color:#B83A10;">Yes</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Team shareable</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">No</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">Yes</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#FFF8F5;font-weight:600;color:#B83A10;">Yes</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Setup time</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Seconds</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">10–30 min</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#FFF8F5;">20–45 min</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Best for</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Quick one-off tasks</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">Repeated task types</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#FFF8F5;">Ongoing design work</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Section 3: Projects vs CLAUDE.md -->
+  <section class="section" id="projects-vs-claudemd">
+    <div class="sec-hd"><div class="sec-ico">📄</div><div class="sec-title">Projects vs CLAUDE.md</div></div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:20px;">
+      Both store context for Claude — but they live in completely different places and serve different people. This is a common point of confusion, especially for teams that use both.
+    </p>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;max-width:800px;border-collapse:collapse;font-size:15px;">
+        <thead>
+          <tr style="background:var(--s2);">
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);font-weight:600;width:26%;"> </th>
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);font-weight:600;background:var(--orange-l);">📁 Claude Project</th>
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);font-weight:600;background:#E6F7F6;">📄 CLAUDE.md</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Where it lives</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#FFF8F5;">Claude.ai web or app</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">Your codebase / file system</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Used by</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#FFF8F5;">Designers, PMs, all roles</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">Developers using Claude Code</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Holds uploaded files</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#FFF8F5;">Yes — PDFs, docs, images</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">No</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);font-weight:600;color:var(--tp);">Best for</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#FFF8F5;">Design workflows, client work, research</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);background:#F7FDFC;">Code-level rules, naming conventions, tech stack</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="margin-top:20px;padding:16px 20px;background:linear-gradient(135deg,var(--teal-l),rgba(0,181,173,0.06));border-left:4px solid var(--teal);border-radius:4px;max-width:800px;font-size:15px;color:var(--ts);line-height:1.7;">
+      <strong style="color:var(--tp);">Think of it this way:</strong> Claude Projects are for your design team's day-to-day work on Claude.ai. CLAUDE.md is for your dev team's code-level rules in Claude Code. They complement each other — use both on larger projects.
+    </div>
+  </section>
+
+  <!-- Section 4: Benefits -->
+  <section class="section" id="project-benefits">
+    <div class="sec-hd"><div class="sec-ico">🎯</div><div class="sec-title">Why Designers Should Use Projects</div></div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:20px;">
+      Projects change the quality of what Claude can do for you. Here is what becomes possible when your workspace is properly set up.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;border-top:3px solid var(--teal);">
+        <div style="font-size:22px;margin-bottom:10px;">🧠</div>
+        <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Persistent Memory</div>
+        <div style="font-size:14px;color:var(--ts);line-height:1.6;">Claude remembers your brief, brand guidelines, and preferences across every session — no re-explaining from scratch.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;border-top:3px solid var(--orange-d);">
+        <div style="font-size:22px;margin-bottom:10px;">📁</div>
+        <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Built-in Knowledge Base</div>
+        <div style="font-size:14px;color:var(--ts);line-height:1.6;">Upload brand guidelines, research docs, and design system rules — Claude references them automatically in every response.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;border-top:3px solid #5B4FCF;">
+        <div style="font-size:22px;margin-bottom:10px;">🤝</div>
+        <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Team Workspace</div>
+        <div style="font-size:14px;color:var(--ts);line-height:1.6;">Invite teammates and everyone works with the same context, files, and instructions — consistent output across the team.</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;border-top:3px solid var(--amber);">
+        <div style="font-size:22px;margin-bottom:10px;">⚡</div>
+        <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Faster Every Session</div>
+        <div style="font-size:14px;color:var(--ts);line-height:1.6;">Skip the setup. Jump straight to the actual work — Claude already knows your project, your constraints, and your standards.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5: Project Instructions -->
+  <section class="section" id="project-instructions">
+    <div class="sec-hd"><div class="sec-ico">✍️</div><div class="sec-title">What to Put in Project Instructions</div></div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:24px;">
+      Project Instructions are what Claude reads before every conversation in your Project. The quality of your instructions directly determines the quality of every output. Here is the difference between a weak and strong setup.
+    </p>
+    <div class="g2" style="margin-top:0;margin-bottom:24px;">
+      <div style="background:var(--red-l);border:1px solid #FECACA;border-radius:12px;padding:20px 22px;">
+        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#991B1B;margin-bottom:14px;">🚫 Weak Instructions</div>
+        <pre style="font-family:'Roboto Mono',monospace;font-size:13px;line-height:1.8;color:#7F1D1D;white-space:pre-wrap;margin:0;">You are a helpful design assistant.
+Help me with UX design tasks.
+Be professional and thorough.</pre>
+        <div style="margin-top:14px;font-size:13px;color:#991B1B;line-height:1.5;">❌ No context · No format rules · No constraints · Could apply to anyone, anywhere</div>
+      </div>
+      <div style="background:var(--green-l);border:1px solid #A7F3D0;border-radius:12px;padding:20px 22px;">
+        <div style="font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#064E3B;margin-bottom:14px;">✅ Strong Instructions</div>
+        <pre style="font-family:'Roboto Mono',monospace;font-size:13px;line-height:1.8;color:#064E3B;white-space:pre-wrap;margin:0;"><span style="font-weight:700;">## Project</span>
+B2B SaaS product for logistics teams.
+Users are non-technical ops managers.
+
+<span style="font-weight:700;">## Design Standards</span>
+Follow WCAG AA. Use 8pt grid spacing.
+Tone: professional, not playful.
+
+<span style="font-weight:700;">## Output Format</span>
+Always use numbered lists for steps.
+Flag accessibility issues in red.
+
+<span style="font-weight:700;">## Never do</span>
+Don't suggest animations or trends.
+Don't give generic UX advice.</pre>
+      </div>
+    </div>
+    <div style="padding:16px 20px;background:#FFF7ED;border-left:4px solid var(--amber);border-radius:4px;max-width:800px;font-size:15px;color:var(--ts);line-height:1.7;">
+      <strong style="color:var(--tp);">Tip:</strong> Structure your instructions with clear ## headers. Claude parses them better and you can update individual sections without rewriting everything.
+    </div>
+  </section>
+
+  <!-- Section 6: Uploading Knowledge -->
+  <section class="section" id="upload-knowledge">
+    <div class="sec-hd"><div class="sec-ico">📎</div><div class="sec-title">Uploading Knowledge to a Project</div></div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:20px;">
+      One of the most powerful features of Projects is the ability to upload files that Claude references in every conversation. You never need to paste content manually again.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-bottom:24px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;">
+        <span style="font-size:22px;flex-shrink:0;">🎨</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tp);margin-bottom:4px;">Brand Guidelines</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Upload your brand PDF so Claude always knows colours, fonts, tone, and usage rules.</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;">
+        <span style="font-size:22px;flex-shrink:0;">🧩</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tp);margin-bottom:4px;">Design System Docs</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Component rules, spacing tokens, do/don't usage guidelines for your system.</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;">
+        <span style="font-size:22px;flex-shrink:0;">🔍</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tp);margin-bottom:4px;">Research Synthesis</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Interview summaries, survey results, and user insights Claude can reference when generating personas or flows.</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;">
+        <span style="font-size:22px;flex-shrink:0;">📋</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tp);margin-bottom:4px;">Project Brief / SOW</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Scope of work, client goals, constraints — so every output is grounded in the actual project context.</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;">
+        <span style="font-size:22px;flex-shrink:0;">👤</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tp);margin-bottom:4px;">User Personas</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Upload existing personas so Claude factors user goals and frustrations into every suggestion it makes.</div>
+        </div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px 18px;display:flex;gap:12px;align-items:flex-start;">
+        <span style="font-size:22px;flex-shrink:0;">🏢</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:var(--tp);margin-bottom:4px;">Competitor Analysis</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Give Claude awareness of the competitive landscape for better-informed design suggestions.</div>
+        </div>
+      </div>
+    </div>
+    <div style="padding:16px 20px;background:#FFF7ED;border-left:4px solid var(--amber);border-radius:4px;max-width:800px;font-size:15px;color:var(--ts);line-height:1.7;">
+      <strong style="color:var(--tp);">Tip:</strong> Claude reads uploaded files and references them in every response — you never need to paste content manually. Supported formats include PDF, Word, plain text, and markdown.
+    </div>
+  </section>
+
+  <!-- Section 7: How to Set Up -->
+  <section class="section" id="how-to-setup">
+    <div class="sec-hd"><div class="sec-ico">🛠️</div><div class="sec-title">How to Set Up a Project</div></div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:28px;">
+      Setting up a Claude Project takes 20–45 minutes the first time. Here is the exact process from start to a fully working team workspace.
+    </p>
+    <div style="max-width:860px;">
+      <div style="display:flex;flex-direction:column;gap:0;">
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;z-index:1;">1</div>
+            <div style="width:2px;flex:1;background:var(--border);margin-top:4px;min-height:20px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Go to Claude.ai → Projects → New Project</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">Log in to claude.ai. In the left sidebar, click <strong>Projects</strong>, then <strong>New Project</strong>. This creates a blank workspace that will hold all your instructions, files, and conversations.</div>
+            <div style="background:var(--s2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ts);border-left:3px solid #FF6B35;">💡 Projects are separate from regular chats — think of them as dedicated rooms for specific work.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;z-index:1;">2</div>
+            <div style="width:2px;flex:1;background:var(--border);margin-top:4px;min-height:20px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Name it clearly</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">Give your Project a descriptive name that makes its purpose immediately obvious — e.g. <em>"Fintech App — UX Team"</em> or <em>"Client X — Discovery Phase"</em>. Vague names lead to the wrong people using the wrong Project.</div>
+            <div style="background:var(--s2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ts);border-left:3px solid #FF6B35;">💡 Include the client or product name + team or phase. Makes it instantly clear to new teammates.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;z-index:1;">3</div>
+            <div style="width:2px;flex:1;background:var(--border);margin-top:4px;min-height:20px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Write your Project Instructions</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">Open <strong>Project Instructions</strong> and write your context using the structure from Section 5 — project background, design standards, output format preferences, and constraints. This is what Claude reads before every single conversation in this Project.</div>
+            <div style="background:var(--s2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ts);border-left:3px solid #FF6B35;">💡 Use ## headers to structure your instructions. Makes it easy to find and update specific sections later.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;z-index:1;">4</div>
+            <div style="width:2px;flex:1;background:var(--border);margin-top:4px;min-height:20px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Upload your files</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">Use the <strong>Add Content</strong> button to upload your relevant files — brand guidelines, research docs, design system documentation, project brief. Claude will reference these in every conversation automatically.</div>
+            <div style="background:var(--s2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ts);border-left:3px solid #FF6B35;">💡 Start with the most referenced documents first. You can always add more files as the project evolves.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;z-index:1;">5</div>
+            <div style="width:2px;flex:1;background:var(--border);margin-top:4px;min-height:20px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Add your Skills inside the Project</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">Paste any Skills you have built directly into the Project Instructions. Skills tell Claude HOW to do tasks; the Project tells Claude WHO it is working for and WHAT it knows. Together they give you both process consistency and project-specific context.</div>
+            <div style="background:var(--s2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ts);border-left:3px solid #FF6B35;">💡 See the "Projects + Skills Together" section for how to combine them effectively.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;z-index:1;">6</div>
+            <div style="width:2px;flex:1;background:var(--border);margin-top:4px;min-height:20px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Invite your teammates</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">Click <strong>Invite Members</strong> and add teammates by email. Everyone you invite immediately gets access to the same instructions, files, and Skills — no manual sharing needed. New team members are up to speed from their very first message.</div>
+            <div style="background:var(--s2);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--ts);border-left:3px solid #FF6B35;">💡 Only invite people who need to work on this specific project. Keep Projects focused — one project per client or workstream.</div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:0;align-items:stretch;">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:20px;">
+            <div style="width:40px;height:40px;border-radius:50%;background:#FF6B35;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;z-index:1;">7</div>
+            <div style="width:2px;flex:1;background:transparent;margin-top:4px;"></div>
+          </div>
+          <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;margin-bottom:12px;flex:1;">
+            <div style="font-size:15px;font-weight:700;color:var(--tp);margin-bottom:6px;">Test with a real design task</div>
+            <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:10px;">Start a new conversation inside the Project and give it a realistic task — review a screen, generate a persona, write a user flow. Check that Claude uses your uploaded files and follows your instructions correctly.</div>
+            <div style="background:var(--green-l);border-radius:8px;padding:12px 14px;font-size:13px;color:#064E3B;border-left:3px solid var(--green);">✅ Your Project is ready when Claude's first response feels like it came from someone who already knows your project inside out.</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 8: Structuring for Your Team -->
+  <section class="section" id="structure-projects">
+    <div class="sec-hd"><div class="sec-ico">🗂️</div><div class="sec-title">Structuring Projects for Your Team</div></div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:20px;">
+      There is no single right way to organise Projects — it depends on how your team works. Here are four proven models to choose from.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;border-top:3px solid var(--teal);">
+        <div style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#005C56;margin-bottom:10px;">Per Client</div>
+        <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:12px;">One Project per client. Upload their brand guide, brief, and research. Every session is client-aware from the first message.</div>
+        <div style="font-size:13px;color:var(--tm);">Best for: agencies, freelancers, client services teams</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;border-top:3px solid var(--orange-d);">
+        <div style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#B83A10;margin-bottom:10px;">Per Product Area</div>
+        <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:12px;">Separate Projects for different parts of the product — e.g. Onboarding, Dashboard, Settings. Keeps context focused and clean.</div>
+        <div style="font-size:13px;color:var(--tm);">Best for: large products, specialist design squads</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;border-top:3px solid #5B4FCF;">
+        <div style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#3D2FAB;margin-bottom:10px;">Per Design Phase</div>
+        <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:12px;">A Discovery Project, a Design Project, a Handoff Project. Each has phase-relevant files and Instructions tuned to that stage.</div>
+        <div style="font-size:13px;color:var(--tm);">Best for: structured design processes, waterfall projects</div>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 22px;border-top:3px solid var(--amber);">
+        <div style="font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:#7C3A00;margin-bottom:10px;">Shared Team Project</div>
+        <div style="font-size:14px;color:var(--ts);line-height:1.6;margin-bottom:12px;">One central Project shared by the whole design team. Holds shared standards, the design system, and team-wide Skills.</div>
+        <div style="font-size:13px;color:var(--tm);">Best for: in-house teams, consistent standards across all work</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 9: Projects + Skills Together -->
+  <section class="section" id="projects-skills">
+    <div class="sec-hd"><div class="sec-ico">🔗</div><div class="sec-title">Projects + Skills Together</div></div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:24px;">
+      Skills and Projects are designed to work together — they solve different problems and combine to give you the best of both. Understanding the relationship makes you significantly more effective.
+    </p>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;max-width:860px;margin-bottom:24px;">
+      <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:16px;align-items:center;">
+        <div style="background:#E6F7F6;border:1px solid #7DCECA;border-radius:10px;padding:16px 18px;text-align:center;">
+          <div style="font-size:20px;margin-bottom:8px;">📚</div>
+          <div style="font-size:14px;font-weight:700;color:#005C56;margin-bottom:6px;">Skill</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Defines <strong>HOW</strong> Claude does a task — the process, format, and rules</div>
+        </div>
+        <div style="font-size:24px;color:var(--tl);text-align:center;">+</div>
+        <div style="background:var(--orange-l);border:1px solid var(--indigo-b);border-radius:10px;padding:16px 18px;text-align:center;">
+          <div style="font-size:20px;margin-bottom:8px;">📁</div>
+          <div style="font-size:14px;font-weight:700;color:#B83A10;margin-bottom:6px;">Project</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Defines <strong>WHO</strong> Claude is working for and <strong>WHAT</strong> it knows about them</div>
+        </div>
+      </div>
+      <div style="margin-top:16px;padding:14px 18px;background:var(--s2);border-radius:8px;text-align:center;font-size:14px;color:var(--ts);line-height:1.6;">
+        <strong style="color:var(--tp);">Result:</strong> A Heuristic Evaluation Skill inside a client Project gives you both <em>consistent evaluation process</em> AND <em>client-specific context</em> — the most powerful combination possible.
+      </div>
+    </div>
+    <div style="padding:16px 20px;background:#FFF7ED;border-left:4px solid var(--amber);border-radius:4px;max-width:800px;font-size:15px;color:var(--ts);line-height:1.7;">
+      <strong style="color:var(--tp);">How to combine them:</strong> Paste your Skills directly into the Project Instructions. Put them after your project context so Claude reads the background first, then the task instructions.
+    </div>
+  </section>
+
+  <!-- Section 10: Real Use Cases -->
+  <section class="section" id="use-cases">
+    <div class="sec-hd"><div class="sec-ico">💡</div><div class="sec-title">Real Use Cases for Designers</div></div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:20px;">
+      Here are practical scenarios where a well-set-up Claude Project makes a measurable difference to design team output.
+    </p>
+    <table class="ux-table">
+      <thead>
+        <tr>
+          <th>Use Case</th>
+          <th>What to Put in the Project</th>
+          <th>What You Get</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="font-weight:600;color:var(--tp);">Client design work</td>
+          <td>Brand guide, brief, personas, competitor analysis</td>
+          <td>On-brand, client-aware deliverables every session</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--tp);">Design system management</td>
+          <td>Component rules, token values, usage guidelines</td>
+          <td>Consistent documentation and governance support</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--tp);">Research synthesis</td>
+          <td>Interview transcripts, survey data, observation notes</td>
+          <td>Structured insights, personas, and opportunity areas</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--tp);">Sprint planning</td>
+          <td>Backlog, user stories, sprint goals, constraints</td>
+          <td>Prioritised, contextual UX recommendations</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--tp);">Design critiques</td>
+          <td>Design principles, critique framework, past feedback patterns</td>
+          <td>Structured, consistent critique output every time</td>
+        </tr>
+        <tr>
+          <td style="font-weight:600;color:var(--tp);">New team member onboarding</td>
+          <td>All of the above — brand, system, research, brief</td>
+          <td>New joiners get up to speed in hours, not weeks</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Section 11: Limitations -->
+  <section class="section" id="limitations">
+    <div class="sec-hd"><div class="sec-ico">⚠️</div><div class="sec-title">Limitations to Know</div></div>
+    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin-bottom:20px;">
+      Projects are powerful but not without limits. Being aware of these upfront prevents surprises later.
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;max-width:860px;">
+      <div style="background:#FFF7ED;border:1px solid #FFD08A;border-radius:10px;padding:16px 18px;display:flex;gap:12px;">
+        <span style="font-size:20px;flex-shrink:0;">⚠️</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#7C3A00;margin-bottom:4px;">Context window limit</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Very large file sets may exceed the context limit. Prioritise the most important documents and avoid uploading everything at once.</div>
+        </div>
+      </div>
+      <div style="background:#FFF7ED;border:1px solid #FFD08A;border-radius:10px;padding:16px 18px;display:flex;gap:12px;">
+        <span style="font-size:20px;flex-shrink:0;">⚠️</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#7C3A00;margin-bottom:4px;">Not a design tool</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Projects don't replace Figma, FigJam, or any design tool. They enhance your thinking and documentation — not your visual output.</div>
+        </div>
+      </div>
+      <div style="background:#FFF7ED;border:1px solid #FFD08A;border-radius:10px;padding:16px 18px;display:flex;gap:12px;">
+        <span style="font-size:20px;flex-shrink:0;">⚠️</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#7C3A00;margin-bottom:4px;">Conflicting instructions</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">If your Project Instructions conflict with uploaded files, Claude may get confused. Keep instructions and files consistent and review them together periodically.</div>
+        </div>
+      </div>
+      <div style="background:#FFF7ED;border:1px solid #FFD08A;border-radius:10px;padding:16px 18px;display:flex;gap:12px;">
+        <span style="font-size:20px;flex-shrink:0;">⚠️</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:#7C3A00;margin-bottom:4px;">No live co-editing</div>
+          <div style="font-size:13px;color:var(--ts);line-height:1.5;">Multiple team members can use the same Project but not in real-time simultaneously. It is not a collaborative whiteboard — it is a shared workspace.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 12: Dos and Donts -->
+  <section class="section" id="project-dos-donts">
+    <div class="sec-hd"><div class="sec-ico">⚖️</div><div class="sec-title">Do's and Don'ts</div></div>
+    <div style="overflow-x:auto;">
+      <table style="width:100%;max-width:860px;border-collapse:collapse;font-size:15px;">
+        <thead>
+          <tr>
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);background:var(--green-l);color:#064E3B;font-weight:700;">✅ Do</th>
+            <th style="padding:14px 16px;text-align:left;border:1px solid var(--border);background:var(--red-l);color:#991B1B;font-weight:700;">🚫 Don't</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Write specific Project Instructions with clear ## sections</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Write vague instructions like "be a helpful designer"</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Upload the most referenced files first — brand guide, brief, personas</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Upload every file you have — keep it focused to avoid context overload</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Test the Project with a real task before inviting your team</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Share an untested Project — weak setup wastes your whole team's time</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Keep one Project per client or workstream — focused is better</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Dump all clients into one Project — context will bleed between them</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Review and update your Project Instructions as the project evolves</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Set it once and forget it — stale instructions produce stale output</td>
+          </tr>
+          <tr>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Combine Skills inside your Project for maximum output quality</td>
+            <td style="padding:13px 16px;border:1px solid var(--border);color:var(--ts);">Rely only on Project context without task-level Skill instructions</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 `;
 
 // ─── Section / Sidebar Data ───────────────────────────────────────────────────
@@ -1000,7 +2092,35 @@ const sections = {
   },
   'skills': {
     pages: ['skills-overview'],
-    sidebar: []
+    sidebar: [
+      { id: 'what-are-skills',  label: 'What are Claude Skills?',  color: 'teal' },
+      { id: 'skills-vs-prompts',label: 'Skills vs Prompts',         color: 'orange-d' },
+      { id: 'benefits',         label: 'Why Designers Should Care', color: 'amber' },
+      { id: 'skill-examples',   label: 'Real Skill Examples',       color: 'purple' },
+      { id: 'skill-anatomy',    label: 'Anatomy of a Skill',        color: 'teal' },
+      { id: 'how-to-create',    label: 'How to Create a Skill',     color: 'orange-d' },
+      { id: 'share-skills',     label: 'Share with Your Team',      color: 'indigo' },
+      { id: 'update-skills',    label: 'Update an Existing Skill',  color: 'amber' },
+      { id: 'dos-donts',        label: "Do's and Don'ts",           color: 'purple' },
+      { id: 'when-not',         label: 'When NOT to Use a Skill',   color: 'red' },
+    ]
+  },
+  'projects': {
+    pages: ['projects-overview'],
+    sidebar: [
+      { id: 'what-is-project',    label: 'What is a Claude Project?',     color: 'teal' },
+      { id: 'projects-vs-all',    label: 'Projects vs Skills vs Prompts', color: 'orange-d' },
+      { id: 'projects-vs-claudemd', label: 'Projects vs CLAUDE.md',       color: 'purple' },
+      { id: 'project-benefits',   label: 'Why Designers Should Use',      color: 'amber' },
+      { id: 'project-instructions', label: 'Project Instructions',        color: 'teal' },
+      { id: 'upload-knowledge',   label: 'Uploading Knowledge',           color: 'orange-d' },
+      { id: 'how-to-setup',       label: 'How to Set Up a Project',       color: 'indigo' },
+      { id: 'structure-projects', label: 'Structuring for Your Team',     color: 'purple' },
+      { id: 'projects-skills',    label: 'Projects + Skills Together',    color: 'teal' },
+      { id: 'use-cases',          label: 'Real Use Cases',                color: 'amber' },
+      { id: 'limitations',        label: 'Limitations to Know',           color: 'red' },
+      { id: 'project-dos-donts',  label: "Do's and Don'ts",               color: 'orange-d' },
+    ]
   }
 };
 
@@ -1056,11 +2176,61 @@ function scrollToSection(id) {
   event.currentTarget.classList.add('active');
 }
 
+// ─── Scroll Spy ───────────────────────────────────────────────────────────────
+let scrollObserver = null;
+
+function initScrollSpy() {
+  // Disconnect any previous observer
+  if (scrollObserver) scrollObserver.disconnect();
+
+  const sectionIds = sections[currentSection]?.sidebar?.map(s => s.id) || [];
+  if (!sectionIds.length) return;
+
+  // Only observe sections that are single-page (use scrollToSection, not loadPage)
+  const isMultiPage = sections[currentSection].pages.length > 1;
+  if (isMultiPage) return;
+
+  const observerOptions = {
+    root: null,
+    rootMargin: '-20% 0px -70% 0px',
+    threshold: 0
+  };
+
+  scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+          item.classList.remove('active');
+          const onclick = item.getAttribute('onclick') || '';
+          if (onclick.includes("'" + id + "'")) {
+            item.classList.add('active');
+            // Scroll sidebar item into view if needed
+            item.scrollIntoView({ block: 'nearest' });
+          }
+        });
+      }
+    });
+  }, observerOptions);
+
+  sectionIds.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) scrollObserver.observe(el);
+  });
+}
+
 // ─── Init ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   loadPage('intro');
   updateSidebar('getting-started');
 });
+
+// Re-init scroll spy whenever page content changes
+const _origLoadPage = loadPage;
+loadPage = function(pageId) {
+  _origLoadPage(pageId);
+  setTimeout(initScrollSpy, 100);
+};
 </script>
 </body>
 </html>
