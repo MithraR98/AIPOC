@@ -3,1465 +3,824 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Design Playbook v2</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300;8..144,400;8..144,500;8..144,600;8..144,700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <title>Claude for Designers - Playbook</title>
-
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
 <style>
+/* ── Design Tokens ── */
 :root {
-  /* Fresh Orange Brand Palette */
-  --orange:#FFD4C4; --orange-d:#E85A28; --orange-l:#FFF5F2;
-  --coral:#FF8B6A; --teal:#00B5AD; --teal-l:#E6F7F6;
-  --amber:#FFA726; --sky:#4FC3F7; --mint:#26C6B8;
-  
-  /* Surfaces & Backgrounds */
-  --bg:#FAFBFC; --surface:#FFFFFF; --s1:#FFFFFF; --s2:#F7FAFC; --s3:#EDF2F7;
-  --border:#E2E8F0; --border2:#CBD5E0;
-  
-  /* Text Colors */
-  --tp:#1A1D29; --ts:#4A5568; --tm:#718096; --tl:#A0AEC0;
-  
-  /* Semantic */
-  --success:#10B981; --warning:#F59E0B; --error:#EF4444; --info:#3B82F6;
-  --red:#EF4444; --red-l:#FEE2E2; --green:#10B981; --green-l:#D1FAE5;
-  
-  /* Backward compatibility */
-  --indigo:var(--orange); --indigo-l:var(--orange-l); --indigo-b:#FFD4C8;
-  --teal-b:#B3E5E2; --amber-l:#FFF4E6; --amber-b:#FFE0B2;
-  --purple:var(--coral); --purple-l:#FFF0ED; --purple-b:#FFD4C8;
-  
-  --nav-w:240px; --header-h:120px;
-}
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-html, body{margin:0;padding:0;width:100%;scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--tp);font-family:'Roboto Flex',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.65;}
-a{text-decoration:none;color:inherit;}
+  --bg:        #0D1117;
+  --bg-2:      #161B22;
+  --bg-3:      #21262D;
+  --bg-4:      #2D333B;
+  --border:    rgba(255,255,255,0.08);
+  --border-2:  rgba(255,255,255,0.14);
 
-/* Tooltip */
-.tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted var(--indigo);
-  cursor: help;
-  color: var(--indigo);
+  --tp:  #F0F6FC;
+  --ts:  #A8B4C0;
+  --tm:  #6E7B8A;
+  --tl:  #3D4956;
+
+  --orange:    #FF6B35;
+  --orange-l:  rgba(255,107,53,0.12);
+  --orange-ll: rgba(255,107,53,0.06);
+  --teal:      #2DD4C8;
+  --teal-l:    rgba(45,212,200,0.10);
+  --teal-ll:   rgba(45,212,200,0.05);
+  --amber:     #F59E0B;
+  --amber-l:   rgba(245,158,11,0.12);
+  --green:     #34D399;
+  --green-l:   rgba(52,211,153,0.10);
+  --red:       #F87171;
+  --red-l:     rgba(248,113,113,0.10);
+  --purple:    #A78BFA;
+  --purple-l:  rgba(167,139,250,0.10);
+
+  --sidebar-w: 240px;
+  --header-h:  64px;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--tp);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--tl); }
+
+/* ── Layout ── */
+.app { display: flex; min-height: 100vh; }
+
+/* ── Sidebar ── */
+.sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  background: var(--bg-2);
+  border-right: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  z-index: 100;
+}
+
+.sidebar-brand {
+  padding: 24px 20px 20px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.sidebar-brand-title {
+  font-family: 'Fraunces', serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--tp);
+  letter-spacing: -0.02em;
+  line-height: 1.3;
+}
+.sidebar-brand-sub {
+  font-size: 11px;
+  color: var(--tm);
+  margin-top: 3px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   font-weight: 500;
 }
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 220px;
-  background-color: var(--tp);
-  color: #fff;
-  text-align: left;
-  border-radius: 6px;
-  padding: 8px 10px;
-  position: absolute;
-  z-index: 1000;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -110px;
-  opacity: 0;
-  transition: opacity 0.2s;
+
+.sidebar-nav { padding: 12px 0; flex: 1; }
+.sidebar-section-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--tl);
+  padding: 10px 20px 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 20px;
   font-size: 13px;
-  line-height: 1.4;
-  font-weight: 400;
+  font-weight: 500;
+  color: var(--ts);
+  cursor: pointer;
+  border-left: 2px solid transparent;
+  transition: all 0.15s;
+  text-decoration: none;
+  position: relative;
 }
-.tooltip .tooltiptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: var(--tp) transparent transparent transparent;
+.nav-item:hover { color: var(--tp); background: var(--bg-3); }
+.nav-item.active {
+  color: var(--orange);
+  border-left-color: var(--orange);
+  background: var(--orange-ll);
+  font-weight: 600;
 }
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
+.nav-item .nav-ico {
+  font-size: 14px;
+  flex-shrink: 0;
+  width: 18px;
+  text-align: center;
 }
-
-/* Layout */
-.page{display:grid;grid-template-columns:1fr;grid-template-rows:auto 1fr;overflow:hidden;}
-
-/* Header */
-.hdr{grid-column:1;grid-row:1;background:var(--surface);border-bottom:1px solid var(--border);z-index:100;display:flex;flex-direction:column;}
-.hdr-top{display:flex;align-items:center;padding:16px 32px;border-bottom:1px solid var(--border);min-height:70px;}
-.hdr-brand{display:flex;align-items:center;gap:24px;}
-.logo{width:40px;height:40px;background:linear-gradient(135deg, #CC9B7A 0%, #D4A574 100%);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 10px rgba(204,155,122,0.3);}
-.logo svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.brand{font-size:20px;font-weight:700;color:var(--tp);letter-spacing:-0.03em;}
-.brand-sub{font-size:12px;color:var(--tm);font-weight:500;margin-top:2px;}
-.hdr-actions{margin-left:auto;display:flex;gap:24px;}
-.hdr-btn{padding:8px 16px;border-radius:8px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all 0.15s;}
-.hdr-btn.primary{background:#FF6B35;color:#fff;}
-.hdr-btn.primary:hover{background:#FF5722;transform:translateY(-1px);box-shadow:0 4px 12px rgba(255,107,53,0.4);}
-.hdr-btn.secondary{background:var(--s2);color:var(--tp);}
-.hdr-btn.secondary:hover{background:var(--s3);}
-
-/* Horizontal Nav */
-/* Modern Elegant Horizontal Nav */
-.hdr{position:sticky;top:0;z-index:1000;background:var(--bg);}
-.hdr-nav{
-  display:flex;
-  align-items:center;
-  padding:0 32px;
-  gap:4px;
-  overflow-x:auto;
-  overflow-y:hidden;
-  background:linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(250,250,250,0.95) 100%);
-  backdrop-filter:blur(10px);
-  min-height:56px;
-  border-bottom:1px solid rgba(0,0,0,0.06);
-  box-shadow:0 2px 8px rgba(0,0,0,0.04);
-  position:sticky;
-  top:0;
-  z-index:100;
+.nav-item .nav-badge {
+  margin-left: auto;
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--bg-4);
+  color: var(--tm);
 }
 
-.hdr-nav-item{
-  position:relative;
-  padding:16px 24px;
-  font-size:14px;
-  font-weight:500;
-  color:var(--ts);
-  cursor:pointer;
-  transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  white-space:nowrap;
-  background:transparent;
-  border:none;
-  flex-shrink:0;
-  border-radius:0;
-  letter-spacing:0.01em;
+/* ── Main ── */
+.main {
+  flex: 1;
+  min-width: 0;
+  overflow-y: auto;
 }
 
-.hdr-nav-item::after{
-  content:'';
-  position:absolute;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%) scaleX(0);
-  width:80%;
-  height:3px;
-  background:linear-gradient(90deg, var(--orange) 0%, var(--coral) 100%);
-  border-radius:3px 3px 0 0;
-  transition:transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* ── Page ── */
+.page { display: none; }
+.page.active { display: block; }
+
+/* ── Work in Progress ── */
+.wip-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 40px;
+  text-align: center;
+}
+.wip-illo {
+  margin-bottom: 32px;
+  animation: float 4s ease-in-out infinite;
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.wip-title {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--tp);
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+.wip-sub {
+  font-size: 15px;
+  color: var(--tm);
+  max-width: 360px;
+  line-height: 1.6;
+}
+.wip-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 20px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: var(--orange-l);
+  border: 1px solid rgba(255,107,53,0.25);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--orange);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
 }
 
-.hdr-nav-item:hover{
-  color:var(--tp);
-  background:linear-gradient(180deg, rgba(255,107,53,0.08) 0%, rgba(255,107,53,0.03) 100%);
+/* ── Intro Page ── */
+.intro-page { padding: 56px 64px 120px; max-width: 1100px; }
+
+.page-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+.page-h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 42px;
+  font-weight: 700;
+  color: var(--tp);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+.page-lead {
+  font-size: 16px;
+  color: var(--ts);
+  line-height: 1.75;
+  max-width: 760px;
+  margin-bottom: 0;
+  font-weight: 300;
 }
 
-.hdr-nav-item:hover::after{
-  transform:translateX(-50%) scaleX(0.6);
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 48px 0;
 }
 
-.hdr-nav-item.active{
-  color:#FF6B35;
-  font-weight:600;
-  background:transparent;
+/* ── Section Headings ── */
+.sec-h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--tp);
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+.sec-lead {
+  font-size: 15px;
+  color: var(--ts);
+  line-height: 1.7;
+  max-width: 760px;
+  margin-bottom: 32px;
+  font-weight: 300;
+}
+.sec-h3 {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--orange);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.sec-h3::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
 }
 
-.hdr-nav-item.active::after{
-  transform:translateX(-50%) scaleX(1);
-  background:linear-gradient(90deg, var(--orange) 0%, var(--teal) 100%);
-  height:3px;
-  box-shadow:0 2px 8px rgba(255,107,53,0.4);
+/* ── Rating Stars ── */
+.stars { font-size: 14px; letter-spacing: 1px; white-space: nowrap; }
+.stars .s-filled { color: var(--amber); }
+.stars .s-half { color: var(--amber); opacity: 0.5; }
+.stars .s-empty { color: var(--tl); }
+
+/* ── Analysis Table ── */
+.analysis-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  font-size: 14px;
+  margin-bottom: 40px;
+}
+.analysis-table thead tr {
+  background: var(--bg-3);
+}
+.analysis-table th {
+  padding: 11px 16px;
+  text-align: left;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--tm);
+  border-bottom: 1px solid var(--border);
+}
+.analysis-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  color: var(--ts);
+}
+.analysis-table tbody tr:last-child td { border-bottom: none; }
+.analysis-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
+.analysis-table td.deliverable {
+  font-weight: 600;
+  color: var(--tp);
+  min-width: 180px;
+}
+.tool-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.tool-badge.claude-code  { background: var(--teal-l); border-color: rgba(45,212,200,0.25); color: var(--teal); }
+.tool-badge.claude-skills{ background: var(--orange-l); border-color: rgba(255,107,53,0.25); color: var(--orange); }
+.tool-badge.figjam       { background: var(--purple-l); border-color: rgba(167,139,250,0.25); color: var(--purple); }
+.tool-badge.figma        { background: var(--red-l); border-color: rgba(248,113,113,0.25); color: var(--red); }
+.tool-badge.figma-make   { background: var(--amber-l); border-color: rgba(245,158,11,0.25); color: var(--amber); }
+
+.tip-inline {
+  display: inline-block;
+  font-size: 12px;
+  color: var(--amber);
+  background: var(--amber-l);
+  border-left: 2px solid var(--amber);
+  padding: 5px 10px;
+  border-radius: 0 4px 4px 0;
+  margin-top: 7px;
+  line-height: 1.5;
 }
 
-.hdr-nav-item.soon{
-  opacity:0.4;
-  cursor:not-allowed;
-  color:var(--tm);
+/* ── Accordion Row ── */
+.accordion-row td { padding: 0 !important; border-bottom: 1px solid var(--border); }
+.accordion-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  cursor: pointer;
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: 14px;
+  gap: 12px;
 }
-
-.hdr-nav-item.soon:hover{
-  background:transparent;
-  color:var(--tm);
+.accordion-trigger:hover { background: rgba(255,255,255,0.02); }
+.accordion-trigger-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 0;
 }
-
-.hdr-nav-item.soon::after{
-  display:none;
+.accordion-chevron {
+  font-size: 11px;
+  color: var(--tm);
+  transition: transform 0.2s;
+  flex-shrink: 0;
 }
-
-/* Smooth scroll behavior for nav */
-.hdr{position:sticky;top:0;z-index:1000;background:var(--bg);}
-.hdr-nav{
-  scrollbar-width:thin;
-  scrollbar-color:rgba(255,107,53,0.3) transparent;
+.accordion-row.open .accordion-chevron { transform: rotate(90deg); }
+.accordion-body {
+  display: none;
+  padding: 0 16px 14px 16px;
+  background: var(--bg);
 }
-
-.hdr-nav::-webkit-scrollbar{
-  height:4px;
+.accordion-row.open .accordion-body { display: block; }
+.sub-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  margin-bottom: 8px;
 }
-
-.hdr-nav::-webkit-scrollbar-track{
-  background:transparent;
+.sub-item:last-child { margin-bottom: 0; }
+.sub-item-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tp);
+  flex: 1;
 }
+.sub-item-tool { margin-left: auto; flex-shrink: 0; }
 
-.hdr-nav::-webkit-scrollbar-thumb{
-  background:rgba(255,107,53,0.3);
-  border-radius:2px;
-}
+/* ── Accent section strip ── */
+.section-block { margin-bottom: 52px; }
 
-.hdr-nav::-webkit-scrollbar-thumb:hover{
-  background:rgba(255,107,53,0.5);
-}
-
-/* Content Grid */
-.content-grid{display:grid;grid-template-columns:var(--nav-w) 1fr;grid-row:2;}
-
-/* Left Sidebar (Page Sections) */
-.sidebar{
-  background:var(--surface);
-  border-right:1px solid var(--border);
-  overflow:visible;
-  padding:24px 0;
-  width:var(--nav-w);
-  display:block;
-  position:relative;
-  align-self:start;
-}
-.sidebar[style*="display: none"]{display:none !important;width:0 !important;padding:0 !important;border:none !important;}
-.sidebar.hidden{display:none !important;width:0 !important;padding:0 !important;border:none !important;}
-.content-grid:has(.sidebar[style*="display: none"]), .content-grid:has(.sidebar.hidden){grid-template-columns:1fr !important;}
-.sidebar, .sidebar *{list-style:none !important;list-style-type:none !important;margin:0;padding-left:0 !important;}
-.sidebar::before, .sidebar::after, .sidebar *::before, .sidebar *::after{content:none !important;}
-.sidebar-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--tm);padding:0 24px !important;margin-bottom:12px;display:block;}
-.sidebar-item{display:flex !important;align-items:center;gap:24px;padding:10px 24px !important;font-size:14px;font-weight:500;color:var(--ts);border-left:3px solid transparent;transition:all 0.15s;cursor:pointer;margin:0 !important;}
-.sidebar-item:hover{color:var(--tp);background:var(--s2);}
-.sidebar-item.active{color:#FF6B35;border-left-color:#FF6B35;background:rgba(255,107,53,0.1);font-weight:600;}
-.sidebar-pip{width:5px;height:5px;border-radius:50%;flex-shrink:0;display:block;}
-
-/* Main */
-.main{
-  padding:40px 56px 120px 56px;
-  background:var(--bg);
-  position:relative;
-  min-height:100vh;
-}
-
-/* Intro */
-.intro{margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid var(--border);}
-.intro-eye{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:6px;}
-.intro-h{font-family:'Roboto Flex',sans-serif;font-size:34px;font-weight:700;color:var(--tp);letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px;}
-.chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
-.chip{font-size:13px;padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--ts);font-weight:500;}
-.chip.i{background:var(--indigo-l);border-color:var(--indigo-b);color:var(--indigo);}
-.chip.t{background:var(--teal-l);border-color:var(--teal-b);color:var(--teal);}
-
-/* Section */
-.section{margin-bottom:64px;scroll-margin-top:20px;}
-.sec-hd{display:flex;align-items:center;gap:24px;padding-bottom:16px;margin-bottom:24px;border-bottom:1px solid var(--border);}
-.sec-ico{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-.sec-title{font-size:24px;font-weight:700;color:var(--tp);letter-spacing:-0.02em;}
-
-/* Cards */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
-.card.red{border-color:var(--red-b);background:var(--red-l);}
-.card.teal{border-color:var(--teal-b);background:var(--teal-l);}
-.card.green{border-color:var(--green-b);background:var(--green-l);}
-.card-title{font-size:16px;font-weight:600;color:var(--tp);margin-bottom:6px;}
-.card-body{font-size:15px;color:var(--ts);line-height:1.6;}
-
-/* Subsection */
-.subsec{margin-top:24px;}
-
-/* Tags */
-.tag{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;padding:4px 10px;border-radius:20px;display:inline-block;margin-bottom:8px;border:1px solid transparent;}
-.tag.red{background:var(--red-l);color:var(--red);border-color:var(--red-b);}
-.tag.green{background:var(--green-l);color:var(--green);border-color:var(--green-b);}
-
-/* Grid layouts */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-top:16px;}
-
-/* Callout */
-.callout{display:flex;gap:24px;padding:16px 20px;border-radius:12px;margin-top:16px;font-size:15px;line-height:1.7;border:1px solid transparent;}
-.callout.teal{background:var(--teal-l);border-color:var(--teal-b);color:var(--ts);}
-.callout-ico{font-size:18px;flex-shrink:0;margin-top:2px;}
-.callout strong{color:var(--tp);font-weight:600;}
-
-/* Table */
-.tbl{width:100%;border-collapse:collapse;margin-top:16px;border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:15px;}
-.tbl th{font-size:13px;font-weight:600;color:var(--ts);text-align:left;padding:12px 16px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:0.06em;background:var(--s2);}
-.tbl td{padding:14px 16px;border-bottom:1px solid var(--s3);color:var(--ts);vertical-align:top;}
-.tbl tr:last-child td{border-bottom:none;}
-.tbl td:first-child{color:var(--tp);font-weight:600;}
-.mono{font-family:'Roboto Mono',monospace;font-size:13px;background:var(--s2);border:1px solid var(--border);padding:2px 6px;border-radius:4px;color:var(--green);}
-
-/* Coming soon */
-.coming-soon{text-align:center;padding:120px 40px;}
-.coming-soon-icon{font-size:64px;margin-bottom:24px;opacity:0.3;}
-.coming-soon h2{font-size:32px;font-weight:700;color:var(--tp);margin-bottom:12px;}
-.coming-soon p{font-size:16px;color:var(--ts);line-height:1.6;}
-
-@media(max-width:1200px){
-  .content-grid{grid-template-columns:1fr;}
-  .sidebar{display:none;}
-  .main{padding:32px 24px 120px 24px;}
-  .g2,.g3{grid-template-columns:1fr;}
+/* ── Responsive ── */
+@media(max-width: 900px) {
+  .sidebar { display: none; }
+  .intro-page { padding: 32px 24px 80px; }
 }
 </style>
 </head>
 <body>
-<div class="page">
 
-<!-- HEADER -->
-<header class="hdr">
-  <div class="hdr-top">
-    <div class="hdr-brand">
-      <div class="logo">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-          <path d="M8 12h8M12 8v8"/>
-        </svg>
-      </div>
-      <div>
-        <div class="brand">Claude for Designers</div>
-        <div class="brand-sub">The Complete Playbook</div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Horizontal Navigation -->
-  <div class="hdr-nav">
-    <div class="hdr-nav-item active" onclick="switchSection('getting-started')">🚀 Getting Started</div>
-    <div class="hdr-nav-item" onclick="switchSection('claude-md')">📄 CLAUDE.md</div>
-    <div class="hdr-nav-item" onclick="switchSection('skills')">📚 Claude Skills</div>
-  </div>
-</header>
+<div class="app">
 
-<!-- CONTENT GRID -->
-<div class="content-grid">
-  
-  <!-- LEFT SIDEBAR (Page Sections) -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-title">On This Page</div>
-    <div class="sidebar-item active" onclick="scrollToSection('what-is')">
-      <div class="sidebar-pip" style="background:var(--indigo);"></div>
-      <span>What is CLAUDE.md?</span>
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="sidebar-brand-title">AI Design<br>Playbook</div>
+      <div class="sidebar-brand-sub">Enterprise Edition · v2.0</div>
     </div>
-    <div class="sidebar-item" onclick="scrollToSection('vs-figma')">
-      <div class="sidebar-pip" style="background:var(--purple);"></div>
-      <span>vs Figma Design System</span>
-    </div>
-    <div class="sidebar-item" onclick="scrollToSection('vs-skills')">
-      <div class="sidebar-pip" style="background:var(--amber);"></div>
-      <span>vs Skills</span>
-    </div>
+    <nav class="sidebar-nav">
+      <div class="sidebar-section-label">Contents</div>
+      <div class="nav-item active" onclick="showPage('intro')">
+        <span class="nav-ico">✦</span> Intro
+      </div>
+      <div class="nav-item" onclick="showPage('setup')">
+        <span class="nav-ico">⚙</span> Setting up Claude Code
+        <span class="nav-badge">Soon</span>
+      </div>
+      <div class="nav-item" onclick="showPage('ui')">
+        <span class="nav-ico">◧</span> Building UI Screens
+        <span class="nav-badge">Soon</span>
+      </div>
+      <div class="nav-item" onclick="showPage('ds')">
+        <span class="nav-ico">◈</span> Design System Governance
+        <span class="nav-badge">Soon</span>
+      </div>
+      <div class="nav-item" onclick="showPage('skills')">
+        <span class="nav-ico">◎</span> Claude Skills
+        <span class="nav-badge">Soon</span>
+      </div>
+      <div class="nav-item" onclick="showPage('resources')">
+        <span class="nav-ico">⊞</span> Resources
+        <span class="nav-badge">Soon</span>
+      </div>
+    </nav>
   </aside>
 
-  <!-- MAIN CONTENT -->
-  <main class="main" id="main-content">
-    <!-- Content will be loaded here -->
+  <!-- ── Main Content ── -->
+  <main class="main">
+
+    <!-- ══════════════════════════════
+         PAGE: INTRO
+    ══════════════════════════════ -->
+    <div class="page active" id="page-intro">
+      <div class="intro-page">
+
+        <div class="page-eyebrow">POC Playbook</div>
+        <h1 class="page-h1">Intro</h1>
+        <p class="page-lead">This playbook is a practical framework for integrating AI into enterprise product design workflows — governed experimentations, reusable prompting systems, workflow automation, and human-led validation.</p>
+
+        <div class="divider"></div>
+
+        <!-- Best use of AI -->
+        <div class="section-block">
+          <h2 class="sec-h2">Best Use of AI</h2>
+          <p class="sec-lead">During this POC, we focused on using mainly two tools — Claude Code and Figma Make — and measured their impact on our workflow by the quality of output produced at different stages.</p>
+
+          <!-- UX Analysis -->
+          <div class="section-block">
+            <div class="sec-h3">UX Analysis</div>
+            <table class="analysis-table">
+              <thead>
+                <tr>
+                  <th style="width:200px;">Deliverable</th>
+                  <th style="width:140px;">Tool</th>
+                  <th>You Need</th>
+                  <th>What It Does</th>
+                  <th style="width:110px;">Rating</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <!-- Personas -->
+                <tr>
+                  <td class="deliverable">Creating Personas</td>
+                  <td><span class="tool-badge claude-code">Claude Code</span></td>
+                  <td>Interview insights or research notes</td>
+                  <td>
+                    Converts research into structured user personas
+                    <div class="tip-inline">👉 Include goals, frustrations, behaviors — not just demographics</div>
+                  </td>
+                  <td>
+                    <div class="stars">
+                      <span class="s-filled">★★★</span>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Workflow Diagram -->
+                <tr>
+                  <td class="deliverable">Workflow Diagram</td>
+                  <td><span class="tool-badge figjam">FigJam</span></td>
+                  <td>Entry points + user goals</td>
+                  <td>
+                    Maps how users move across the product
+                    <div class="tip-inline">👉 Think: "Start → explore → complete goal"</div>
+                  </td>
+                  <td>
+                    <div class="stars">
+                      <span class="s-filled">★★★</span>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Heuristic Evaluation -->
+                <tr>
+                  <td class="deliverable">Heuristic Evaluation Report</td>
+                  <td><span class="tool-badge claude-skills">Claude Skills</span></td>
+                  <td>Screens or user flows</td>
+                  <td>
+                    Reviews your UI against usability principles
+                    <div class="tip-inline">👉 Paste screenshots + context → ask for usability issues + severity</div>
+                  </td>
+                  <td>
+                    <div class="stars">
+                      <span class="s-filled">★★★</span>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Accessibility Audit -->
+                <tr>
+                  <td class="deliverable">Accessibility Audit Report</td>
+                  <td><span class="tool-badge claude-skills">Claude Skills</span></td>
+                  <td>Screens or product</td>
+                  <td>Generates audit reports against WCAG standards</td>
+                  <td>
+                    <div class="stars">
+                      <span class="s-filled">★★★</span>
+                    </div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+          <!-- UX Design -->
+          <div class="section-block">
+            <div class="sec-h3">UX Design</div>
+            <table class="analysis-table">
+              <thead>
+                <tr>
+                  <th style="width:200px;">Deliverable</th>
+                  <th style="width:160px;">Tool</th>
+                  <th>You Need / What It Does</th>
+                  <th style="width:110px;">Rating</th>
+                </tr>
+              </thead>
+              <tbody>
+
+                <!-- High Fidelity -->
+                <tr>
+                  <td class="deliverable">High-Fidelity Designs</td>
+                  <td><span class="tool-badge figma-make">Figma Make</span><br><span style="font-size:11px;color:var(--tm);margin-top:4px;display:block;">Claude Sonnet 4.6</span></td>
+                  <td>
+                    <span style="color:var(--ts);">Wireframes + design direction → Final polished UI</span>
+                    <div class="tip-inline">👉 This is where human control matters most</div>
+                  </td>
+                  <td>
+                    <div class="stars">
+                      <span class="s-filled">★★</span><span class="s-half">★</span><span class="s-empty">½</span>
+                    </div>
+                    <div style="font-size:11px;color:var(--tm);margin-top:4px;">Better than average</div>
+                  </td>
+                </tr>
+
+                <!-- Building Design System — Accordion -->
+                <tr class="accordion-row" id="ds-accordion">
+                  <td colspan="4">
+                    <button class="accordion-trigger" onclick="toggleAccordion('ds-accordion')">
+                      <div class="accordion-trigger-left">
+                        <span style="font-weight:600;color:var(--tp);font-size:14px;">Building Design System</span>
+                        <span style="font-size:12px;color:var(--tm);">— expand to see sub-tasks</span>
+                      </div>
+                      <div style="display:flex;align-items:center;gap:16px;">
+                        <div class="stars"><span class="s-filled">★★★</span></div>
+                        <span class="accordion-chevron">▶</span>
+                      </div>
+                    </button>
+                    <div class="accordion-body">
+                      <div class="sub-item">
+                        <div class="sub-item-label">2.1 &nbsp;Defining Tokens</div>
+                        <span class="tool-badge claude-code">Claude Code</span>
+                        <div class="sub-item-tool stars"><span class="s-filled">★★★</span></div>
+                      </div>
+                      <div class="sub-item">
+                        <div class="sub-item-label">2.2 &nbsp;Building Components</div>
+                        <span class="tool-badge claude-code">Claude Code</span>
+                        <div class="sub-item-tool stars"><span class="s-filled">★★★</span></div>
+                      </div>
+                      <div class="sub-item">
+                        <div class="sub-item-label">2.3 &nbsp;Design System Documentation</div>
+                        <span class="tool-badge claude-code">Claude Code</span>
+                        <div class="sub-item-tool stars"><span class="s-filled">★★★</span></div>
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
+                <!-- Design System Integration -->
+                <tr>
+                  <td class="deliverable">Design System Integration</td>
+                  <td>
+                    <span class="tool-badge figma-make">Figma Make</span>
+                    <span style="display:block;margin-top:4px;"></span>
+                    <span class="tool-badge claude-code" style="margin-top:4px;">Claude Code</span>
+                  </td>
+                  <td>
+                    <span style="color:var(--ts);">Does not apply design system universally — requires manual intervention</span>
+                  </td>
+                  <td>
+                    <div class="stars">
+                      <span class="s-filled">★</span><span class="s-empty">★★</span>
+                    </div>
+                    <div style="font-size:11px;color:var(--red);margin-top:4px;">Poor</div>
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         PAGE: SETTING UP CLAUDE CODE
+    ══════════════════════════════ -->
+    <div class="page" id="page-setup">
+      <div class="wip-screen">
+        <div class="wip-illo">
+          <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="70" cy="70" r="60" fill="#161B22" stroke="#21262D" stroke-width="2"/>
+            <rect x="42" y="50" width="56" height="42" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
+            <rect x="48" y="57" width="22" height="3" rx="1.5" fill="#FF6B35" opacity="0.8"/>
+            <rect x="48" y="63" width="34" height="2" rx="1" fill="#3D4956"/>
+            <rect x="48" y="68" width="28" height="2" rx="1" fill="#3D4956"/>
+            <rect x="48" y="73" width="32" height="2" rx="1" fill="#2DD4C8" opacity="0.6"/>
+            <rect x="48" y="78" width="20" height="2" rx="1" fill="#3D4956"/>
+            <circle cx="98" cy="44" r="16" fill="#21262D" stroke="#FF6B35" stroke-width="1.5"/>
+            <path d="M93 44l3.5 3.5L105 38" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
+            <text x="94" y="49" font-size="14" fill="#FF6B35" font-family="sans-serif">✦</text>
+            <rect x="52" y="92" width="36" height="6" rx="3" fill="#2D333B"/>
+            <path d="M55 95h10M69 95h6" stroke="#6E7B8A" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="wip-title">Coming Soon</div>
+        <div class="wip-sub">Setting up Claude Code — installation, configuration, and your first session with the terminal agent.</div>
+        <div class="wip-pill">🛠 Work in progress</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         PAGE: BUILDING UI SCREENS
+    ══════════════════════════════ -->
+    <div class="page" id="page-ui">
+      <div class="wip-screen">
+        <div class="wip-illo">
+          <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="70" cy="70" r="60" fill="#161B22" stroke="#21262D" stroke-width="2"/>
+            <rect x="30" y="38" width="80" height="66" rx="6" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
+            <rect x="30" y="38" width="80" height="14" rx="6" fill="#2D333B"/>
+            <rect x="30" y="46" width="80" height="6" fill="#2D333B"/>
+            <circle cx="40" cy="45" r="3" fill="#F87171" opacity="0.7"/>
+            <circle cx="50" cy="45" r="3" fill="#F59E0B" opacity="0.7"/>
+            <circle cx="60" cy="45" r="3" fill="#34D399" opacity="0.7"/>
+            <rect x="38" y="60" width="30" height="20" rx="3" fill="#2D333B"/>
+            <rect x="38" y="62" width="30" height="4" rx="1" fill="#2DD4C8" opacity="0.4"/>
+            <rect x="40" y="68" width="20" height="2" rx="1" fill="#3D4956"/>
+            <rect x="40" y="72" width="14" height="2" rx="1" fill="#3D4956"/>
+            <rect x="72" y="60" width="30" height="8" rx="3" fill="#FF6B35" opacity="0.2"/>
+            <rect x="74" y="63" width="18" height="2" rx="1" fill="#FF6B35" opacity="0.6"/>
+            <rect x="72" y="72" width="30" height="8" rx="3" fill="#2D333B"/>
+            <rect x="74" y="75" width="22" height="2" rx="1" fill="#3D4956"/>
+            <rect x="38" y="84" width="64" height="6" rx="3" fill="#FF6B35" opacity="0.15"/>
+            <rect x="55" y="86" width="30" height="2" rx="1" fill="#FF6B35" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="wip-title">Coming Soon</div>
+        <div class="wip-sub">Building UI Screens — prompting strategies, iteration loops, and getting production-ready output from Figma Make.</div>
+        <div class="wip-pill">🎨 Work in progress</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         PAGE: DESIGN SYSTEM GOVERNANCE
+    ══════════════════════════════ -->
+    <div class="page" id="page-ds">
+      <div class="wip-screen">
+        <div class="wip-illo">
+          <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="70" cy="70" r="60" fill="#161B22" stroke="#21262D" stroke-width="2"/>
+            <rect x="54" y="34" width="32" height="32" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
+            <rect x="60" y="41" width="10" height="10" rx="2" fill="#FF6B35" opacity="0.7"/>
+            <rect x="73" y="41" width="7" height="3" rx="1" fill="#3D4956"/>
+            <rect x="73" y="46" width="9" height="2" rx="1" fill="#3D4956"/>
+            <rect x="60" y="54" width="20" height="2" rx="1" fill="#3D4956"/>
+            <rect x="60" y="58" width="14" height="2" rx="1" fill="#2DD4C8" opacity="0.5"/>
+            <!-- bottom left -->
+            <rect x="30" y="76" width="32" height="32" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
+            <circle cx="46" cy="88" r="6" fill="#2DD4C8" opacity="0.2" stroke="#2DD4C8" stroke-width="1.5"/>
+            <rect x="35" y="98" width="22" height="2" rx="1" fill="#3D4956"/>
+            <rect x="37" y="102" width="16" height="2" rx="1" fill="#3D4956"/>
+            <!-- bottom right -->
+            <rect x="78" y="76" width="32" height="32" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
+            <rect x="84" y="83" width="20" height="3" rx="1.5" fill="#A78BFA" opacity="0.7"/>
+            <rect x="84" y="89" width="14" height="2" rx="1" fill="#3D4956"/>
+            <rect x="84" y="93" width="18" height="2" rx="1" fill="#3D4956"/>
+            <rect x="84" y="99" width="10" height="2" rx="1" fill="#3D4956"/>
+            <!-- connecting lines -->
+            <path d="M70 66 L46 76" stroke="#3D4956" stroke-width="1" stroke-dasharray="3 2"/>
+            <path d="M70 66 L94 76" stroke="#3D4956" stroke-width="1" stroke-dasharray="3 2"/>
+          </svg>
+        </div>
+        <div class="wip-title">Coming Soon</div>
+        <div class="wip-sub">Design System Governance — tokens, components, documentation, and keeping Claude aligned with your system.</div>
+        <div class="wip-pill">◈ Work in progress</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         PAGE: CLAUDE SKILLS
+    ══════════════════════════════ -->
+    <div class="page" id="page-skills">
+      <div class="wip-screen">
+        <div class="wip-illo">
+          <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="70" cy="70" r="60" fill="#161B22" stroke="#21262D" stroke-width="2"/>
+            <rect x="36" y="44" width="68" height="14" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
+            <rect x="41" y="49" width="18" height="4" rx="2" fill="#FF6B35" opacity="0.7"/>
+            <rect x="63" y="50" width="30" height="2" rx="1" fill="#3D4956"/>
+            <rect x="36" y="62" width="68" height="14" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
+            <rect x="41" y="67" width="18" height="4" rx="2" fill="#2DD4C8" opacity="0.7"/>
+            <rect x="63" y="68" width="24" height="2" rx="1" fill="#3D4956"/>
+            <rect x="36" y="80" width="68" height="14" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
+            <rect x="41" y="85" width="18" height="4" rx="2" fill="#A78BFA" opacity="0.7"/>
+            <rect x="63" y="86" width="28" height="2" rx="1" fill="#3D4956"/>
+            <circle cx="100" cy="96" r="14" fill="#21262D" stroke="#FF6B35" stroke-width="1.5"/>
+            <path d="M95 96l3.5 3.5 6.5-7" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="wip-title">Coming Soon</div>
+        <div class="wip-sub">Claude Skills — building reusable instruction sets that encode your design expertise and scale it across the team.</div>
+        <div class="wip-pill">◎ Work in progress</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         PAGE: RESOURCES
+    ══════════════════════════════ -->
+    <div class="page" id="page-resources">
+      <div class="wip-screen">
+        <div class="wip-illo">
+          <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="70" cy="70" r="60" fill="#161B22" stroke="#21262D" stroke-width="2"/>
+            <rect x="44" y="38" width="36" height="46" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
+            <rect x="50" y="46" width="24" height="3" rx="1.5" fill="#FF6B35" opacity="0.7"/>
+            <rect x="50" y="52" width="20" height="2" rx="1" fill="#3D4956"/>
+            <rect x="50" y="56" width="22" height="2" rx="1" fill="#3D4956"/>
+            <rect x="50" y="60" width="16" height="2" rx="1" fill="#3D4956"/>
+            <rect x="50" y="64" width="20" height="2" rx="1" fill="#3D4956"/>
+            <rect x="50" y="68" width="12" height="2" rx="1" fill="#2DD4C8" opacity="0.5"/>
+            <rect x="60" y="50" width="36" height="46" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
+            <rect x="66" y="58" width="24" height="3" rx="1.5" fill="#2DD4C8" opacity="0.7"/>
+            <rect x="66" y="64" width="20" height="2" rx="1" fill="#3D4956"/>
+            <rect x="66" y="68" width="22" height="2" rx="1" fill="#3D4956"/>
+            <rect x="66" y="72" width="16" height="2" rx="1" fill="#3D4956"/>
+            <rect x="66" y="76" width="18" height="2" rx="1" fill="#3D4956"/>
+            <rect x="66" y="80" width="14" height="2" rx="1" fill="#A78BFA" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="wip-title">Coming Soon</div>
+        <div class="wip-sub">Resources — curated links, prompt templates, skill files, and reference materials for the full design team.</div>
+        <div class="wip-pill">⊞ Work in progress</div>
+      </div>
+    </div>
+
   </main>
-
-</div>
-
 </div>
 
 <script>
-// Store page content
-const pageContent = {};
-
-// CLAUDE.MD REFERENCE CONTENT (from index-trimmed.html)
-pageContent['claude-md-reference'] = `
-  <div class="intro">
-    <h1 class="intro-h">CLAUDE.md</h1>
-    <div style="font-size:17px;color:var(--ts);line-height:1.7;max-width:880px;">
-      Your project's instruction manual for Claude. Simple, effective, essential.
-    </div>
-  </div>
-
-  <!-- Main Section: What's CLAUDE.md? -->
-  <section class="section">
-    <div class="sec-hd">
-      <div class="sec-ico">📄</div>
-      <div class="sec-title">What's CLAUDE.md?</div>
-    </div>
-
-    <!-- What is Claude.md? -->
-    <div style="margin-bottom:48px;">
-      <h3 style="font-size:22px;font-weight:600;color:var(--tp);margin:0 0 16px 0;">What is Claude.md?</h3>
-      <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0;">
-        CLAUDE.md is a simple text file that lives in your project folder. When you start working with Claude, it automatically reads this file first. Think of it like giving Claude a quick briefing document about your project before every conversation—your design system colors, your preferred naming conventions, your "never do this" rules. It's Claude's cheat sheet for working on YOUR specific project.
-      </p>
-    </div>
-
-    <!-- Why is it needed? -->
-    <div style="margin-bottom:48px;">
-      <h3 style="font-size:22px;font-weight:600;color:var(--tp);margin:0 0 16px 0;">Why is it needed?</h3>
-      <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0 0 20px 0;">
-        Without CLAUDE.md, you'd start every chat from scratch. You'd repeatedly explain "we use this color palette," "buttons should always have rounded corners," "never use inline styles," and so on. It's exhausting and wastes time.
-      </p>
-      <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0;">
-        With CLAUDE.md, Claude already knows your project rules. You write them once, and Claude remembers them forever. Every component it generates, every code suggestion it makes—all automatically aligned with your project standards. It's like having a teammate who actually reads and remembers the project documentation.
-      </p>
-    </div>
-
-    <!-- When to use? -->
-    <div style="margin-bottom:48px;">
-      <h3 style="font-size:22px;font-weight:600;color:var(--tp);margin:0 0 16px 0;">When to use?</h3>
-      <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0 0 20px 0;">
-        Use CLAUDE.md when:
-      </p>
-      <ul style="font-size:16px;line-height:1.8;color:var(--ts);max-width:800px;margin:0;padding-left:24px;">
-        <li><strong>You have a design system</strong> — Colors, typography, spacing rules that need to be followed consistently</li>
-        <li><strong>You're working on a real project</strong> — Not just experimenting, but building something that will ship</li>
-        <li><strong>You have naming conventions</strong> — Specific ways you name CSS classes, components, or files</li>
-        <li><strong>Multiple people are involved</strong> — Your whole team can use Claude and get consistent results</li>
-        <li><strong>You've learned lessons the hard way</strong> — Browser bugs, accessibility gotchas, things that broke before and shouldn't happen again</li>
-      </ul>
-    </div>
-
-    <!-- How to write Claude.md effectively -->
-    <div style="margin-bottom:48px;">
-      <h3 style="font-size:22px;font-weight:600;color:var(--tp);margin:0 0 16px 0;">How to write Claude.md effectively</h3>
-      <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0 0 24px 0;">
-        A good CLAUDE.md file for designers includes these sections with real examples:
-      </p>
-
-      <style>
-        .accordion-minimal {
-          border-bottom: 1px solid var(--border);
-          padding: 20px 0;
-        }
-        .accordion-minimal:first-child {
-          border-top: 1px solid var(--border);
-        }
-        .accordion-minimal-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          cursor: pointer;
-          padding: 8px 0;
-        }
-        .accordion-minimal-header:hover .accordion-minimal-title {
-          color: var(--orange);
-        }
-        .accordion-minimal-title {
-          font-size: 18px;
-          font-weight: 600;
-          color: var(--tp);
-          transition: color 0.2s;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-        .accordion-minimal-icon {
-          font-size: 20px;
-          color: var(--tm);
-          transition: transform 0.3s;
-        }
-        .accordion-minimal.active .accordion-minimal-icon {
-          transform: rotate(45deg);
-        }
-        .accordion-minimal-content {
-          max-height: 0;
-          overflow: hidden;
-          transition: max-height 0.3s ease;
-        }
-        .accordion-minimal.active .accordion-minimal-content {
-          max-height: 600px;
-        }
-        .accordion-minimal-content-inner {
-          padding: 20px 0 8px 0;
-        }
-        .code-snippet {
-          background: var(--s2);
-          border-left: 3px solid var(--orange);
-          padding: 20px;
-          font-family: 'Roboto Mono', monospace;
-          font-size: 14px;
-          line-height: 1.8;
-          color: var(--tp);
-          margin: 16px 0;
-          overflow-x: auto;
-          border-radius: 4px;
-        }
-      </style>
-
-      <div style="max-width:900px;">
-
-        <!-- Accordion 1: Design Tokens -->
-        <div class="accordion-minimal">
-          <div class="accordion-minimal-header" onclick="this.parentElement.classList.toggle('active')">
-            <div class="accordion-minimal-title">
-              <span>🎨</span>
-              <span>Design Tokens & Spacing</span>
-            </div>
-            <div class="accordion-minimal-icon">+</div>
-          </div>
-          <div class="accordion-minimal-content">
-            <div class="accordion-minimal-content-inner">
-              <p style="font-size:15px;color:var(--ts);line-height:1.7;margin:0 0 16px 0;">
-                <strong>What to include:</strong> Your colors, typography, and spacing values. Write them in CSS variable format so Claude can copy-paste directly into code.
-              </p>
-              <div class="code-snippet">## Design Tokens<br><br>Colors:<br>  --primary: #5B5BD6;<br>  --primary-light: #E8E8F8;<br>  --text-primary: #1A1D29;<br>  --text-secondary: #4A5568;<br>  --surface: #FFFFFF;<br>  --border: #E5E7EB;<br><br>Spacing (8px base grid):<br>  xs: 4px<br>  sm: 8px<br>  md: 16px<br>  lg: 24px<br>  xl: 32px<br>  2xl: 48px<br><br>Typography:<br>  H1: 32px / 1.2 · 700 weight<br>  H2: 24px / 1.3 · 600 weight<br>  Body: 16px / 1.6 · 400 weight<br>  Small: 14px / 1.5 · 400 weight</div>
-              <p style="font-size:15px;color:var(--tp);margin:16px 0 0 0;"><strong>💡 Pro tip:</strong> Use exact CSS variable syntax so Claude can copy-paste into your stylesheets.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Accordion 2: Component Patterns -->
-        <div class="accordion-minimal">
-          <div class="accordion-minimal-header" onclick="this.parentElement.classList.toggle('active')">
-            <div class="accordion-minimal-title">
-              <span>🧩</span>
-              <span>Component Patterns</span>
-            </div>
-            <div class="accordion-minimal-icon">+</div>
-          </div>
-          <div class="accordion-minimal-content">
-            <div class="accordion-minimal-content-inner">
-              <p style="font-size:15px;color:var(--ts);line-height:1.7;margin:0 0 16px 0;">
-                <strong>What to include:</strong> Your naming conventions and component structure. Show actual class names and patterns so Claude follows your exact style.
-              </p>
-              <div class="code-snippet">## Components<br><br>Naming: BEM methodology<br>  Block:    .card<br>  Element:  .card__header, .card__body, .card__footer<br>  Modifier: .card--featured, .card--large<br><br>Button patterns:<br>  Base:      .btn<br>  Primary:   .btn .btn--primary<br>  Secondary: .btn .btn--secondary<br>  Sizes:     .btn--sm, .btn--md, .btn--lg<br><br>Layout containers:<br>  .container (max-width: 1200px)<br>  .container--narrow (max-width: 800px)<br><br>NEVER use:<br>  - Generic names (button1, box2)<br>  - camelCase for classes<br>  - Inline styles (use utility classes)</div>
-              <p style="font-size:15px;color:var(--tp);margin:16px 0 0 0;"><strong>💡 Pro tip:</strong> Show actual examples of class names you use, not just rules. Claude learns better from examples.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Accordion 3: Tech Stack -->
-        <div class="accordion-minimal">
-          <div class="accordion-minimal-header" onclick="this.parentElement.classList.toggle('active')">
-            <div class="accordion-minimal-title">
-              <span>⚙️</span>
-              <span>Tech Stack</span>
-            </div>
-            <div class="accordion-minimal-icon">+</div>
-          </div>
-          <div class="accordion-minimal-content">
-            <div class="accordion-minimal-content-inner">
-              <p style="font-size:15px;color:var(--ts);line-height:1.7;margin:0 0 16px 0;">
-                <strong>What to include:</strong> What frameworks and libraries you're using, and importantly, what you're NOT using. Include the "why" when it matters.
-              </p>
-              <div class="code-snippet">## Stack<br><br>HTML:    Vanilla — no framework (React/Vue forbidden)<br>CSS:     Custom properties + utility classes — no Tailwind<br>JS:      Vanilla ES6 modules — no jQuery, no bundler<br>Icons:   Tabler Icons (CDN) — ti-* class names<br>Fonts:   Roboto (body) + Roboto Mono (code/data)<br><br>> Why vanilla? Client maintains the site post-handoff<br>> and doesn't have frontend devs on staff.</div>
-              <p style="font-size:15px;color:var(--tp);margin:16px 0 0 0;"><strong>💡 Pro tip:</strong> Include the "why" for tech choices so Claude understands your constraints, not just preferences.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Accordion 4: Constraints & Gotchas -->
-        <div class="accordion-minimal">
-          <div class="accordion-minimal-header" onclick="this.parentElement.classList.toggle('active')">
-            <div class="accordion-minimal-title">
-              <span>🚫</span>
-              <span>Constraints & Gotchas</span>
-            </div>
-            <div class="accordion-minimal-icon">+</div>
-          </div>
-          <div class="accordion-minimal-content">
-            <div class="accordion-minimal-content-inner">
-              <p style="font-size:15px;color:var(--ts);line-height:1.7;margin:0 0 16px 0;">
-                <strong>What to include:</strong> Your "never do this" rules, browser constraints, accessibility requirements, and past bugs you've fixed.
-              </p>
-              <div class="code-snippet">## Never Do This<br><br>❌ NEVER use jQuery — client requirement<br>❌ NEVER use position: fixed for modals — breaks iOS Safari<br>❌ NEVER forget alt text on images — accessibility requirement<br>❌ NEVER use px for font sizes — use rem for accessibility<br>❌ NEVER mix inline styles — always use classes<br><br>## Browser Support<br><br>Must support: Chrome, Firefox, Safari (desktop + mobile)<br>IE11 support: NO (confirmed with client)<br><br>## Past Bugs Fixed<br><br>BUG-001: Safari flex gap issue<br>  Problem: gap property not supported in Safari 14.0<br>  Solution: Use margin on child elements instead<br><br>BUG-002: Z-index conflicts with header<br>  Problem: Modals appearing behind sticky header<br>  Solution: Header uses z-index: 1000, modals use 2000+</div>
-              <p style="font-size:15px;color:var(--tp);margin:16px 0 0 0;"><strong>💡 Pro tip:</strong> Number your bugs (BUG-001, BUG-002) so you can reference them in future chats with Claude.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Accordion 5: File Structure -->
-        <div class="accordion-minimal">
-          <div class="accordion-minimal-header" onclick="this.parentElement.classList.toggle('active')">
-            <div class="accordion-minimal-title">
-              <span>📁</span>
-              <span>File Structure</span>
-            </div>
-            <div class="accordion-minimal-icon">+</div>
-          </div>
-          <div class="accordion-minimal-content">
-            <div class="accordion-minimal-content-inner">
-              <p style="font-size:15px;color:var(--ts);line-height:1.7;margin:0 0 16px 0;">
-                <strong>What to include:</strong> Your folder organization with exact paths and naming rules. Show the tree structure so Claude knows where to create files.
-              </p>
-              <div class="code-snippet">## File Structure<br><br>src/<br>  components/<br>    button.css<br>    card.css<br>    modal.css<br>    navigation.css<br>  layouts/<br>    header.css<br>    footer.css<br>    sidebar.css<br>  pages/<br>    dashboard.html<br>    profile.html<br>    settings.html<br>  utils/<br>    helpers.js<br>    validators.js<br>  main.css<br>  main.js<br><br>RULES:<br>- One component per file<br>- CSS files match component names exactly<br>- NEVER create new top-level folders without approval<br>- HTML pages go in pages/, not root</div>
-              <p style="font-size:15px;color:var(--tp);margin:16px 0 0 0;"><strong>💡 Pro tip:</strong> Show the actual tree structure so Claude knows exactly where to put new files you ask it to create.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Accordion 6: Code Style -->
-        <div class="accordion-minimal">
-          <div class="accordion-minimal-header" onclick="this.parentElement.classList.toggle('active')">
-            <div class="accordion-minimal-title">
-              <span>✨</span>
-              <span>Code Style Guidelines</span>
-            </div>
-            <div class="accordion-minimal-icon">+</div>
-          </div>
-          <div class="accordion-minimal-content">
-            <div class="accordion-minimal-content-inner">
-              <p style="font-size:15px;color:var(--ts);line-height:1.7;margin:0 0 16px 0;">
-                <strong>What to include:</strong> Specific formatting rules for HTML, CSS, and JavaScript so generated code matches your style perfectly.
-              </p>
-              <div class="code-snippet">## Code Style<br><br>HTML:<br>- Indent: 2 spaces (not tabs)<br>- Attributes: double quotes<br>- Self-closing: no trailing slash (&lt;img&gt; not &lt;img /&gt;)<br>- Boolean attributes: no value (disabled, not disabled="true")<br>- Order: id, class, data-*, other attributes<br><br>CSS:<br>- Indent: 2 spaces<br>- Property order: position, display, layout, typography, colors<br>- Space after colon, none before<br>- Always end with semicolon (even last property)<br>- One selector per line for multiple selectors<br><br>JavaScript:<br>- Indent: 2 spaces<br>- Use const/let, NEVER var<br>- Single quotes for strings<br>- Semicolons required<br>- Function declarations: function name() {} (not arrow functions)<br>- Descriptive variable names (not x, y, z)</div>
-              <p style="font-size:15px;color:var(--tp);margin:16px 0 0 0;"><strong>💡 Pro tip:</strong> Be hyper-specific about formatting. The more detail you give, the more consistent Claude's code will be.</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div style="margin-top:32px;padding:20px;background:var(--s2);border-radius:8px;max-width:900px;">
-        <div style="font-size:15px;color:var(--tp);font-weight:600;margin-bottom:8px;">💡 Overall Pro tip</div>
-        <div style="font-size:15px;color:var(--ts);line-height:1.7;">
-          Be specific, not general. Don't write "use good spacing"—write "use 8px, 16px, 24px, 32px spacing values only." Don't write "follow best practices"—write "buttons must have at least 44px touch target for mobile." The more specific you are, the more accurate Claude's suggestions will be.
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- Comparison 1: vs Design System -->
-  <section class="section" style="margin-top:64px;">
-    <div class="sec-hd">
-      <div class="sec-ico">🎨</div>
-      <div class="sec-title">How it differs from Design System?</div>
-    </div>
-
-    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0 0 32px 0;">
-      Your Figma design system and CLAUDE.md work together but serve different purposes. Figma shows WHAT things should look like. CLAUDE.md tells Claude HOW to code them with your specific tech choices and conventions.
-    </p>
-
-    <div style="overflow-x:auto;">
-      <table style="width:100%;max-width:900px;border-collapse:collapse;font-size:15px;">
-        <thead>
-          <tr style="background:var(--s2);">
-            <th style="padding:16px;text-align:left;border:1px solid var(--border);font-weight:600;width:25%;">Aspect</th>
-            <th style="padding:16px;text-align:left;border:1px solid var(--border);font-weight:600;">CLAUDE.md</th>
-            <th style="padding:16px;text-align:left;border:1px solid var(--border);font-weight:600;">Design System (Figma)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Purpose</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">HOW to code it—tech stack, class names, code rules</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">WHAT it looks like—visual appearance, colors, spacing</td>
-          </tr>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Format</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Text file with code examples and constraints</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Visual mockups with component states</td>
-          </tr>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Contains</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Naming conventions, file structure, tech choices</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Color palettes, typography, spacing systems</td>
-          </tr>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Example</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">"Use .btn-primary class" · "Never use jQuery"</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Button with hover states · Primary color #5B5BD6</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div style="margin-top:32px;padding:24px;background:linear-gradient(135deg, var(--orange-l) 0%, rgba(255,107,53,0.1) 100%);border-left:4px solid var(--orange);border-radius:4px;max-width:800px;">
-      <div style="font-size:16px;color:var(--tp);line-height:1.7;">
-        <strong>Think of it this way:</strong> Your Figma design system is the "what"—it shows the finished button should be blue with rounded corners. CLAUDE.md is the "how"—it tells Claude to use <code style="background:var(--s2);padding:2px 6px;border-radius:3px;font-family:monospace;">.btn-primary</code> class, apply <code style="background:var(--s2);padding:2px 6px;border-radius:3px;font-family:monospace;">border-radius: 8px</code>, and never use inline styles. You need both.
-      </div>
-    </div>
-  </section>
-
-  <!-- Comparison 2: vs Skills -->
-  <section class="section" style="margin-top:64px;">
-    <div class="sec-hd">
-      <div class="sec-ico">📚</div>
-      <div class="sec-title">How it differs from Skills?</div>
-    </div>
-
-    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0 0 32px 0;">
-      Skills are Claude's built-in knowledge about general best practices (like "how to make good PDFs" or "React patterns"). CLAUDE.md is YOUR specific project rules. Skills teach Claude universal principles; CLAUDE.md teaches Claude YOUR way of doing things.
-    </p>
-
-    <div style="overflow-x:auto;">
-      <table style="width:100%;max-width:900px;border-collapse:collapse;font-size:15px;">
-        <thead>
-          <tr style="background:var(--s2);">
-            <th style="padding:16px;text-align:left;border:1px solid var(--border);font-weight:600;width:25%;">Aspect</th>
-            <th style="padding:16px;text-align:left;border:1px solid var(--border);font-weight:600;">CLAUDE.md</th>
-            <th style="padding:16px;text-align:left;border:1px solid var(--border);font-weight:600;">Skills</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">What is it</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Your project's instruction manual</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Claude's built-in best practices</td>
-          </tr>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Created by</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">You write it for your specific project</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Anthropic creates it based on industry standards</td>
-          </tr>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Scope</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Only this project</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">All your projects everywhere</td>
-          </tr>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Example</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">"Use .btn-primary" · "No jQuery" · "IE11 required"</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">"React best practices" · "How to make PDFs"</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div style="margin-top:32px;padding:24px;background:linear-gradient(135deg, var(--teal-l) 0%, rgba(45,212,191,0.1) 100%);border-left:4px solid var(--teal);border-radius:4px;max-width:800px;">
-      <div style="font-size:16px;color:var(--tp);line-height:1.7;">
-        <strong>Think of it this way:</strong> Skills teach Claude "this is how good developers generally structure React apps." CLAUDE.md teaches Claude "but on THIS project, we use our own custom pattern because our client has specific needs." Skills are universal knowledge; CLAUDE.md is your specific implementation.
-      </div>
-    </div>
-  </section>
-`;
-
-// INTRO CONTENT
-pageContent['intro'] = `
-  <div class="intro">
-    <div class="intro-eye">Welcome</div>
-    <h1 class="intro-h">Getting Started with Claude</h1>
-    <div style="font-size:16px;color:var(--ts);line-height:1.7;max-width:880px;margin-bottom:32px;">
-      Welcome to the Claude for Designers playbook. Get started by exploring these essential resources.
-    </div>
-  </div>
-
-  <section class="section">
-    <div class="sec-hd">
-      <div class="sec-ico">🔗</div>
-      <div class="sec-title">Claude AI Resources</div>
-    </div>
-    
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:32px;">
-      
-      <div class="card" style="padding:24px;">
-        <div style="font-size:18px;font-weight:600;color:var(--tp);margin-bottom:12px;">Claude.ai</div>
-        <div style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:16px;">
-          The main Claude platform for chat, projects, and AI assistance
-        </div>
-        <a href="https://claude.ai" target="_blank" style="display:inline-block;padding:10px 20px;background:var(--orange-d);color:#fff;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;">
-          Visit Claude.ai →
-        </a>
-      </div>
-
-      <div class="card" style="padding:24px;">
-        <div style="font-size:18px;font-weight:600;color:var(--tp);margin-bottom:12px;">Documentation</div>
-        <div style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:16px;">
-          API docs, guides, and technical documentation
-        </div>
-        <a href="https://docs.anthropic.com" target="_blank" style="display:inline-block;padding:10px 20px;background:var(--orange-d);color:#fff;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;">
-          View Docs →
-        </a>
-      </div>
-
-      <div class="card" style="padding:24px;">
-        <div style="font-size:18px;font-weight:600;color:var(--tp);margin-bottom:12px;">Support</div>
-        <div style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:16px;">
-          Get help and find answers to common questions
-        </div>
-        <a href="https://support.anthropic.com" target="_blank" style="display:inline-block;padding:10px 20px;background:var(--orange-d);color:#fff;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;">
-          Get Support →
-        </a>
-      </div>
-
-    </div>
-  </section>
-`;
-
-pageContent['skills-overview'] = `
-  <div class="coming-soon">
-    <div class="coming-soon-icon">📚</div>
-    <h2>Skills System</h2>
-    <p>Learn how to create and use Skills for reusable expertise across all your projects.</p>
-  </div>
-`;
-
-
-
-
-
-
-// Section navigation data
-const sections = {
-  'getting-started': {
-    pages: ['intro'],
-    sidebar: []
-  },
-  'claude-md': {
-    pages: ['claude-md-reference'],
-    sidebar: [
-      { id: 'what-is', label: 'What is CLAUDE.md?', color: 'indigo' },
-      { id: 'vs-figma', label: 'vs Figma Design System', color: 'purple' },
-      { id: 'vs-skills', label: 'vs Skills', color: 'amber' }
-    ]
-  },
-  'skills': {
-    pages: ['skills-overview'],
-    sidebar: []
-  }
-};
-
-let currentSection = 'getting-started';
-let currentPage = 'intro';
-
-// Switch main section
-
-function downloadClaudeMD() {
-  const claudeMDContent = `# ClearPath FDO - Design System Reference
-
-## Stack
-HTML:    Vanilla — no framework (React/Vue/Svelte forbidden)
-CSS:     Custom properties + utility classes — no Tailwind
-JS:      Vanilla ES6 modules — no jQuery, no bundler
-Icons:   Tabler Icons (CDN) — ti-* class names
-Fonts:   Roboto (body) + Roboto Mono (code/data)
-Charts:  Chart.js 4 — already loaded in base layout
-Hosting: Static files — no server-side rendering needed
-
-> Why vanilla? The client team maintains this post-handoff. No build toolchain means any dev can open a file, edit it, and see results.
-
-## Dev server
-npx serve .             → serves on http://localhost:3000
-python3 -m http.server  → fallback if serve not available
-open index.html         → works for most tasks (no CORS needs)
-
-No build step. No compilation. No hot reload needed.
-Open the HTML file directly in browser for quick checks.
-
-## Page types
-list-page       Sidebar + header + data table + side panel
-                e.g. patients.html, providers.html, rooms.html
-
-form-page       Sidebar + header + multi-step form wizard
-                e.g. new-patient.html, appointment-booking.html
-
-dashboard       Sidebar + header + stat cards + charts
-                e.g. index.html
-
-detail-page     Sidebar + header + entity info + action buttons
-                e.g. patient-detail.html, provider-detail.html
-
-## Spacing (8px grid system)
---space-0:  0px      No space (rare, for zero margins)
---space-1:  8px      Tightest — inline elements, icon gaps
---space-2:  16px     Default component padding
---space-3:  24px     Section padding, card spacing
---space-4:  32px     Major section gaps
---space-5:  40px     Page-level spacing
---space-6:  48px     Hero sections
---space-8:  64px     Rare — only for dramatic spacing
-
-RULE: Never use arbitrary values. If you need 20px, use calc(var(--space-2) + var(--space-1)/2) or reconsider.
-
-## Layout tokens
---container-max:  1280px     Max width for main content
---sidebar-w:      240px       Left nav width
---header-h:       64px        Top header height
---panel-w:        320px       Right side panel width
---modal-sm:       400px       Small modal/dialog
---modal-md:       600px       Standard modal
---modal-lg:       900px       Large modal/form
-
-## Colors
-
-### Brand
---color-primary:     #5B5BD6    Indigo (primary actions, links)
---color-primary-l:   #EEEEFF    Pale indigo (hover states)
---color-primary-d:   #3A3AA8    Dark indigo (active states)
-
---color-secondary:   #B8E6E3    Teal (secondary actions)
---color-secondary-l: #E8FAF9    Pale teal
---color-secondary-d: #0A7B77    Dark teal
-
-### Neutrals
---color-bg:          #F5F4F0    Page background (warm white)
---color-surface:     #FFFFFF    Cards, modals, panels
---color-surface-2:   #F0EFEB    Hover states, disabled
---color-surface-3:   #E8E7E2    Table stripes, subtle dividers
-
---color-border:      #DDD9D0    Default borders
---color-border-2:    #C8C4BA    Strong borders, focus rings
-
---color-text-p:      #1C1B18    Primary text (headings, labels)
---color-text-s:      #5C5A53    Secondary text (body copy)
---color-text-m:      #9B998F    Muted text (captions, placeholders)
-
-### Semantic
---color-success:     #197A4A    Green (success states)
---color-success-l:   #EDFAF3    Pale green
---color-warning:     #92620A    Amber (warnings)
---color-warning-l:   #FDF6E7    Pale amber
---color-error:       #C0392B    Red (errors, destructive)
---color-error-l:     #FEF1F0    Pale red
---color-info:        #2E86AB    Blue (info, neutral alerts)
---color-info-l:      #EFF7FB    Pale blue
-
-### Special
---color-chart-1:     #5B5BD6    Indigo
---color-chart-2:     #B8E6E3    Teal
---color-chart-3:     #92620A    Amber
---color-chart-4:     #197A4A    Green
---color-chart-5:     #C0392B    Red
---color-chart-6:     #6B3FA0    Purple
-
-RULE: Never use hex codes directly in components. Always reference CSS variables.
-
-## Typography
-
-### Font families
---font-body:   'Roboto', sans-serif
---font-mono:   'Roboto Mono', monospace
---font-head:   'Roboto', sans-serif
-
-### Font sizes
---text-xs:   12px      Captions, small labels
---text-sm:   14px      Body text, table cells
---text-base: 16px      Default size
---text-lg:   18px      Subheadings
---text-xl:   20px      Card titles
---text-2xl:  24px      Section headings
---text-3xl:  30px      Page titles
---text-4xl:  36px      Hero text
-
-### Font weights
---weight-normal:  400
---weight-medium:  500
---weight-semibold: 600
---weight-bold:    700
-
-### Line heights
---leading-tight:  1.2      Headings
---leading-normal: 1.5      Body text
---leading-loose:  1.8      Long-form content
-
-RULE: Use font-size: var(--text-lg) not font-size: 18px.
-
-## Component Standards
-
-### Buttons
-.btn            Base button class (required)
-.btn-primary    Indigo fill (main actions)
-.btn-secondary  Teal fill (secondary actions)
-.btn-ghost      Transparent + border (tertiary)
-.btn-danger     Red fill (destructive actions)
-.btn-sm         Height 32px, padding 0 12px
-.btn-md         Height 40px, padding 0 16px (default)
-.btn-lg         Height 48px, padding 0 24px
-
-Structure:
-<button class="btn btn-primary btn-md">
-  <i class="ti ti-plus"></i>
-  <span>Add Patient</span>
-</button>
-
-NEVER use <a> tags styled as buttons. Use <button> with type="button".
-
-### Cards
-.card           Base card class
-.card-header    Optional header with title + actions
-.card-body      Main content area (padding: var(--space-3))
-.card-footer    Optional footer with actions
-
-Structure:
-<div class="card">
-  <div class="card-header">
-    <h3>Card Title</h3>
-    <button class="btn btn-ghost btn-sm">Edit</button>
-  </div>
-  <div class="card-body">
-    Content goes here...
-  </div>
-</div>
-
-### Forms
-.form-group     Wrapper for label + input
-.form-label     Label text (required for every input)
-.form-input     Text inputs, textareas, selects
-.form-help      Helper text below input
-.form-error     Error message styling
-
-Structure:
-<div class="form-group">
-  <label class="form-label">Patient Name</label>
-  <input type="text" class="form-input" placeholder="Enter name">
-  <span class="form-help">First and last name required</span>
-</div>
-
-RULE: Every input must have a label. No placeholders as labels.
-
-### Tables
-.table          Base table class
-.table-hover    Row hover effect
-.table-striped  Alternating row colors
-.table-sm       Compact spacing
-
-Structure:
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Status</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>John Doe</td>
-      <td><span class="badge badge-success">Active</span></td>
-      <td><button class="btn btn-ghost btn-sm">Edit</button></td>
-    </tr>
-  </tbody>
-</table>
-
-### Modals
-.modal          Modal overlay + container
-.modal-dialog   Dialog box (centered)
-.modal-header   Title + close button
-.modal-body     Content area
-.modal-footer   Action buttons
-
-Structure:
-<div class="modal" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-header">
-      <h3>Modal Title</h3>
-      <button class="btn-close" onclick="closeModal('myModal')"></button>
-    </div>
-    <div class="modal-body">
-      Content...
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost">Cancel</button>
-      <button class="btn btn-primary">Save</button>
-    </div>
-  </div>
-</div>
-
-## App Shell
-Every page uses this structure:
-
-<div class="app">
-  <aside class="sidebar">
-    <!-- Navigation -->
-  </aside>
-  <div class="main">
-    <header class="header">
-      <!-- Page title + actions -->
-    </header>
-    <div class="content">
-      <!-- Page content -->
-    </div>
-  </div>
-</div>
-
-NEVER deviate from this. Sidebar is always on the left, header always at top.
-
-## Data Display States
-
-### Loading
-Show skeleton loaders matching the content shape:
-<div class="skeleton skeleton-text"></div>
-<div class="skeleton skeleton-card"></div>
-
-### Empty
-Always show an empty state with illustration + message + action:
-<div class="empty-state">
-  <img src="assets/empty-patients.svg" alt="">
-  <h3>No patients yet</h3>
-  <p>Get started by adding your first patient</p>
-  <button class="btn btn-primary">Add Patient</button>
-</div>
-
-### Error
-Use alert component:
-<div class="alert alert-error">
-  <i class="ti ti-alert-circle"></i>
-  <span>Unable to load data. Please try again.</span>
-</div>
-
-## Routing (Client-side)
-const routes = {
-  '/': 'pages/dashboard.html',
-  '/patients': 'pages/patients.html',
-  '/appointments': 'pages/appointments.html',
+function showPage(id) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+
+  // Show target
+  document.getElementById('page-' + id).classList.add('active');
+
+  // Activate nav item
+  const navItems = document.querySelectorAll('.nav-item');
+  const pageMap = ['intro','setup','ui','ds','skills','resources'];
+  const idx = pageMap.indexOf(id);
+  if (idx > -1) navItems[idx].classList.add('active');
+
+  // Scroll main to top
+  document.querySelector('.main').scrollTo(0, 0);
 }
 
-Use history.pushState for navigation. No page reloads.
-
-## Form Validation
-ALWAYS validate on submit, not on blur.
-Show errors below each field, not in a summary block.
-
-## Multi-step Forms
-.step-indicator     Progress dots at top
-.step              Individual step container
-.step-header       Step title + description
-.step-body         Form fields
-.step-footer       Back + Next buttons
-
-NEVER show all steps at once. One step visible at a time.
-
-## Toasts (Notifications)
-Position: top-right
-Duration: 4 seconds (success), 6 seconds (error)
-Max 3 visible at once (stack from top)
-
-Structure:
-<div class="toast toast-success">
-  <i class="ti ti-check"></i>
-  <span>Patient saved successfully</span>
-</div>
-
-## Content Cards
-For list views showing entities (patients, providers, etc):
-
-<div class="content-card">
-  <div class="content-card-header">
-    <h4>Patient Name</h4>
-    <span class="badge">Active</span>
-  </div>
-  <div class="content-card-body">
-    <div class="meta-row">
-      <span class="meta-label">DOB:</span>
-      <span class="meta-value">Jan 15, 1985</span>
-    </div>
-  </div>
-  <div class="content-card-footer">
-    <button class="btn btn-ghost btn-sm">View Details</button>
-  </div>
-</div>
-
-## Grid Layout
-Use CSS Grid for dashboards:
-
-.grid-2         2 columns
-.grid-3         3 columns
-.grid-4         4 columns
-.grid-auto      Auto-fit columns
-
-Gap is always var(--space-3) (24px).
-
-## Dark Theme
-NOT IMPLEMENTED. Entire app is light theme only.
-If asked to build dark theme, decline — it's out of scope.
-
-## Icons (Tabler Icons)
-Always use Tabler Icons via CDN:
-<i class="ti ti-user"></i>
-<i class="ti ti-calendar"></i>
-<i class="ti ti-plus"></i>
-
-Icon size: 20px (default), 16px (small), 24px (large)
-
-Find icons at: https://tabler.io/icons
-
-## Accessibility
-- Every input must have a <label>
-- Use semantic HTML (<nav>, <main>, <section>)
-- Buttons must have text or aria-label
-- Focus states required on all interactive elements
-- Color contrast must pass WCAG AA
-
-## Heuristics (Decision-making rules)
-- If unsure about spacing, use var(--space-3) (24px)
-- If unsure about font size, use var(--text-base) (16px)
-- If unsure about color, use --color-text-s (secondary text)
-- Default button is .btn-primary unless destructive action
-- Default form layout is vertical (label above input)
-- Tables always have hover effect (.table-hover)
-
-## Animation
-Keep it subtle. No animations >300ms.
-Use CSS transitions, not keyframe animations.
-
-Allowed:
-- Button hover: background color transition (150ms)
-- Modal open: fade in + scale (200ms)
-- Toast: slide in from right (250ms)
-
-Forbidden:
-- Page transitions
-- Parallax effects
-- Scroll-based animations
-- Loading spinners >2 seconds
-
-## Known Bugs & Fixes
-
-### BUG-001: Modal backdrop z-index collision
-NEVER set z-index on .modal higher than 1000. Use z-index: 999 for modal, 998 for backdrop.
-
-### BUG-002: Table scroll in cards
-Tables inside .card must wrap in .table-wrapper:
-<div class="card">
-  <div class="table-wrapper">
-    <table class="table">...</table>
-  </div>
-</div>
-
-### BUG-003: Form validation not clearing
-After successful submit, call form.reset() AND manually clear .form-error spans.
-
-### BUG-004: Sidebar collapse on mobile
-At <768px, sidebar becomes overlay. MUST add .sidebar-open class to body when open.
-
-### BUG-005: Chart.js not responsive
-Always set maintainAspectRatio: false in Chart.js config.
-
-## File Structure
-src/
-  assets/
-    icons/
-    images/
-  components/
-    button.css
-    card.css
-    form.css
-    modal.css
-    table.css
-  layouts/
-    app-shell.css
-    sidebar.css
-    header.css
-  pages/
-    dashboard.html
-    patients.html
-    appointments.html
-  utils/
-    router.js
-    validation.js
-  main.css
-  main.js
-index.html
-
-NEVER create new top-level folders. Everything goes under src/.
-
-## Page Build Status
-
-### ✅ Done
-- Dashboard (index.html)
-- Patients List (patients.html)
-- Patient Detail (patient-detail.html)
-- Appointments List (appointments.html)
-
-### 🚧 In Progress
-- New Appointment Form (appointment-booking.html)
-  Status: Multi-step form built, validation pending
-  Next: Add time slot picker component
-
-### 📝 Todo
-- Providers List (providers.html)
-- Rooms Management (rooms.html)
-- Reports Dashboard (reports.html)
-- User Settings (settings.html)
-
-### 🚫 Blocked
-- Billing Module
-  Reason: Waiting for API spec from backend team
-  Don't attempt to build until unblocked.
-
-## Shared Components
-These components are built and located in src/components/:
-- Button (button.css + button.js)
-- Card (card.css)
-- Form Elements (form.css + validation.js)
-- Modal (modal.css + modal.js)
-- Table (table.css + table.js)
-- Toast (toast.css + toast.js)
-- Sidebar (sidebar.css + sidebar.js)
-- Header (header.css)
-
-Import them in this order in every page:
-1. main.css (tokens + reset)
-2. Component CSS files
-3. Page-specific CSS
-
-## Code Style
-
-### HTML
-- Indent: 2 spaces
-- Attributes: double quotes
-- Self-closing tags: no trailing slash
-- Boolean attributes: no value (e.g., <input disabled>)
-
-### CSS
-- Indent: 2 spaces
-- Property order: position, display, layout, typography, colors
-- One selector per line
-- Space after colon, no space before
-- End every rule with semicolon
-
-### JavaScript
-- Indent: 2 spaces
-- Use const/let, never var
-- Single quotes for strings
-- Semicolons required
-- Functions: function name() {} not const name = () => {}
-- Comments: // for single line, /* */ for blocks
-
-## Dependencies (CDN)
-Tabler Icons:    https://unpkg.com/@tabler/icons@latest/icons-sprite.svg
-Chart.js 4:      https://cdn.jsdelivr.net/npm/chart.js@4
-Roboto Font:     https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700
-Roboto Mono:     https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600
-
-NEVER install via npm. Always use CDN links.
-
-## Browser Support
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
-
-No IE11 support. No polyfills needed.
-
-## Performance Targets
-- First Contentful Paint: <1.5s
-- Time to Interactive: <3s
-- Lighthouse score: >90
-
-Keep bundle size <100KB (excluding Chart.js).
-Lazy load images with loading="lazy".
-Defer non-critical CSS.
-
----
-
-Last updated: 2024
-Maintained by: FDO Engineering Team
-Questions: Refer to this file first, then ask in #frontend-help Slack channel`;
-
-  const blob = new Blob([claudeMDContent], { type: 'text/markdown' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'CLAUDE.md';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-function switchSection(sectionId) {
-  currentSection = sectionId;
-  
-  // Update nav
-  document.querySelectorAll('.hdr-nav-item').forEach(item => {
-    item.classList.remove('active');
-  });
-  event.target.classList.add('active');
-  
-  // Load first page of section
-  const firstPage = sections[sectionId].pages[0];
-  if (firstPage) {
-    loadPage(firstPage);
-    updateSidebar(sectionId);
-  }
-}
-
-// Load page content
-function loadPage(pageId) {
-  currentPage = pageId;
-  const content = pageContent[pageId] || '<div class="coming-soon"><div class="coming-soon-icon">🚧</div><h2>Coming Soon</h2></div>';
-  document.getElementById('main-content').innerHTML = content;
-  document.getElementById('main-content').scrollTop = 0;
-  
-  // Update sidebar active state
-  document.querySelectorAll('.sidebar-item').forEach(item => {
-    item.classList.remove('active');
-    // Check if this sidebar item corresponds to the current page
-    const onclick = item.getAttribute('onclick');
-    if (onclick && onclick.includes(`'${pageId}'`)) {
-      item.classList.add('active');
-    }
-  });
-}
-
-// Update sidebar based on section
-function updateSidebar(sectionId) {
-  const sidebar = document.getElementById('sidebar');
-  const sidebarData = sections[sectionId].sidebar;
-  
-  if (sidebarData && sidebarData.length > 0) {
-    let html = '<div class="sidebar-title">On This Page</div>';
-    
-    // Check if this section has multiple pages (like POC Insights)
-    const sectionPages = sections[sectionId].pages;
-    const isMultiPage = sectionPages && sectionPages.length > 1;
-    
-    sidebarData.forEach((item, index) => {
-      const activeClass = index === 0 ? 'active' : '';
-      
-      // For multi-page sections, use loadPage; for single-page sections, use scrollToSection
-      const clickHandler = isMultiPage 
-        ? `loadPage('${item.id}')`
-        : `scrollToSection('${item.id}')`;
-      
-      html += `
-        <div class="sidebar-item ${activeClass}" onclick="${clickHandler}">
-          <div class="sidebar-pip" style="background:var(--${item.color});"></div>
-          <span>${item.label}</span>
-        </div>
-      `;
-    });
-    sidebar.innerHTML = html;
-    sidebar.style.display = 'block';
-    sidebar.classList.remove('hidden');
-  } else {
-    sidebar.innerHTML = '';
-    sidebar.style.display = 'none';
-    sidebar.classList.add('hidden');
-  }
-}
-
-// Scroll to section
-function scrollToSection(id) {
-  const element = document.getElementById(id);
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-  
-  // Update sidebar active state
-  document.querySelectorAll('.sidebar-item').forEach(item => {
-    item.classList.remove('active');
-  });
-  event.currentTarget.classList.add('active');
-}
-
-// Initialize
-document.addEventListener('DOMContentLoaded', function() {
-  loadPage('intro');
-  updateSidebar('getting-started');
-});
-
-// Download CLAUDE.md function
-function downloadClaude() {
-  const CLAUDE_MD_CONTENT = `# ClearPath FDO - Design System Reference
-
-## Stack
-HTML:    Vanilla — no framework (React/Vue/Svelte forbidden)
-CSS:     Custom properties + utility classes — no Tailwind
-JS:      Vanilla ES6 modules — no jQuery, no bundler
-Icons:   Tabler Icons (CDN) — ti-* class names
-Fonts:   Roboto (body) + Roboto Mono (code/data)
-
-... [Full content from your index-trimmed.html embedded CLAUDE.md content] ...
-`;
-  
-  const blob = new Blob([CLAUDE_MD_CONTENT], { type: 'text/markdown' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'CLAUDE.md';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+function toggleAccordion(rowId) {
+  const row = document.getElementById(rowId);
+  row.classList.toggle('open');
 }
 </script>
 
