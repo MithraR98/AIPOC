@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Design Playbook v2</title>
+<title>Designer's AI Playbook — v1.0</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
@@ -19,8 +19,8 @@
 
   --tp:  #F0F6FC;
   --ts:  #A8B4C0;
-  --tm:  #6E7B8A;
-  --tl:  #3D4956;
+  --tm:  #8C8C8C;
+  --tl:  #6B7280;
 
   --orange:    #FF6B35;
   --orange-l:  rgba(255,107,53,0.12);
@@ -149,7 +149,7 @@ body {
   padding: 2px 6px;
   border-radius: 3px;
   background: var(--bg-4);
-  color: var(--tm);
+  color: #9A9A9A;
 }
 
 /* ── Main ── */
@@ -406,56 +406,403 @@ body {
 }
 .sub-item-tool { margin-left: auto; flex-shrink: 0; }
 
-/* ── Accent section strip ── */
+/* ── Subnav ── */
+.nav-parent { position: relative; }
+.nav-arrow {
+  font-size: 9px;
+  color: var(--tm);
+  margin-left: 4px;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.nav-parent.open .nav-arrow { transform: rotate(90deg); }
+.subnav { display: none; }
+.subnav.open { display: block; }
+.nav-sub {
+  padding-left: 28px !important;
+  font-size: 13px !important;
+  color: var(--ts) !important;
+}
+.nav-sub:hover { color: var(--tp) !important; }
+.nav-sub.active { color: var(--orange) !important; border-left-color: var(--orange); background: var(--orange-ll); }
+.nav-sub .nav-ico { color: var(--tl); font-size: 12px; }
+
+/* ── Link column ── */
+.link-cell {
+  padding: 0 !important;
+  vertical-align: middle;
+}
+.link-split {
+  display: flex;
+  height: 100%;
+  min-height: 52px;
+}
+.link-pod {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 10px;
+  gap: 4px;
+}
+.link-pod + .link-pod {
+  border-left: 1px solid var(--border);
+}
+.link-pod-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--tl);
+}
+.link-pod a {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--teal);
+  text-decoration: none;
+  padding: 3px 8px;
+  border-radius: 4px;
+  background: var(--teal-ll);
+  border: 1px solid rgba(45,212,200,0.15);
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.link-pod a:hover {
+  background: var(--teal-l);
+  border-color: rgba(45,212,200,0.3);
+  color: var(--teal);
+}
+.link-pod a svg {
+  flex-shrink: 0;
+  opacity: 0.7;
+}
+.link-pod .link-empty {
+  font-size: 11px;
+  color: var(--tl);
+  font-style: italic;
+}
+
+/* ── Accessibility ── */
+/* Skip to main content link */
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 16px;
+  z-index: 9999;
+  padding: 8px 16px;
+  background: var(--orange);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 0 0 6px 6px;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0; outline: 3px solid #fff; outline-offset: 2px; }
+
+/* Visible focus rings on all interactive elements */
+:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+button:focus-visible,
+a:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+}
+/* Remove outline for mouse users but keep for keyboard */
+:focus:not(:focus-visible) { outline: none; }
+
+/* Ensure interactive elements have min 44×44px touch target */
+.nav-item { min-height: 44px; }
+.accordion-trigger { min-height: 44px; }
+
+/* High contrast borders for table in forced-colors mode */
+@media (forced-colors: active) {
+  .analysis-table { border: 1px solid ButtonText; }
+  .analysis-table th, .analysis-table td { border-color: ButtonText; }
+  .tool-badge { border: 1px solid ButtonText; }
+}
+
+/* Reduce motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ── Accordion link fix — colspan must span all cols ── */
 .section-block { margin-bottom: 52px; }
 
+/* ══════════════════════════════════════
+   SKILLS PAGE
+══════════════════════════════════════ */
+.skills-page { min-height: 100vh; }
+.sp-header { padding: 56px 64px 40px; border-bottom: 1px solid var(--border); max-width: 1100px; }
+.sp-layout { display: flex; align-items: flex-start; max-width: 1100px; }
+.sp-sidenav { width: 200px; flex-shrink: 0; position: sticky; top: 0; padding: 32px 0 32px 32px; height: 100vh; overflow-y: auto; }
+.sp-sidenav-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: var(--tl); margin-bottom: 12px; padding-left: 4px; }
+.sp-sidenav-item { display: block; font-size: 12px; font-weight: 500; color: var(--tm); text-decoration: none; padding: 7px 4px 7px 12px; border-left: 2px solid transparent; line-height: 1.4; transition: all 0.15s; margin-bottom: 2px; }
+.sp-sidenav-item:hover { color: var(--tp); border-left-color: var(--border-2); }
+.sp-sidenav-item.active { color: var(--orange); border-left-color: var(--orange); font-weight: 600; }
+.sp-content { flex: 1; padding: 40px 64px 120px 40px; min-width: 0; }
+.sp-section { margin-bottom: 64px; scroll-margin-top: 24px; }
+.sp-h2 { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; color: var(--tp); letter-spacing: -0.02em; margin-bottom: 10px; }
+.sp-body { font-size: 15px; color: var(--ts); line-height: 1.75; max-width: 720px; margin-bottom: 24px; }
+
+.sk-how-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.sk-how-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 20px; }
+.sk-how-ico { font-size: 22px; margin-bottom: 10px; }
+.sk-how-title { font-size: 14px; font-weight: 600; color: var(--tp); margin-bottom: 6px; }
+.sk-how-desc { font-size: 13px; color: var(--ts); line-height: 1.6; }
+
+.sk-split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.sk-split-col { border-radius: var(--radius-md); padding: 20px 22px; border: 1px solid var(--border); }
+.sk-split-yes { background: rgba(52,211,153,0.05); border-color: rgba(52,211,153,0.2); }
+.sk-split-no  { background: rgba(248,113,113,0.05); border-color: rgba(248,113,113,0.2); }
+.sk-split-head { display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: var(--tp); margin-bottom: 14px; }
+.sk-split-ico { font-size: 16px; }
+.sk-split-list { list-style: none; padding: 0; margin: 0; }
+.sk-split-list li { font-size: 13px; color: var(--ts); line-height: 1.6; padding: 5px 0; border-bottom: 1px solid var(--border); }
+.sk-split-list li:last-child { border-bottom: none; }
+
+.sk-decision-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.sk-decision-card { border-radius: var(--radius-md); border: 1px solid var(--border); overflow: hidden; }
+.sk-decision-use { border-color: rgba(45,212,200,0.25); }
+.sk-decision-avoid { border-color: rgba(248,113,113,0.25); }
+.sk-decision-head { padding: 12px 18px; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; }
+.sk-decision-use .sk-decision-head { background: rgba(45,212,200,0.08); color: var(--teal); }
+.sk-decision-avoid .sk-decision-head { background: rgba(248,113,113,0.08); color: var(--red); }
+.sk-decision-items { padding: 12px 18px; }
+.sk-decision-item { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--ts); padding: 7px 0; border-bottom: 1px solid var(--border); }
+.sk-decision-item:last-child { border-bottom: none; }
+.sk-check { color: var(--teal); font-weight: 700; flex-shrink: 0; }
+.sk-cross  { color: var(--red);  font-weight: 700; flex-shrink: 0; }
+
+.sk-fit-legend { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
+.sk-fit-badge { font-size: 12px; font-weight: 600; color: var(--ts); }
+.sk-deliverables-wrap { overflow-x: auto; }
+.sk-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; font-size: 13px; }
+.sk-table thead tr { background: var(--bg-3); }
+.sk-table th { padding: 11px 14px; text-align: left; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--tm); border-bottom: 1px solid var(--border); white-space: nowrap; }
+.sk-table td { padding: 13px 14px; border-bottom: 1px solid var(--border); color: var(--ts); vertical-align: top; line-height: 1.5; }
+.sk-table tr:last-child td { border-bottom: none; }
+.sk-table tr:hover td { background: rgba(255,255,255,0.02); }
+.sk-td-name { font-weight: 600; color: var(--tp); }
+.sk-td-fit  { text-align: center; font-size: 16px; }
+.sk-td-check { font-style: italic; color: var(--tm); font-size: 12px; }
+
+.sk-anatomy-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; }
+.sk-anatomy-card { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 20px; }
+.sk-anatomy-num { font-family: 'DM Mono',monospace; font-size: 11px; font-weight: 500; color: var(--orange); margin-bottom: 6px; letter-spacing: 0.05em; }
+.sk-anatomy-label { font-size: 14px; font-weight: 700; color: var(--tp); margin-bottom: 8px; }
+.sk-anatomy-example { font-size: 12px; color: var(--tm); line-height: 1.6; font-style: italic; }
+
+.sk-step { border: 1px solid var(--border); border-radius: var(--radius-lg); overflow: hidden; margin-bottom: 20px; }
+.sk-step-header { display: flex; align-items: center; gap: 20px; padding: 20px 24px; background: var(--bg-3); border-bottom: 1px solid var(--border); }
+.sk-step-num { font-family: 'Fraunces',serif; font-size: 32px; font-weight: 700; color: var(--orange); line-height: 1; flex-shrink: 0; min-width: 44px; }
+.sk-step-title { font-size: 16px; font-weight: 700; color: var(--tp); margin-bottom: 3px; }
+.sk-step-sub { font-size: 13px; color: var(--tm); }
+.sk-step-body { padding: 24px; background: var(--bg-2); }
+
+.sk-mockup { border-radius: var(--radius-md); border: 1px solid var(--border); overflow: hidden; font-family: 'DM Mono',monospace; font-size: 13px; }
+.sk-mockup-bar { display: flex; align-items: center; gap: 6px; padding: 10px 14px; background: var(--bg-4); border-bottom: 1px solid var(--border); }
+.sk-mockup-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.sk-mockup-title { font-size: 11px; color: var(--tm); margin-left: 6px; }
+.sk-mockup-body { padding: 16px 18px; background: var(--bg); line-height: 1.8; }
+.sk-code-line { display: block; }
+.sk-code-line.sk-c-blank { height: 6px; }
+.sk-c-head { color: var(--orange); font-weight: 500; }
+.sk-c-text { color: var(--ts); }
+.sk-c-comment { color: var(--tm); }
+.sk-c-output { color: var(--teal); }
+.sk-c-prompt { color: var(--tl); user-select: none; }
+.sk-c-cmd { color: var(--orange); }
+.sk-code { font-family: 'DM Mono',monospace; font-size: 12px; background: var(--bg-3); padding: 2px 6px; border-radius: 3px; color: var(--teal); }
+
+.sk-ui-steps { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
+.sk-ui-step { display: flex; align-items: flex-start; gap: 10px; background: var(--bg-3); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 10px 14px; flex: 1; min-width: 160px; }
+.sk-ui-step-num { width: 20px; height: 20px; border-radius: 50%; background: var(--orange); color: #fff; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.sk-ui-step-text { font-size: 13px; color: var(--ts); line-height: 1.5; }
+.sk-ui-step-text strong { color: var(--tp); }
+.sk-ui-arrow { color: var(--tl); font-size: 16px; flex-shrink: 0; }
+.sk-tip { display: flex; gap: 10px; padding: 12px 16px; background: rgba(245,158,11,0.07); border-left: 3px solid var(--amber); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: 13px; color: var(--ts); line-height: 1.6; }
+.sk-tip-ico { flex-shrink: 0; }
+
+.sk-demo-context { display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px; }
+.sk-demo-col { flex: 1; background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 18px 20px; }
+.sk-demo-col-head { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; margin-bottom: 12px; }
+.sk-demo-head-reality { color: var(--red); }
+.sk-demo-head-outcome { color: var(--amber); }
+.sk-demo-list { list-style: none; padding: 0; margin: 0; }
+.sk-demo-list li { font-size: 13px; color: var(--ts); padding: 5px 0; border-bottom: 1px solid var(--border); line-height: 1.5; }
+.sk-demo-list li:last-child { border-bottom: none; }
+.sk-demo-arrow { font-size: 22px; color: var(--tl); padding-top: 42px; flex-shrink: 0; }
+.sk-demo-solution { display: flex; gap: 16px; align-items: flex-start; padding: 20px 22px; background: rgba(45,212,200,0.05); border: 1px solid rgba(45,212,200,0.2); border-radius: var(--radius-md); margin-bottom: 20px; }
+.sk-demo-solution-ico { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.sk-demo-solution-title { font-size: 15px; font-weight: 700; color: var(--tp); margin-bottom: 6px; }
+.sk-demo-solution-body { font-size: 14px; color: var(--ts); line-height: 1.65; }
+.sk-demo-btn-row { display: flex; gap: 12px; }
+.sk-demo-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; background: var(--orange); color: #fff; border-radius: var(--radius-sm); font-size: 14px; font-weight: 600; text-decoration: none; transition: all 0.15s; }
+.sk-demo-btn:hover { background: #e8591f; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(255,107,53,0.35); }
+
+/* Skills page responsive */
+@media(max-width: 1100px) {
+  .sp-header { padding: 40px 40px 32px; }
+  .sp-content { padding: 32px 40px 80px 28px; }
+  .sk-anatomy-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media(max-width: 900px) {
+  .sp-sidenav { display: none; }
+  .sp-header { padding: 28px 24px 24px; }
+  .sp-content { padding: 24px 24px 80px; }
+  .sk-how-grid, .sk-anatomy-grid { grid-template-columns: 1fr; }
+  .sk-split, .sk-decision-grid { grid-template-columns: 1fr; }
+  .sk-demo-context { flex-direction: column; }
+  .sk-demo-arrow { display: none; }
+  .sk-ui-steps { flex-direction: column; }
+  .sk-ui-arrow { transform: rotate(90deg); }
+}
+
 /* ── Responsive ── */
+
+/* Large screens (sidebar visible) */
+@media(max-width: 1200px) {
+  .intro-page { padding: 40px 40px 100px; }
+}
+
+/* Medium — hide sidebar, reduce padding */
 @media(max-width: 900px) {
   .sidebar { display: none; }
-  .intro-page { padding: 32px 24px 80px; }
+  .intro-page { padding: 28px 24px 80px; }
+  .page-h1 { font-size: 32px; }
+  .sec-h2 { font-size: 22px; }
+}
+
+/* Small — stack table as cards */
+@media(max-width: 720px) {
+  .intro-page { padding: 20px 16px 60px; }
+
+  /* Hide table header on small screens — labels shown inline */
+  .analysis-table thead { display: none; }
+
+  /* Each row becomes a card */
+  .analysis-table,
+  .analysis-table tbody,
+  .analysis-table tr,
+  .analysis-table td {
+    display: block;
+    width: 100%;
+  }
+
+  .analysis-table tbody tr {
+    background: var(--bg-2);
+    border: 1px solid var(--border-2);
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .analysis-table tbody tr:hover { background: var(--bg-2); }
+
+  .analysis-table td {
+    border-bottom: 1px solid var(--border);
+    padding: 10px 14px;
+    position: relative;
+  }
+  .analysis-table td:last-child { border-bottom: none; }
+
+  /* Show column label as prefix */
+  .analysis-table td[data-label]::before {
+    content: attr(data-label);
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--tm);
+    margin-bottom: 5px;
+  }
+
+  /* Link cell — stack pods vertically */
+  .link-cell { padding: 10px 14px !important; }
+  .link-split {
+    flex-direction: column;
+    gap: 8px;
+    min-height: unset;
+  }
+  .link-pod {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 0;
+    border-left: none !important;
+  }
+  .link-pod + .link-pod { border-left: none; padding-top: 0; }
+  .link-pod::before {
+    content: attr(data-pod);
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--tm);
+    min-width: 42px;
+  }
+
+  /* Accordion row full width */
+  .accordion-row td { display: block; width: 100%; }
+  .accordion-trigger { padding: 12px 14px; }
 }
 </style>
 </head>
 <body>
-
+<a href="#main-content" class="skip-link">Skip to main content</a>
 <div class="app">
 
   <!-- ── Sidebar ── -->
-  <aside class="sidebar">
-    <div class="sidebar-brand">
-      <div class="sidebar-brand-title">AI Design<br>Playbook</div>
-      <div class="sidebar-brand-sub">Enterprise Edition · v2.0</div>
+  <aside class="sidebar" aria-label="Site navigation">
+    <div class="sidebar-brand" role="banner">
+      <div class="sidebar-brand-title">Designer's AI<br>Playbook</div>
+      <div class="sidebar-brand-sub">v1.0 &nbsp;·&nbsp; 25 May 2026</div>
     </div>
-    <nav class="sidebar-nav">
-      <div class="sidebar-section-label">Contents</div>
-      <div class="nav-item active" onclick="showPage('intro')">
-        <span class="nav-ico">✦</span> Intro
+    <nav class="sidebar-nav" aria-label="Pages">
+      <div class="sidebar-section-label" aria-hidden="true">Contents</div>
+      <div class="nav-item active" onclick="showPage('intro')" role="button" tabindex="0" aria-current="page" aria-label="Intro">
+        <span class="nav-ico" aria-hidden="true">✦</span> Intro
       </div>
-      <div class="nav-item" onclick="showPage('setup')">
-        <span class="nav-ico">⚙</span> Setting up Claude Code
-        <span class="nav-badge">Soon</span>
+      <div class="nav-item" onclick="showPage('ui')" role="button" tabindex="0" aria-label="Building UI Screens — coming soon">
+        <span class="nav-ico" aria-hidden="true">◧</span> Building UI Screens
+        <span class="nav-badge" aria-hidden="true">Soon</span>
       </div>
-      <div class="nav-item" onclick="showPage('ui')">
-        <span class="nav-ico">◧</span> Building UI Screens
-        <span class="nav-badge">Soon</span>
+      <div class="nav-item" onclick="showPage('ds')" role="button" tabindex="0" aria-label="Design System Governance — coming soon">
+        <span class="nav-ico" aria-hidden="true">◈</span> Design System Governance
+        <span class="nav-badge" aria-hidden="true">Soon</span>
       </div>
-      <div class="nav-item" onclick="showPage('ds')">
-        <span class="nav-ico">◈</span> Design System Governance
-        <span class="nav-badge">Soon</span>
+      <div class="nav-item" onclick="showPage('skills')" role="button" tabindex="0" aria-label="Claude Skills — coming soon">
+        <span class="nav-ico" aria-hidden="true">◎</span> Claude Skills
+        <span class="nav-badge" aria-hidden="true">Soon</span>
       </div>
-      <div class="nav-item" onclick="showPage('skills')">
-        <span class="nav-ico">◎</span> Claude Skills
-        <span class="nav-badge">Soon</span>
+      <div class="nav-item nav-parent" onclick="toggleSubnav('resources-sub', this)" role="button" tabindex="0" aria-expanded="false" aria-label="Resources — coming soon">
+        <span class="nav-ico" aria-hidden="true">⊞</span> Resources
+        <span class="nav-badge" aria-hidden="true">Soon</span>
+        <span class="nav-arrow" aria-hidden="true">▶</span>
       </div>
-      <div class="nav-item" onclick="showPage('resources')">
-        <span class="nav-ico">⊞</span> Resources
-        <span class="nav-badge">Soon</span>
+      <div class="subnav" id="resources-sub" role="group" aria-label="Resources sub-pages">
+        <div class="nav-item nav-sub" onclick="showPage('resources-internal')" role="button" tabindex="0" aria-label="Internal Resources">
+          <span class="nav-ico" aria-hidden="true">↳</span> Internal
+        </div>
+        <div class="nav-item nav-sub" onclick="showPage('resources-external')" role="button" tabindex="0" aria-label="External Resources">
+          <span class="nav-ico" aria-hidden="true">↳</span> External
+        </div>
       </div>
     </nav>
   </aside>
 
   <!-- ── Main Content ── -->
-  <main class="main">
+  <main class="main" id="main-content" tabindex="-1">
 
     <!-- ══════════════════════════════
          PAGE: INTRO
@@ -477,75 +824,108 @@ body {
           <!-- UX Analysis -->
           <div class="section-block">
             <div class="sec-h3">UX Analysis</div>
-            <table class="analysis-table">
-              <thead>
-                <tr>
-                  <th style="width:200px;">Deliverable</th>
-                  <th style="width:140px;">Tool</th>
-                  <th>You Need</th>
-                  <th>What It Does</th>
-                  <th style="width:110px;">Rating</th>
+            <table class="analysis-table" aria-label="UX Analysis deliverables and AI tool ratings">
+                  <th style="width:180px;text-align:center;">
+                    Link
+                    <div style="display:flex;border-top:1px solid var(--border);margin-top:6px;">
+                      <span style="flex:1;text-align:center;padding-top:4px;font-size:10px;color:var(--tl);font-weight:600;letter-spacing:0.06em;">POD 1</span>
+                      <span style="width:1px;background:var(--border);"></span>
+                      <span style="flex:1;text-align:center;padding-top:4px;font-size:10px;color:var(--tl);font-weight:600;letter-spacing:0.06em;">POD 2</span>
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
 
                 <!-- Personas -->
                 <tr>
-                  <td class="deliverable">Creating Personas</td>
-                  <td><span class="tool-badge claude-code">Claude Code</span></td>
-                  <td>Interview insights or research notes</td>
-                  <td>
+                  <td class="deliverable" data-label="Deliverable">Creating Personas</td>
+                  <td data-label="Tool"><span class="tool-badge claude-code">Claude Code</span></td>
+                  <td data-label="You Need">Interview insights or research notes</td>
+                  <td data-label="What It Does">
                     Converts research into structured user personas
                     <div class="tip-inline">👉 Include goals, frustrations, behaviors — not just demographics</div>
                   </td>
-                  <td>
-                    <div class="stars">
-                      <span class="s-filled">★★★</span>
+                  <td data-label="Rating">
+                    <div class="stars"><span class="s-filled">★★★</span></div>
+                  </td>
+                  <td class="link-cell" data-label="Links">
+                    <div class="link-split">
+                      <div class="link-pod" data-pod="POD 1">
+                        <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
+                      </div>
+                      <div class="link-pod" data-pod="POD 2">
+                        <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
+                      </div>
                     </div>
                   </td>
                 </tr>
 
                 <!-- Workflow Diagram -->
                 <tr>
-                  <td class="deliverable">Workflow Diagram</td>
-                  <td><span class="tool-badge figjam">FigJam</span></td>
-                  <td>Entry points + user goals</td>
-                  <td>
+                  <td class="deliverable" data-label="Deliverable">Workflow Diagram</td>
+                  <td data-label="Tool"><span class="tool-badge figjam">FigJam</span></td>
+                  <td data-label="You Need">Entry points + user goals</td>
+                  <td data-label="What It Does">
                     Maps how users move across the product
                     <div class="tip-inline">👉 Think: "Start → explore → complete goal"</div>
                   </td>
-                  <td>
-                    <div class="stars">
-                      <span class="s-filled">★★★</span>
+                  <td data-label="Rating">
+                    <div class="stars"><span class="s-filled">★★★</span></div>
+                  </td>
+                  <td class="link-cell" data-label="Links">
+                    <div class="link-split">
+                      <div class="link-pod" data-pod="POD 1">
+                        <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
+                      </div>
+                      <div class="link-pod" data-pod="POD 2">
+                        <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
+                      </div>
                     </div>
                   </td>
                 </tr>
 
                 <!-- Heuristic Evaluation -->
                 <tr>
-                  <td class="deliverable">Heuristic Evaluation Report</td>
-                  <td><span class="tool-badge claude-skills">Claude Skills</span></td>
-                  <td>Screens or user flows</td>
-                  <td>
+                  <td class="deliverable" data-label="Deliverable">Heuristic Evaluation Report</td>
+                  <td data-label="Tool"><span class="tool-badge claude-skills">Claude Skills</span></td>
+                  <td data-label="You Need">Screens or user flows</td>
+                  <td data-label="What It Does">
                     Reviews your UI against usability principles
                     <div class="tip-inline">👉 Paste screenshots + context → ask for usability issues + severity</div>
                   </td>
-                  <td>
-                    <div class="stars">
-                      <span class="s-filled">★★★</span>
+                  <td data-label="Rating">
+                    <div class="stars"><span class="s-filled">★★★</span></div>
+                  </td>
+                  <td class="link-cell" data-label="Links">
+                    <div class="link-split">
+                      <div class="link-pod" data-pod="POD 1">
+                        <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
+                      </div>
+                      <div class="link-pod" data-pod="POD 2">
+                        <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
+                      </div>
                     </div>
                   </td>
                 </tr>
 
                 <!-- Accessibility Audit -->
                 <tr>
-                  <td class="deliverable">Accessibility Audit Report</td>
-                  <td><span class="tool-badge claude-skills">Claude Skills</span></td>
-                  <td>Screens or product</td>
-                  <td>Generates audit reports against WCAG standards</td>
-                  <td>
-                    <div class="stars">
-                      <span class="s-filled">★★★</span>
+                  <td class="deliverable" data-label="Deliverable">Accessibility Audit Report</td>
+                  <td data-label="Tool"><span class="tool-badge claude-skills">Claude Skills</span></td>
+                  <td data-label="You Need">Screens or product</td>
+                  <td data-label="What It Does">Generates audit reports against WCAG standards</td>
+                  <td data-label="Rating">
+                    <div class="stars"><span class="s-filled">★★★</span></div>
+                  </td>
+                  <td class="link-cell" data-label="Links">
+                    <div class="link-split">
+                      <div class="link-pod" data-pod="POD 1">
+                        <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
+                      </div>
+                      <div class="link-pod" data-pod="POD 2">
+                        <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
+                      </div>
                     </div>
                   </td>
                 </tr>
@@ -557,37 +937,48 @@ body {
           <!-- UX Design -->
           <div class="section-block">
             <div class="sec-h3">UX Design</div>
-            <table class="analysis-table">
-              <thead>
-                <tr>
-                  <th style="width:200px;">Deliverable</th>
-                  <th style="width:160px;">Tool</th>
-                  <th>You Need / What It Does</th>
-                  <th style="width:110px;">Rating</th>
+            <table class="analysis-table" aria-label="UX Design deliverables and AI tool ratings">
+                  <th style="width:100px;">Rating</th>
+                  <th style="width:180px;text-align:center;">
+                    Link
+                    <div style="display:flex;border-top:1px solid var(--border);margin-top:6px;">
+                      <span style="flex:1;text-align:center;padding-top:4px;font-size:10px;color:var(--tl);font-weight:600;letter-spacing:0.06em;">POD 1</span>
+                      <span style="width:1px;background:var(--border);"></span>
+                      <span style="flex:1;text-align:center;padding-top:4px;font-size:10px;color:var(--tl);font-weight:600;letter-spacing:0.06em;">POD 2</span>
+                    </div>
+                  </th>
                 </tr>
               </thead>
               <tbody>
 
                 <!-- High Fidelity -->
                 <tr>
-                  <td class="deliverable">High-Fidelity Designs</td>
-                  <td><span class="tool-badge figma-make">Figma Make</span><br><span style="font-size:11px;color:var(--tm);margin-top:4px;display:block;">Claude Sonnet 4.6</span></td>
-                  <td>
+                  <td class="deliverable" data-label="Deliverable">High-Fidelity Designs</td>
+                  <td data-label="Tool"><span class="tool-badge figma-make">Figma Make</span><br><span style="font-size:11px;color:var(--tm);margin-top:4px;display:block;">Claude Sonnet 4.6</span></td>
+                  <td data-label="What It Does">
                     <span style="color:var(--ts);">Wireframes + design direction → Final polished UI</span>
                     <div class="tip-inline">👉 This is where human control matters most</div>
                   </td>
-                  <td>
-                    <div class="stars">
-                      <span class="s-filled">★★</span><span class="s-half">★</span><span class="s-empty">½</span>
-                    </div>
+                  <td data-label="Rating">
+                    <div class="stars"><span class="s-filled">★★</span><span class="s-half">★</span><span class="s-empty">½</span></div>
                     <div style="font-size:11px;color:var(--tm);margin-top:4px;">Better than average</div>
+                  </td>
+                  <td class="link-cell" data-label="Links">
+                    <div class="link-split">
+                      <div class="link-pod" data-pod="POD 1">
+                        <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
+                      </div>
+                      <div class="link-pod" data-pod="POD 2">
+                        <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
+                      </div>
+                    </div>
                   </td>
                 </tr>
 
                 <!-- Building Design System — Accordion -->
                 <tr class="accordion-row" id="ds-accordion">
-                  <td colspan="4">
-                    <button class="accordion-trigger" onclick="toggleAccordion('ds-accordion')">
+                  <td colspan="5">
+                    <button class="accordion-trigger" onclick="toggleAccordion('ds-accordion')" aria-expanded="false" aria-controls="ds-accordion-body" aria-label="Building Design System — expand to see sub-tasks">
                       <div class="accordion-trigger-left">
                         <span style="font-weight:600;color:var(--tp);font-size:14px;">Building Design System</span>
                         <span style="font-size:12px;color:var(--tm);">— expand to see sub-tasks</span>
@@ -597,7 +988,7 @@ body {
                         <span class="accordion-chevron">▶</span>
                       </div>
                     </button>
-                    <div class="accordion-body">
+                    <div class="accordion-body" id="ds-accordion-body">
                       <div class="sub-item">
                         <div class="sub-item-label">2.1 &nbsp;Defining Tokens</div>
                         <span class="tool-badge claude-code">Claude Code</span>
@@ -619,20 +1010,28 @@ body {
 
                 <!-- Design System Integration -->
                 <tr>
-                  <td class="deliverable">Design System Integration</td>
-                  <td>
+                  <td class="deliverable" data-label="Deliverable">Design System Integration</td>
+                  <td data-label="Tool">
                     <span class="tool-badge figma-make">Figma Make</span>
                     <span style="display:block;margin-top:4px;"></span>
                     <span class="tool-badge claude-code" style="margin-top:4px;">Claude Code</span>
                   </td>
-                  <td>
+                  <td data-label="What It Does">
                     <span style="color:var(--ts);">Does not apply design system universally — requires manual intervention</span>
                   </td>
-                  <td>
-                    <div class="stars">
-                      <span class="s-filled">★</span><span class="s-empty">★★</span>
-                    </div>
+                  <td data-label="Rating">
+                    <div class="stars"><span class="s-filled">★</span><span class="s-empty">★★</span></div>
                     <div style="font-size:11px;color:var(--red);margin-top:4px;">Poor</div>
+                  </td>
+                  <td class="link-cell" data-label="Links">
+                    <div class="link-split">
+                      <div class="link-pod" data-pod="POD 1">
+                        <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
+                      </div>
+                      <div class="link-pod" data-pod="POD 2">
+                        <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
+                      </div>
+                    </div>
                   </td>
                 </tr>
 
@@ -641,33 +1040,6 @@ body {
           </div>
 
         </div>
-      </div>
-    </div>
-
-    <!-- ══════════════════════════════
-         PAGE: SETTING UP CLAUDE CODE
-    ══════════════════════════════ -->
-    <div class="page" id="page-setup">
-      <div class="wip-screen">
-        <div class="wip-illo">
-          <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="70" cy="70" r="60" fill="#161B22" stroke="#21262D" stroke-width="2"/>
-            <rect x="42" y="50" width="56" height="42" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
-            <rect x="48" y="57" width="22" height="3" rx="1.5" fill="#FF6B35" opacity="0.8"/>
-            <rect x="48" y="63" width="34" height="2" rx="1" fill="#3D4956"/>
-            <rect x="48" y="68" width="28" height="2" rx="1" fill="#3D4956"/>
-            <rect x="48" y="73" width="32" height="2" rx="1" fill="#2DD4C8" opacity="0.6"/>
-            <rect x="48" y="78" width="20" height="2" rx="1" fill="#3D4956"/>
-            <circle cx="98" cy="44" r="16" fill="#21262D" stroke="#FF6B35" stroke-width="1.5"/>
-            <path d="M93 44l3.5 3.5L105 38" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
-            <text x="94" y="49" font-size="14" fill="#FF6B35" font-family="sans-serif">✦</text>
-            <rect x="52" y="92" width="36" height="6" rx="3" fill="#2D333B"/>
-            <path d="M55 95h10M69 95h6" stroke="#6E7B8A" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </div>
-        <div class="wip-title">Coming Soon</div>
-        <div class="wip-sub">Setting up Claude Code — installation, configuration, and your first session with the terminal agent.</div>
-        <div class="wip-pill">🛠 Work in progress</div>
       </div>
     </div>
 
@@ -743,27 +1115,406 @@ body {
          PAGE: CLAUDE SKILLS
     ══════════════════════════════ -->
     <div class="page" id="page-skills">
-      <div class="wip-screen">
-        <div class="wip-illo">
-          <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="70" cy="70" r="60" fill="#161B22" stroke="#21262D" stroke-width="2"/>
-            <rect x="36" y="44" width="68" height="14" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
-            <rect x="41" y="49" width="18" height="4" rx="2" fill="#FF6B35" opacity="0.7"/>
-            <rect x="63" y="50" width="30" height="2" rx="1" fill="#3D4956"/>
-            <rect x="36" y="62" width="68" height="14" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
-            <rect x="41" y="67" width="18" height="4" rx="2" fill="#2DD4C8" opacity="0.7"/>
-            <rect x="63" y="68" width="24" height="2" rx="1" fill="#3D4956"/>
-            <rect x="36" y="80" width="68" height="14" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
-            <rect x="41" y="85" width="18" height="4" rx="2" fill="#A78BFA" opacity="0.7"/>
-            <rect x="63" y="86" width="28" height="2" rx="1" fill="#3D4956"/>
-            <circle cx="100" cy="96" r="14" fill="#21262D" stroke="#FF6B35" stroke-width="1.5"/>
-            <path d="M95 96l3.5 3.5 6.5-7" stroke="#FF6B35" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
+      <div class="skills-page">
+
+        <!-- Header -->
+        <div class="sp-header">
+          <div class="page-eyebrow">Claude Skills</div>
+          <h1 class="page-h1">Everything you need to know about Claude Skills</h1>
+          <p class="page-lead">A way to package repeatable design expertise into reusable instructions — defined once, applied consistently every time.</p>
         </div>
-        <div class="wip-title">Coming Soon</div>
-        <div class="wip-sub">Claude Skills — building reusable instruction sets that encode your design expertise and scale it across the team.</div>
-        <div class="wip-pill">◎ Work in progress</div>
-      </div>
+
+        <!-- Sections with sidebar layout -->
+        <div class="sp-layout">
+
+          <!-- Sticky section nav -->
+          <nav class="sp-sidenav" aria-label="Skills page sections">
+            <div class="sp-sidenav-label">On this page</div>
+            <a class="sp-sidenav-item active" href="#sk-what">What are Claude Skills?</a>
+            <a class="sp-sidenav-item" href="#sk-works">Where Skills Work vs Fall Short</a>
+            <a class="sp-sidenav-item" href="#sk-decision">Quick Decision Test</a>
+            <a class="sp-sidenav-item" href="#sk-deliverables">UX Deliverables</a>
+            <a class="sp-sidenav-item" href="#sk-anatomy">Skill Anatomy at a Glance</a>
+            <a class="sp-sidenav-item" href="#sk-howto">How to Write a Skill</a>
+            <a class="sp-sidenav-item" href="#sk-demo">Demo: Personas from SOW</a>
+          </nav>
+
+          <!-- Content -->
+          <div class="sp-content">
+
+            <!-- ── Section 1: What are Skills ── -->
+            <section class="sp-section" id="sk-what">
+              <h2 class="sp-h2">What are Claude Skills?</h2>
+              <p class="sp-body">Instead of writing detailed prompts again and again, Skills let you define once — and reuse forever. When you use a Skill, Claude:</p>
+              <div class="sk-how-grid">
+                <div class="sk-how-card">
+                  <div class="sk-how-ico">📥</div>
+                  <div class="sk-how-title">Loads a predefined instruction set</div>
+                  <div class="sk-how-desc">Like a mini system prompt — your rules, framework, and format are already in place.</div>
+                </div>
+                <div class="sk-how-card">
+                  <div class="sk-how-ico">🔁</div>
+                  <div class="sk-how-title">Applies it consistently every time</div>
+                  <div class="sk-how-desc">No variation between sessions. Same structure, same standard, same quality bar.</div>
+                </div>
+                <div class="sk-how-card">
+                  <div class="sk-how-ico">📤</div>
+                  <div class="sk-how-title">Produces predictable output</div>
+                  <div class="sk-how-desc">Every output follows the format you defined — ready to use, not ready to fix.</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ── Section 2: Where Skills Work vs Fall Short ── -->
+            <section class="sp-section" id="sk-works">
+              <h2 class="sp-h2">Where Skills Work vs Fall Short</h2>
+              <p class="sp-body">Skills are powerful — but not universal. Knowing the boundary is as important as knowing the tool.</p>
+              <div class="sk-split">
+                <div class="sk-split-col sk-split-yes">
+                  <div class="sk-split-head">
+                    <span class="sk-split-ico">✅</span>
+                    <span>Where it works</span>
+                  </div>
+                  <ul class="sk-split-list">
+                    <li>Repeatable tasks — UX audits, accessibility checks</li>
+                    <li>Structured transformation — SOW → Persona, flows → journey map</li>
+                    <li>Documentation-heavy work — design system docs, handoff specs</li>
+                    <li>Checklist-driven processes — QA reviews, heuristic evaluations</li>
+                  </ul>
+                </div>
+                <div class="sk-split-col sk-split-no">
+                  <div class="sk-split-head">
+                    <span class="sk-split-ico">🚫</span>
+                    <span>Where it fails</span>
+                  </div>
+                  <ul class="sk-split-list">
+                    <li>Ambiguous problems — product strategy, vision definition</li>
+                    <li>Insight-heavy work requiring judgment, not just formatting</li>
+                    <li>Creative exploration — layout concepts, visual direction</li>
+                    <li>Context-heavy decisions — tradeoffs, business vs user conflicts</li>
+                  </ul>
+                </div>
+              </div>
+            </section>
+
+            <!-- ── Section 3: Quick Decision Test ── -->
+            <section class="sp-section" id="sk-decision">
+              <h2 class="sp-h2">Quick Decision Test</h2>
+              <p class="sp-body">Not sure whether to use a Skill? Run through this quick check.</p>
+              <div class="sk-decision-grid">
+                <div class="sk-decision-card sk-decision-use">
+                  <div class="sk-decision-head">Use a Skill if…</div>
+                  <div class="sk-decision-items">
+                    <div class="sk-decision-item"><span class="sk-check">✓</span> Task is repeatable</div>
+                    <div class="sk-decision-item"><span class="sk-check">✓</span> A framework already exists</div>
+                    <div class="sk-decision-item"><span class="sk-check">✓</span> Output can be structured</div>
+                    <div class="sk-decision-item"><span class="sk-check">✓</span> The task is time-consuming</div>
+                  </div>
+                </div>
+                <div class="sk-decision-card sk-decision-avoid">
+                  <div class="sk-decision-head">Avoid if…</div>
+                  <div class="sk-decision-items">
+                    <div class="sk-decision-item"><span class="sk-cross">✗</span> Needs deep judgment</div>
+                    <div class="sk-decision-item"><span class="sk-cross">✗</span> Problem is unclear or open-ended</div>
+                    <div class="sk-decision-item"><span class="sk-cross">✗</span> Creativity is the goal</div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ── Section 4: UX Deliverables ── -->
+            <section class="sp-section" id="sk-deliverables">
+              <h2 class="sp-h2">UX Deliverables Where Skills Drive Faster Outcomes</h2>
+              <p class="sp-body">These are the deliverables where Skills consistently add speed, consistency, or both — along with an honest reality check for each.</p>
+
+              <div class="sk-fit-legend">
+                <span class="sk-fit-badge fit-best">🟢 Best Fit</span>
+                <span class="sk-fit-badge fit-caution">🟡 Use with Caution</span>
+                <span class="sk-fit-badge fit-poor">🔴 Poor Fit</span>
+              </div>
+
+              <div class="sk-deliverables-wrap">
+                <table class="sk-table" aria-label="UX deliverables and skill fit ratings">
+                  <thead>
+                    <tr>
+                      <th style="width:160px;">Deliverable</th>
+                      <th style="width:60px;">Fit</th>
+                      <th>Typical Input</th>
+                      <th>What the Skill Does</th>
+                      <th>Key Benefit</th>
+                      <th>Reality Check</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="sk-td-name">Persona Synthesis</td>
+                      <td class="sk-td-fit"><span title="Use with Caution">🟡</span></td>
+                      <td>SOW, research notes, interviews</td>
+                      <td>Structures persona, maps insights to evidence, flags assumptions &amp; gaps</td>
+                      <td>Consistent, non-fluffy personas</td>
+                      <td class="sk-td-check">Only as good as input quality</td>
+                    </tr>
+                    <tr>
+                      <td class="sk-td-name">User Journey Mapping</td>
+                      <td class="sk-td-fit"><span title="Use with Caution">🟡</span></td>
+                      <td>Flows, requirements, scenarios</td>
+                      <td>Standardises stages, maps actions, touchpoints, pain points</td>
+                      <td>Faster, consistent journey outputs</td>
+                      <td class="sk-td-check">Emotional depth often guessed</td>
+                    </tr>
+                    <tr>
+                      <td class="sk-td-name">Heuristic Evaluation / UX Audit</td>
+                      <td class="sk-td-fit"><span title="Best Fit">🟢</span></td>
+                      <td>Screens, flows</td>
+                      <td>Applies usability heuristics, structures issues, severity, recommendations</td>
+                      <td>High speed + consistency in audits</td>
+                      <td class="sk-td-check">Still needs human judgment for prioritisation</td>
+                    </tr>
+                    <tr>
+                      <td class="sk-td-name">Research Synthesis</td>
+                      <td class="sk-td-fit"><span title="Poor Fit">🔴</span></td>
+                      <td>Interview notes, observations</td>
+                      <td>Clusters data, identifies themes, structures insights</td>
+                      <td>Speeds up synthesis significantly</td>
+                      <td class="sk-td-check">Weak at judging importance without guidance</td>
+                    </tr>
+                    <tr>
+                      <td class="sk-td-name">User Stories &amp; Acceptance Criteria</td>
+                      <td class="sk-td-fit"><span title="Best Fit">🟢</span></td>
+                      <td>Requirements, SOW</td>
+                      <td>Formats into stories + edge cases + conditions</td>
+                      <td>Reduces ambiguity, improves dev alignment</td>
+                      <td class="sk-td-check">Needs validation for completeness</td>
+                    </tr>
+                    <tr>
+                      <td class="sk-td-name">UX Writing / Microcopy</td>
+                      <td class="sk-td-fit"><span title="Best Fit">🟢</span></td>
+                      <td>Screens, flows, tone guidelines</td>
+                      <td>Generates consistent copy — CTAs, errors, empty states</td>
+                      <td>Improves consistency, saves time</td>
+                      <td class="sk-td-check">Can become generic without strong tone rules</td>
+                    </tr>
+                    <tr>
+                      <td class="sk-td-name">Design System Documentation</td>
+                      <td class="sk-td-fit"><span title="Best Fit">🟢</span></td>
+                      <td>Components, usage context</td>
+                      <td>Writes usage rules, do/don'ts, guidelines</td>
+                      <td>Standardised documentation at scale</td>
+                      <td class="sk-td-check">Needs review for accuracy</td>
+                    </tr>
+                    <tr>
+                      <td class="sk-td-name">JTBD Statements</td>
+                      <td class="sk-td-fit"><span title="Use with Caution">🟡</span></td>
+                      <td>Needs, behaviours, research insights</td>
+                      <td>Converts inputs into structured job statements</td>
+                      <td>Forces clarity, avoids feature thinking</td>
+                      <td class="sk-td-check">Can oversimplify complex contexts</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- ── Section 5: Skill Anatomy ── -->
+            <section class="sp-section" id="sk-anatomy">
+              <h2 class="sp-h2">Skill Anatomy at a Glance</h2>
+              <p class="sp-body">Every well-written Skill is built from these six parts. The example below is for a Heuristic Evaluation Skill.</p>
+              <div class="sk-anatomy-grid">
+                <div class="sk-anatomy-card">
+                  <div class="sk-anatomy-num">01</div>
+                  <div class="sk-anatomy-label">Purpose</div>
+                  <div class="sk-anatomy-example">"Evaluate a UI against Jakob Nielsen's usability heuristics and generate structured findings with severity scores."</div>
+                </div>
+                <div class="sk-anatomy-card">
+                  <div class="sk-anatomy-num">02</div>
+                  <div class="sk-anatomy-label">Input</div>
+                  <div class="sk-anatomy-example">"Accepts UI screens (images), screen descriptions, or user flows. Avoid vague or incomplete inputs lacking UI context."</div>
+                </div>
+                <div class="sk-anatomy-card">
+                  <div class="sk-anatomy-num">03</div>
+                  <div class="sk-anatomy-label">Framework / Method</div>
+                  <div class="sk-anatomy-example">"Use Jakob Nielsen's 10 usability heuristics. Assess the interface against each heuristic systematically."</div>
+                </div>
+                <div class="sk-anatomy-card">
+                  <div class="sk-anatomy-num">04</div>
+                  <div class="sk-anatomy-label">Output Format</div>
+                  <div class="sk-anatomy-example">"For each heuristic, list: Issue · Evidence (from UI) · Impact on user · Severity (0–4) · Recommendation"</div>
+                </div>
+                <div class="sk-anatomy-card">
+                  <div class="sk-anatomy-num">05</div>
+                  <div class="sk-anatomy-label">Rules / Constraints</div>
+                  <div class="sk-anatomy-example">"Do not invent missing context. Base all findings strictly on provided input. Avoid generic statements. Keep recommendations specific."</div>
+                </div>
+                <div class="sk-anatomy-card">
+                  <div class="sk-anatomy-num">06</div>
+                  <div class="sk-anatomy-label">Evaluation Criteria</div>
+                  <div class="sk-anatomy-example">"Severity scale: 0 = No issue · 1 = Cosmetic · 2 = Minor · 3 = Major · 4 = Critical. Each issue must include a clear justification."</div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ── Section 6: How to Write a Skill ── -->
+            <section class="sp-section" id="sk-howto">
+              <h2 class="sp-h2">How to Write a Skill — Step by Step</h2>
+              <p class="sp-body">Three steps from blank page to working Skill in Claude Code.</p>
+
+              <!-- Step 1 -->
+              <div class="sk-step">
+                <div class="sk-step-header">
+                  <div class="sk-step-num">01</div>
+                  <div>
+                    <div class="sk-step-title">Write Skill Instructions</div>
+                    <div class="sk-step-sub">Works best when you want clarity, repeatability, and consistent outputs</div>
+                  </div>
+                </div>
+                <div class="sk-step-body">
+                  <p class="sp-body" style="margin-bottom:16px;">Use the 6-part anatomy above. Structure each section with <code class="sk-code">##</code> headers — Claude uses these to parse your instructions clearly.</p>
+                  <div class="sk-mockup">
+                    <div class="sk-mockup-bar">
+                      <span class="sk-mockup-dot" style="background:#F87171;"></span>
+                      <span class="sk-mockup-dot" style="background:#F59E0B;"></span>
+                      <span class="sk-mockup-dot" style="background:#34D399;"></span>
+                      <span class="sk-mockup-title">skill-instructions.md</span>
+                    </div>
+                    <div class="sk-mockup-body">
+                      <div class="sk-code-line"><span class="sk-c-head">## Purpose</span></div>
+                      <div class="sk-code-line sk-c-text">Evaluate a UI against Jakob Nielsen's 10 usability heuristics…</div>
+                      <div class="sk-code-line sk-c-blank"></div>
+                      <div class="sk-code-line"><span class="sk-c-head">## Input</span></div>
+                      <div class="sk-code-line sk-c-text">Accepts UI screens (images), screen descriptions, or user flows…</div>
+                      <div class="sk-code-line sk-c-blank"></div>
+                      <div class="sk-code-line"><span class="sk-c-head">## Framework / Method</span></div>
+                      <div class="sk-code-line sk-c-text">Use Jakob Nielsen's 10 usability heuristics as the evaluation framework…</div>
+                      <div class="sk-code-line sk-c-blank"></div>
+                      <div class="sk-code-line"><span class="sk-c-head">## Output Format</span></div>
+                      <div class="sk-code-line sk-c-text">For each heuristic, list: Issue · Evidence · Impact · Severity (0–4) · Recommendation</div>
+                      <div class="sk-code-line sk-c-blank"></div>
+                      <div class="sk-code-line"><span class="sk-c-head">## Rules / Constraints</span></div>
+                      <div class="sk-code-line sk-c-text">Do not invent missing context. Base all findings strictly on provided input…</div>
+                      <div class="sk-code-line sk-c-blank"></div>
+                      <div class="sk-code-line"><span class="sk-c-head">## Evaluation Criteria</span></div>
+                      <div class="sk-code-line sk-c-text">Severity: 0 = No issue · 1 = Cosmetic · 2 = Minor · 3 = Major · 4 = Critical</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 2 -->
+              <div class="sk-step">
+                <div class="sk-step-header">
+                  <div class="sk-step-num">02</div>
+                  <div>
+                    <div class="sk-step-title">Create the Skill in Claude Code</div>
+                    <div class="sk-step-sub">Navigate to Skills in Claude Code and paste your instructions</div>
+                  </div>
+                </div>
+                <div class="sk-step-body">
+                  <div class="sk-ui-steps">
+                    <div class="sk-ui-step">
+                      <div class="sk-ui-step-num">1</div>
+                      <div class="sk-ui-step-text">Open Claude Code → click <strong>Customize</strong> in the sidebar</div>
+                    </div>
+                    <div class="sk-ui-arrow">→</div>
+                    <div class="sk-ui-step">
+                      <div class="sk-ui-step-num">2</div>
+                      <div class="sk-ui-step-text">Go to <strong>Skills</strong> → click <strong>Create New</strong></div>
+                    </div>
+                    <div class="sk-ui-arrow">→</div>
+                    <div class="sk-ui-step">
+                      <div class="sk-ui-step-num">3</div>
+                      <div class="sk-ui-step-text">Paste your instructions → use <code class="sk-code">##</code> headings for bold sections</div>
+                    </div>
+                    <div class="sk-ui-arrow">→</div>
+                    <div class="sk-ui-step">
+                      <div class="sk-ui-step-num">4</div>
+                      <div class="sk-ui-step-text">Toggle switches <strong>on</strong> by default — Skill is ready to use</div>
+                    </div>
+                  </div>
+                  <div class="sk-tip">
+                    <span class="sk-tip-ico">💡</span>
+                    <span>Using <code class="sk-code">##</code> to format section headings makes them bold in Claude Code, which significantly improves how Claude reads and applies your Skill.</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step 3 -->
+              <div class="sk-step">
+                <div class="sk-step-header">
+                  <div class="sk-step-num">03</div>
+                  <div>
+                    <div class="sk-step-title">Invoke the Skill</div>
+                    <div class="sk-step-sub">Type the skill name to apply it instantly</div>
+                  </div>
+                </div>
+                <div class="sk-step-body">
+                  <p class="sp-body" style="margin-bottom:16px;">In Claude Code, type <code class="sk-code">/skill-name</code> followed by your input to trigger the Skill. Claude will immediately apply the predefined instructions.</p>
+                  <div class="sk-mockup">
+                    <div class="sk-mockup-bar">
+                      <span class="sk-mockup-dot" style="background:#F87171;"></span>
+                      <span class="sk-mockup-dot" style="background:#F59E0B;"></span>
+                      <span class="sk-mockup-dot" style="background:#34D399;"></span>
+                      <span class="sk-mockup-title">Claude Code — Terminal</span>
+                    </div>
+                    <div class="sk-mockup-body">
+                      <div class="sk-code-line"><span class="sk-c-prompt">$</span> <span class="sk-c-cmd">/heuristic-evaluation</span> <span class="sk-c-text">screens/dashboard-v2.png</span></div>
+                      <div class="sk-code-line sk-c-blank"></div>
+                      <div class="sk-code-line sk-c-comment">▸ Applying Heuristic Evaluation skill…</div>
+                      <div class="sk-code-line sk-c-comment">▸ Loading predefined instructions</div>
+                      <div class="sk-code-line sk-c-comment">▸ Evaluating against 10 Nielsen heuristics</div>
+                      <div class="sk-code-line sk-c-blank"></div>
+                      <div class="sk-code-line sk-c-output">## Heuristic Evaluation Report</div>
+                      <div class="sk-code-line sk-c-output">**Visibility of System Status** — Severity: 3</div>
+                      <div class="sk-code-line sk-c-text">Issue: Loading states absent on data-heavy tables…</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- ── Section 7: Demo ── -->
+            <section class="sp-section" id="sk-demo">
+              <h2 class="sp-h2">Demo: Extracting Personas from SOW Documents</h2>
+              <p class="sp-body">One of the most practical applications of Skills for design teams — turning business-focused SOWs into structured user personas.</p>
+
+              <div class="sk-demo-context">
+                <div class="sk-demo-col">
+                  <div class="sk-demo-col-head sk-demo-head-reality">Reality</div>
+                  <ul class="sk-demo-list">
+                    <li>UX starts from SOWs, not research</li>
+                    <li>Documents are business-focused, not user-focused</li>
+                    <li>User understanding is partial and implicit</li>
+                  </ul>
+                </div>
+                <div class="sk-demo-arrow" aria-hidden="true">→</div>
+                <div class="sk-demo-col">
+                  <div class="sk-demo-col-head sk-demo-head-outcome">Outcome (without Skills)</div>
+                  <ul class="sk-demo-list">
+                    <li>Personas built on assumptions</li>
+                    <li>Gaps discovered too late</li>
+                    <li>Misalignment between business goals and user needs</li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="sk-demo-solution">
+                <div class="sk-demo-solution-ico">👉</div>
+                <div>
+                  <div class="sk-demo-solution-title">What if we could extract and validate user understanding upfront?</div>
+                  <div class="sk-demo-solution-body">A Persona Synthesis Skill takes raw SOW text as input, structures it against a persona template, explicitly flags assumptions, and surfaces gaps — before design work begins.</div>
+                </div>
+              </div>
+
+              <div class="sk-demo-btn-row">
+                <a href="#" class="sk-demo-btn" aria-label="View demo outcome — link placeholder">
+                  <svg width="14" height="14" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  View Demo Outcome
+                </a>
+              </div>
+            </section>
+
+          </div><!-- /sp-content -->
+        </div><!-- /sp-layout -->
+      </div><!-- /skills-page -->
     </div>
 
     <!-- ══════════════════════════════
@@ -796,32 +1547,144 @@ body {
       </div>
     </div>
 
+    <!-- ══════════════════════════════
+         PAGE: RESOURCES — INTERNAL
+    ══════════════════════════════ -->
+    <div class="page" id="page-resources-internal">
+      <div class="wip-screen">
+        <div class="wip-illo">
+          <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="70" cy="70" r="60" fill="#161B22" stroke="#21262D" stroke-width="2"/>
+            <rect x="44" y="38" width="36" height="46" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
+            <rect x="50" y="46" width="24" height="3" rx="1.5" fill="#FF6B35" opacity="0.7"/>
+            <rect x="50" y="52" width="20" height="2" rx="1" fill="#3D4956"/>
+            <rect x="50" y="56" width="22" height="2" rx="1" fill="#3D4956"/>
+            <rect x="50" y="60" width="16" height="2" rx="1" fill="#3D4956"/>
+            <rect x="50" y="64" width="20" height="2" rx="1" fill="#3D4956"/>
+            <rect x="50" y="68" width="12" height="2" rx="1" fill="#2DD4C8" opacity="0.5"/>
+            <rect x="60" y="50" width="36" height="46" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
+            <rect x="66" y="58" width="24" height="3" rx="1.5" fill="#2DD4C8" opacity="0.7"/>
+            <rect x="66" y="64" width="20" height="2" rx="1" fill="#3D4956"/>
+            <rect x="66" y="68" width="22" height="2" rx="1" fill="#3D4956"/>
+            <rect x="66" y="72" width="16" height="2" rx="1" fill="#3D4956"/>
+            <rect x="66" y="76" width="18" height="2" rx="1" fill="#3D4956"/>
+            <rect x="66" y="80" width="14" height="2" rx="1" fill="#A78BFA" opacity="0.5"/>
+          </svg>
+        </div>
+        <div class="wip-title">Coming Soon</div>
+        <div class="wip-sub">Internal Resources — team prompts, skill files, shared projects, and internal documentation.</div>
+        <div class="wip-pill">⊞ Work in progress</div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         PAGE: RESOURCES — EXTERNAL
+    ══════════════════════════════ -->
+    <div class="page" id="page-resources-external">
+      <div class="wip-screen">
+        <div class="wip-illo">
+          <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="70" cy="70" r="60" fill="#161B22" stroke="#21262D" stroke-width="2"/>
+            <circle cx="70" cy="70" r="22" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
+            <ellipse cx="70" cy="70" rx="10" ry="22" fill="none" stroke="#3D4956" stroke-width="1.2"/>
+            <line x1="48" y1="70" x2="92" y2="70" stroke="#3D4956" stroke-width="1.2"/>
+            <line x1="50" y1="60" x2="90" y2="60" stroke="#3D4956" stroke-width="1"/>
+            <line x1="50" y1="80" x2="90" y2="80" stroke="#3D4956" stroke-width="1"/>
+            <circle cx="70" cy="70" r="22" fill="none" stroke="#2DD4C8" stroke-width="1.5" opacity="0.4"/>
+            <circle cx="96" cy="44" r="12" fill="#21262D" stroke="#FF6B35" stroke-width="1.5"/>
+            <path d="M92 44l2.5 2.5L100 38.5" stroke="#FF6B35" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div class="wip-title">Coming Soon</div>
+        <div class="wip-sub">External Resources — curated links, Anthropic docs, community references, and third-party tools.</div>
+        <div class="wip-pill">⊞ Work in progress</div>
+      </div>
+    </div>
+
   </main>
 </div>
 
 <script>
+const pageMap = ['intro','setup','ui','ds','skills'];
+
 function showPage(id) {
-  // Hide all pages
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => {
+    n.classList.remove('active');
+    n.removeAttribute('aria-current');
+  });
 
-  // Show target
-  document.getElementById('page-' + id).classList.add('active');
+  const target = document.getElementById('page-' + id);
+  if (target) target.classList.add('active');
 
-  // Activate nav item
-  const navItems = document.querySelectorAll('.nav-item');
-  const pageMap = ['intro','setup','ui','ds','skills','resources'];
-  const idx = pageMap.indexOf(id);
-  if (idx > -1) navItems[idx].classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => {
+    const fn = n.getAttribute('onclick') || '';
+    if (fn.includes("'" + id + "'")) {
+      n.classList.add('active');
+      n.setAttribute('aria-current', 'page');
+    }
+  });
 
-  // Scroll main to top
+  if (id.startsWith('resources')) {
+    document.querySelectorAll('.nav-item').forEach(n => {
+      const fn = n.getAttribute('onclick') || '';
+      if (fn.includes("'resources-sub'")) n.classList.add('active');
+    });
+  }
+
   document.querySelector('.main').scrollTo(0, 0);
+  // Move focus to main content for screen readers
+  const main = document.getElementById('main-content');
+  if (main) main.focus();
+  // Init skills scroll spy when on skills page
+  if (id === 'skills') setTimeout(initSkillsScrollSpy, 100);
+}
+
+function toggleSubnav(subnavId, parentEl) {
+  const sub = document.getElementById(subnavId);
+  sub.classList.toggle('open');
+  parentEl.classList.toggle('open');
+  const expanded = sub.classList.contains('open');
+  parentEl.setAttribute('aria-expanded', expanded);
 }
 
 function toggleAccordion(rowId) {
   const row = document.getElementById(rowId);
   row.classList.toggle('open');
+  const btn = row.querySelector('.accordion-trigger');
+  const expanded = row.classList.contains('open');
+  btn.setAttribute('aria-expanded', expanded);
 }
+
+// Skills page scroll spy
+function initSkillsScrollSpy() {
+  const sections = document.querySelectorAll('#page-skills .sp-section');
+  const navLinks = document.querySelectorAll('.sp-sidenav-item');
+  if (!sections.length || !navLinks.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(l => l.classList.remove('active'));
+        const active = document.querySelector('.sp-sidenav-item[href="#' + entry.target.id + '"]');
+        if (active) active.classList.add('active');
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px', threshold: 0 });
+
+  sections.forEach(s => observer.observe(s));
+}
+
+// Keyboard support for nav items and buttons
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' || e.key === ' ') {
+    const el = e.target;
+    if (el.classList.contains('nav-item') || el.classList.contains('nav-sub')) {
+      e.preventDefault();
+      el.click();
+    }
+  }
+});
 </script>
 
 </body>
