@@ -376,6 +376,7 @@ body {
 /* ── Analysis Table ── */
 .analysis-table {
   width: 100%;
+  min-width: 860px;
   border-collapse: collapse;
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
@@ -515,35 +516,39 @@ body {
 
 /* ── Link column ── */
 .link-cell {
-  padding: 8px 12px !important;
+  padding: 0 !important;
   vertical-align: middle;
   text-align: center;
+  min-width: 160px;
 }
 .link-split {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  align-items: center;
+  flex-direction: row;
+  align-items: stretch;
+  height: 100%;
+  min-height: 52px;
 }
 .link-pod {
+  flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  width: 100%;
+  gap: 5px;
+  padding: 10px 8px;
 }
 .link-pod + .link-pod {
-  border-left: none;
-  border-top: 1px solid var(--border);
-  padding-top: 8px;
+  border-left: 1px solid var(--border);
+  border-top: none;
+  padding-top: 10px;
 }
 .link-pod-label {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--c-gray82);
   white-space: nowrap;
-  flex-shrink: 0;
-  min-width: 68px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 .link-pod a {
   display: inline-flex;
@@ -676,6 +681,7 @@ a:focus-visible,
 
 .sk-fit-legend { display: flex; gap: 16px; margin-bottom: 16px; flex-wrap: wrap; }
 .sk-fit-badge { font-size: 12px; font-weight: 600; color: var(--ts); }
+.analysis-table-wrap { overflow-x: auto; }
 .sk-deliverables-wrap { overflow-x: auto; }
 .sk-table { width: 100%; border-collapse: collapse; border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; font-size: 13px; }
 .sk-table thead tr { background: var(--bg-3); }
@@ -1004,7 +1010,7 @@ a:focus-visible,
         <span class="nav-badge" aria-hidden="true">Soon</span>
         <span class="nav-arrow" aria-hidden="true">▶</span>
       </div>
-      <div class="subnav open" id="resources-sub" role="group" aria-label="Resources sub-pages">
+      <div class="subnav" id="resources-sub" role="group" aria-label="Resources sub-pages">
         <div class="nav-item nav-sub" onclick="showPage('resources-internal')" role="button" tabindex="0" aria-label="Internal Resources">
           <span class="nav-ico" aria-hidden="true">↳</span> Internal
         </div>
@@ -1037,7 +1043,7 @@ a:focus-visible,
           <!-- UX Analysis -->
           <div class="section-block">
             <div class="sec-h3">UX Analysis</div>
-            <table class="analysis-table" aria-label="UX Analysis deliverables and AI tool ratings">
+            <div class="analysis-table-wrap"><table class="analysis-table" aria-label="UX Analysis deliverables and AI tool ratings">
               <thead>
                 <tr>
                   <th style="width:180px;">Deliverable</th>
@@ -1146,13 +1152,13 @@ Sample URL
                 </tr>
 
               </tbody>
-            </table>
+            </table></div>
           </div>
 
           <!-- UX Design -->
           <div class="section-block">
             <div class="sec-h3">UX Design</div>
-            <table class="analysis-table" aria-label="UX Design deliverables and AI tool ratings">
+            <div class="analysis-table-wrap"><table class="analysis-table" aria-label="UX Design deliverables and AI tool ratings">
               <thead>
                 <tr>
                   <th style="width:180px;">Deliverable</th>
@@ -1906,10 +1912,11 @@ function showPage(id) {
 
 function toggleSubnav(subnavId, parentEl) {
   const sub = document.getElementById(subnavId);
-  sub.classList.toggle('open');
-  parentEl.classList.toggle('open');
-  const expanded = sub.classList.contains('open');
-  parentEl.setAttribute('aria-expanded', expanded);
+  const isOpen = sub.classList.contains('open');
+  // Toggle both to the same new state
+  sub.classList.toggle('open', !isOpen);
+  parentEl.classList.toggle('open', !isOpen);
+  parentEl.setAttribute('aria-expanded', !isOpen);
 }
 
 function toggleAccordion(rowId) {
