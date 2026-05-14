@@ -515,32 +515,31 @@ body {
 
 /* ── Link column ── */
 .link-cell {
-  padding: 0 !important;
+  padding: 8px 12px !important;
   vertical-align: middle;
 }
 .link-split {
   display: flex;
-  height: 100%;
-  min-height: 52px;
+  flex-direction: column;
+  gap: 8px;
 }
 .link-pod {
-  flex: 1;
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: 10px 10px;
-  gap: 4px;
+  gap: 8px;
 }
 .link-pod + .link-pod {
-  border-left: 1px solid var(--border);
+  border-left: none;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
 }
 .link-pod-label {
   font-size: 12px;
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
   color: var(--c-gray82);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 68px;
 }
 .link-pod a {
   display: inline-flex;
@@ -635,7 +634,7 @@ a:focus-visible,
 .sp-sidenav-item { display: block; font-size: 13px; font-weight: 500; color: var(--ts); text-decoration: none; padding: 7px 4px 7px 12px; border-left: 2px solid transparent; line-height: 1.4; transition: all 0.15s; margin-bottom: 2px; }
 .sp-sidenav-item:hover { color: var(--tp); border-left-color: var(--border-2); }
 .sp-sidenav-item.active { color: var(--orange); border-left-color: var(--orange); font-weight: 600; }
-.sp-content { flex: 1; padding: 40px 64px 120px 40px; min-width: 0; }
+.sp-content { flex: 1; padding: 40px 64px 120px 64px; min-width: 0; }
 .sp-section { margin-bottom: 64px; scroll-margin-top: 24px; }
 .sp-h2 { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 600; color: var(--tp); letter-spacing: -0.02em; margin-bottom: 10px; }
 .sp-body { font-size: 15px; color: var(--ts); line-height: 1.75; max-width: 720px; margin-bottom: 24px; }
@@ -754,6 +753,42 @@ a:focus-visible,
   .sk-ui-arrow { transform: rotate(90deg); }
 }
 
+/* ── Back to Top ── */
+.back-to-top {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  z-index: 999;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  color: var(--ts);
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.2s, background 0.2s;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+.back-to-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.back-to-top:hover {
+  background: var(--bg-4);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.25);
+}
+.back-to-top:focus-visible {
+  outline: 2px solid var(--orange);
+  outline-offset: 2px;
+}
+
 /* ── Theme Toggle ── */
 .theme-toggle {
   position: fixed;
@@ -762,24 +797,23 @@ a:focus-visible,
   z-index: 9999;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 14px 7px 10px;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
   background: var(--bg-3);
   border: 1px solid var(--border-2);
-  border-radius: 20px;
+  border-radius: 50%;
   cursor: pointer;
-  font-family: 'DM Sans', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ts);
-  transition: background 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+  font-size: 18px;
+  line-height: 1;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
   box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   user-select: none;
 }
 .theme-toggle:hover {
   background: var(--bg-4);
-  color: var(--tp);
   box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transform: scale(1.08);
 }
 .theme-toggle:focus-visible {
   outline: 2px solid var(--orange);
@@ -807,7 +841,9 @@ a:focus-visible,
 }
 [data-theme="light"] .theme-toggle-track { background: var(--orange-l); border-color: var(--orange); }
 [data-theme="light"] .theme-toggle-thumb { background: var(--orange); transform: translateX(14px); }
-.theme-toggle-ico { font-size: 15px; line-height: 1; }
+.theme-toggle-ico { font-size: 18px; line-height: 1; }
+.theme-toggle-track { display: none; }
+.theme-toggle-label { display: none; }
 /* Smooth theme transition on all elements */
 *, *::before, *::after {
   transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
@@ -911,33 +947,48 @@ a:focus-visible,
 <a href="#main-content" class="skip-link">Skip to main content</a>
 
 <!-- Theme Toggle -->
-<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Switch to light mode" aria-pressed="false">
-  <span class="theme-toggle-ico" id="theme-ico" aria-hidden="true">🌙</span>
-  <div class="theme-toggle-track" aria-hidden="true">
-    <div class="theme-toggle-thumb"></div>
-  </div>
-  <span id="theme-label">Dark</span>
-</button>
+<button class="theme-toggle" id="theme-toggle" onclick="toggleTheme()" aria-label="Switch to light mode" aria-pressed="false"><span class="theme-toggle-ico" id="theme-ico">🌙</span></button>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="back-to-top" onclick="scrollToTop()" aria-label="Back to top">↑</button>
 <div class="app">
 
   <!-- ── Sidebar ── -->
   <aside class="sidebar" aria-label="Site navigation">
     <div class="sidebar-brand" role="banner">
-      <div class="sidebar-brand-title">Designer's AI<br>Playbook</div>
+      <div class="sidebar-brand-title">AI Assisted Product Design<br><span style="font-size:12px;font-weight:400;color:var(--tm);">Playbook for Designers</span></div>
       <div class="sidebar-brand-sub">v1.0 &nbsp;·&nbsp; 25 May 2026</div>
     </div>
     <nav class="sidebar-nav" aria-label="Pages">
-      <div class="sidebar-section-label" aria-hidden="true">Contents</div>
-      <div class="nav-item active" onclick="showPage('intro')" role="button" tabindex="0" aria-current="page" aria-label="Intro">
-        <span class="nav-ico" aria-hidden="true">✦</span> Intro
+            <div class="nav-item active" onclick="showPage('intro')" role="button" tabindex="0" aria-current="page" aria-label="About this Playbook">
+        <span class="nav-ico" aria-hidden="true">✦</span> About this Playbook
       </div>
-      <div class="nav-item" onclick="showPage('ui')" role="button" tabindex="0" aria-label="Building UI Screens — coming soon">
+      <div class="nav-item nav-parent open" onclick="toggleSubnav('ui-sub', this)" role="button" tabindex="0" aria-expanded="true" aria-label="Building UI Screens">
         <span class="nav-ico" aria-hidden="true">◧</span> Building UI Screens
-        <span class="nav-badge" aria-hidden="true">Soon</span>
+        <span class="nav-arrow" aria-hidden="true">▶</span>
       </div>
-      <div class="nav-item" onclick="showPage('ds')" role="button" tabindex="0" aria-label="Design System Governance — coming soon">
+      <div class="subnav open" id="ui-sub" role="group" aria-label="Building UI Screens sub-pages">
+        <div class="nav-item nav-sub" onclick="showPage('ui-overview')" role="button" tabindex="0" aria-label="Overview">
+          <span class="nav-ico" aria-hidden="true">↳</span> Overview
+        </div>
+        <div class="nav-item nav-sub" onclick="showPage('ui-prompting')" role="button" tabindex="0" aria-label="Prompting Strategies">
+          <span class="nav-ico" aria-hidden="true">↳</span> Prompting Strategies
+        </div>
+      </div>
+      <div class="nav-item nav-parent open" onclick="toggleSubnav('ds-sub', this)" role="button" tabindex="0" aria-expanded="true" aria-label="Design System Governance">
         <span class="nav-ico" aria-hidden="true">◈</span> Design System Governance
-        <span class="nav-badge" aria-hidden="true">Soon</span>
+        <span class="nav-arrow" aria-hidden="true">▶</span>
+      </div>
+      <div class="subnav open" id="ds-sub" role="group" aria-label="Design System Governance sub-pages">
+        <div class="nav-item nav-sub" onclick="showPage('ds-tokens')" role="button" tabindex="0" aria-label="Tokens">
+          <span class="nav-ico" aria-hidden="true">↳</span> Tokens
+        </div>
+        <div class="nav-item nav-sub" onclick="showPage('ds-components')" role="button" tabindex="0" aria-label="Components">
+          <span class="nav-ico" aria-hidden="true">↳</span> Components
+        </div>
+        <div class="nav-item nav-sub" onclick="showPage('ds-documentation')" role="button" tabindex="0" aria-label="Documentation">
+          <span class="nav-ico" aria-hidden="true">↳</span> Documentation
+        </div>
       </div>
       <div class="nav-item" onclick="showPage('skills')" role="button" tabindex="0" aria-label="Claude Skills">
         <span class="nav-ico" aria-hidden="true">◎</span> Claude Skills
@@ -947,7 +998,7 @@ a:focus-visible,
         <span class="nav-badge" aria-hidden="true">Soon</span>
         <span class="nav-arrow" aria-hidden="true">▶</span>
       </div>
-      <div class="subnav" id="resources-sub" role="group" aria-label="Resources sub-pages">
+      <div class="subnav open" id="resources-sub" role="group" aria-label="Resources sub-pages">
         <div class="nav-item nav-sub" onclick="showPage('resources-internal')" role="button" tabindex="0" aria-label="Internal Resources">
           <span class="nav-ico" aria-hidden="true">↳</span> Internal
         </div>
@@ -967,8 +1018,7 @@ a:focus-visible,
     <div class="page active" id="page-intro">
       <div class="intro-page">
 
-        <div class="page-eyebrow">POC Playbook</div>
-        <h1 class="page-h1">Intro</h1>
+        <h1 class="page-h1">About this Playbook</h1>
         <p class="page-lead">This playbook is a practical framework for integrating AI into enterprise product design workflows — governed experimentations, reusable prompting systems, workflow automation, and human-led validation.</p>
 
         <div class="divider"></div>
@@ -990,12 +1040,7 @@ a:focus-visible,
                   <th>What It Does</th>
                   <th style="width:100px;">Rating</th>
                   <th style="width:180px;text-align:center;">
-                    Link
-                    <div style="display:flex;border-top:1px solid var(--border);margin-top:6px;">
-                      <span style="flex:1;text-align:center;padding-top:4px;font-size:12px;color:var(--c-gray82);font-weight:600;letter-spacing:0.04em;">POD 1</span>
-                      <span style="width:1px;background:var(--border);"></span>
-                      <span style="flex:1;text-align:center;padding-top:4px;font-size:12px;color:var(--c-gray82);font-weight:600;letter-spacing:0.04em;">POD 2</span>
-                    </div>
+Sample URL
                   </th>
                 </tr>
               </thead>
@@ -1015,10 +1060,10 @@ a:focus-visible,
                   </td>
                   <td class="link-cell" data-label="Links">
                     <div class="link-split">
-                      <div class="link-pod" data-pod="POD 1">
+                      <div class="link-pod" data-pod="Sample 1">
                         <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
                       </div>
-                      <div class="link-pod" data-pod="POD 2">
+                      <div class="link-pod" data-pod="Sample 2">
                         <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
                       </div>
                     </div>
@@ -1039,10 +1084,10 @@ a:focus-visible,
                   </td>
                   <td class="link-cell" data-label="Links">
                     <div class="link-split">
-                      <div class="link-pod" data-pod="POD 1">
+                      <div class="link-pod" data-pod="Sample 1">
                         <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
                       </div>
-                      <div class="link-pod" data-pod="POD 2">
+                      <div class="link-pod" data-pod="Sample 2">
                         <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
                       </div>
                     </div>
@@ -1063,10 +1108,10 @@ a:focus-visible,
                   </td>
                   <td class="link-cell" data-label="Links">
                     <div class="link-split">
-                      <div class="link-pod" data-pod="POD 1">
+                      <div class="link-pod" data-pod="Sample 1">
                         <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
                       </div>
-                      <div class="link-pod" data-pod="POD 2">
+                      <div class="link-pod" data-pod="Sample 2">
                         <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
                       </div>
                     </div>
@@ -1084,10 +1129,10 @@ a:focus-visible,
                   </td>
                   <td class="link-cell" data-label="Links">
                     <div class="link-split">
-                      <div class="link-pod" data-pod="POD 1">
+                      <div class="link-pod" data-pod="Sample 1">
                         <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
                       </div>
-                      <div class="link-pod" data-pod="POD 2">
+                      <div class="link-pod" data-pod="Sample 2">
                         <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
                       </div>
                     </div>
@@ -1109,12 +1154,7 @@ a:focus-visible,
                   <th>You Need / What It Does</th>
                   <th style="width:100px;">Rating</th>
                   <th style="width:180px;text-align:center;">
-                    Link
-                    <div style="display:flex;border-top:1px solid var(--border);margin-top:6px;">
-                      <span style="flex:1;text-align:center;padding-top:4px;font-size:12px;color:var(--c-gray82);font-weight:600;letter-spacing:0.04em;">POD 1</span>
-                      <span style="width:1px;background:var(--border);"></span>
-                      <span style="flex:1;text-align:center;padding-top:4px;font-size:12px;color:var(--c-gray82);font-weight:600;letter-spacing:0.04em;">POD 2</span>
-                    </div>
+Sample URL
                   </th>
                 </tr>
               </thead>
@@ -1134,10 +1174,10 @@ a:focus-visible,
                   </td>
                   <td class="link-cell" data-label="Links">
                     <div class="link-split">
-                      <div class="link-pod" data-pod="POD 1">
+                      <div class="link-pod" data-pod="Sample 1">
                         <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
                       </div>
-                      <div class="link-pod" data-pod="POD 2">
+                      <div class="link-pod" data-pod="Sample 2">
                         <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
                       </div>
                     </div>
@@ -1194,10 +1234,10 @@ a:focus-visible,
                   </td>
                   <td class="link-cell" data-label="Links">
                     <div class="link-split">
-                      <div class="link-pod" data-pod="POD 1">
+                      <div class="link-pod" data-pod="Sample 1">
                         <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
                       </div>
-                      <div class="link-pod" data-pod="POD 2">
+                      <div class="link-pod" data-pod="Sample 2">
                         <a href="#" target="_blank"><svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Open</a>
                       </div>
                     </div>
@@ -1212,8 +1252,9 @@ a:focus-visible,
       </div>
     </div>
 
+
     <!-- ══════════════════════════════
-         PAGE: BUILDING UI SCREENS
+         PAGE: BUILDING UI SCREENS (parent — redirect to first sub)
     ══════════════════════════════ -->
     <div class="page" id="page-ui">
       <div class="wip-screen">
@@ -1222,30 +1263,41 @@ a:focus-visible,
             <circle cx="70" cy="70" r="60" fill="#161B22" stroke="#21262D" stroke-width="2"/>
             <rect x="30" y="38" width="80" height="66" rx="6" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
             <rect x="30" y="38" width="80" height="14" rx="6" fill="#2D333B"/>
-            <rect x="30" y="46" width="80" height="6" fill="#2D333B"/>
             <circle cx="40" cy="45" r="3" fill="#F87171" opacity="0.7"/>
             <circle cx="50" cy="45" r="3" fill="#F59E0B" opacity="0.7"/>
             <circle cx="60" cy="45" r="3" fill="#34D399" opacity="0.7"/>
             <rect x="38" y="60" width="30" height="20" rx="3" fill="#2D333B"/>
             <rect x="38" y="62" width="30" height="4" rx="1" fill="#2DD4C8" opacity="0.4"/>
-            <rect x="40" y="68" width="20" height="2" rx="1" fill="#3D4956"/>
-            <rect x="40" y="72" width="14" height="2" rx="1" fill="#3D4956"/>
             <rect x="72" y="60" width="30" height="8" rx="3" fill="#FF6B35" opacity="0.2"/>
             <rect x="74" y="63" width="18" height="2" rx="1" fill="#FF6B35" opacity="0.6"/>
-            <rect x="72" y="72" width="30" height="8" rx="3" fill="#2D333B"/>
-            <rect x="74" y="75" width="22" height="2" rx="1" fill="#3D4956"/>
-            <rect x="38" y="84" width="64" height="6" rx="3" fill="#FF6B35" opacity="0.15"/>
-            <rect x="55" y="86" width="30" height="2" rx="1" fill="#FF6B35" opacity="0.5"/>
           </svg>
         </div>
         <div class="wip-title">Coming Soon</div>
-        <div class="wip-sub">Building UI Screens — prompting strategies, iteration loops, and getting production-ready output from Figma Make.</div>
+        <div class="wip-sub">Building UI Screens — select a topic from the sidebar to get started.</div>
+        <div class="wip-pill">🎨 Work in progress</div>
+      </div>
+    </div>
+
+    <div class="page" id="page-ui-overview">
+      <div class="wip-screen">
+        <div class="wip-illo"><svg width="100" height="100" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="42" fill="#161B22" stroke="#21262D" stroke-width="1.5"/><rect x="22" y="30" width="56" height="40" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1"/><rect x="28" y="36" width="22" height="14" rx="2" fill="#2D333B"/><rect x="28" y="36" width="22" height="4" rx="1" fill="#2DD4C8" opacity="0.4"/><rect x="54" y="36" width="18" height="5" rx="2" fill="#FF6B35" opacity="0.2"/><rect x="28" y="55" width="44" height="3" rx="1.5" fill="#FF6B35" opacity="0.15"/></svg></div>
+        <div class="wip-title">Overview</div>
+        <div class="wip-sub">An introduction to building UI screens with AI — coming soon.</div>
+        <div class="wip-pill">🎨 Work in progress</div>
+      </div>
+    </div>
+
+    <div class="page" id="page-ui-prompting">
+      <div class="wip-screen">
+        <div class="wip-illo"><svg width="100" height="100" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="42" fill="#161B22" stroke="#21262D" stroke-width="1.5"/><rect x="24" y="28" width="52" height="44" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1"/><rect x="30" y="36" width="28" height="3" rx="1.5" fill="#FF6B35" opacity="0.7"/><rect x="30" y="42" width="36" height="2" rx="1" fill="#3D4956"/><rect x="30" y="47" width="30" height="2" rx="1" fill="#3D4956"/><rect x="30" y="52" width="34" height="2" rx="1" fill="#2DD4C8" opacity="0.5"/><rect x="30" y="57" width="20" height="2" rx="1" fill="#3D4956"/></svg></div>
+        <div class="wip-title">Prompting Strategies</div>
+        <div class="wip-sub">Effective prompting patterns for UI generation with Figma Make — coming soon.</div>
         <div class="wip-pill">🎨 Work in progress</div>
       </div>
     </div>
 
     <!-- ══════════════════════════════
-         PAGE: DESIGN SYSTEM GOVERNANCE
+         PAGE: DESIGN SYSTEM GOVERNANCE subpages
     ══════════════════════════════ -->
     <div class="page" id="page-ds">
       <div class="wip-screen">
@@ -1254,28 +1306,43 @@ a:focus-visible,
             <circle cx="70" cy="70" r="60" fill="#161B22" stroke="#21262D" stroke-width="2"/>
             <rect x="54" y="34" width="32" height="32" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
             <rect x="60" y="41" width="10" height="10" rx="2" fill="#FF6B35" opacity="0.7"/>
-            <rect x="73" y="41" width="7" height="3" rx="1" fill="#3D4956"/>
-            <rect x="73" y="46" width="9" height="2" rx="1" fill="#3D4956"/>
-            <rect x="60" y="54" width="20" height="2" rx="1" fill="#3D4956"/>
-            <rect x="60" y="58" width="14" height="2" rx="1" fill="#2DD4C8" opacity="0.5"/>
-            <!-- bottom left -->
             <rect x="30" y="76" width="32" height="32" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
             <circle cx="46" cy="88" r="6" fill="#2DD4C8" opacity="0.2" stroke="#2DD4C8" stroke-width="1.5"/>
-            <rect x="35" y="98" width="22" height="2" rx="1" fill="#3D4956"/>
-            <rect x="37" y="102" width="16" height="2" rx="1" fill="#3D4956"/>
-            <!-- bottom right -->
             <rect x="78" y="76" width="32" height="32" rx="4" fill="#21262D" stroke="#2D333B" stroke-width="1.5"/>
             <rect x="84" y="83" width="20" height="3" rx="1.5" fill="#A78BFA" opacity="0.7"/>
-            <rect x="84" y="89" width="14" height="2" rx="1" fill="#3D4956"/>
-            <rect x="84" y="93" width="18" height="2" rx="1" fill="#3D4956"/>
-            <rect x="84" y="99" width="10" height="2" rx="1" fill="#3D4956"/>
-            <!-- connecting lines -->
             <path d="M70 66 L46 76" stroke="#3D4956" stroke-width="1" stroke-dasharray="3 2"/>
             <path d="M70 66 L94 76" stroke="#3D4956" stroke-width="1" stroke-dasharray="3 2"/>
           </svg>
         </div>
         <div class="wip-title">Coming Soon</div>
-        <div class="wip-sub">Design System Governance — tokens, components, documentation, and keeping Claude aligned with your system.</div>
+        <div class="wip-sub">Design System Governance — select a topic from the sidebar to get started.</div>
+        <div class="wip-pill">◈ Work in progress</div>
+      </div>
+    </div>
+
+    <div class="page" id="page-ds-tokens">
+      <div class="wip-screen">
+        <div class="wip-illo"><svg width="100" height="100" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="42" fill="#161B22" stroke="#21262D" stroke-width="1.5"/><rect x="26" y="30" width="48" height="40" rx="4" fill="#21262D" stroke="#2D333B"/><circle cx="36" cy="42" r="5" fill="#FF6B35" opacity="0.6"/><circle cx="50" cy="42" r="5" fill="#2DD4C8" opacity="0.6"/><circle cx="64" cy="42" r="5" fill="#A78BFA" opacity="0.6"/><rect x="30" y="52" width="40" height="2" rx="1" fill="#3D4956"/><rect x="30" y="57" width="28" height="2" rx="1" fill="#3D4956"/><rect x="30" y="62" width="34" height="2" rx="1" fill="#3D4956"/></svg></div>
+        <div class="wip-title">Tokens</div>
+        <div class="wip-sub">Defining and managing design tokens with Claude Code — coming soon.</div>
+        <div class="wip-pill">◈ Work in progress</div>
+      </div>
+    </div>
+
+    <div class="page" id="page-ds-components">
+      <div class="wip-screen">
+        <div class="wip-illo"><svg width="100" height="100" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="42" fill="#161B22" stroke="#21262D" stroke-width="1.5"/><rect x="24" y="28" width="22" height="18" rx="3" fill="#21262D" stroke="#2D333B"/><rect x="28" y="32" width="10" height="6" rx="1" fill="#FF6B35" opacity="0.5"/><rect x="54" y="28" width="22" height="18" rx="3" fill="#21262D" stroke="#2D333B"/><rect x="58" y="32" width="10" height="6" rx="1" fill="#2DD4C8" opacity="0.5"/><rect x="24" y="54" width="52" height="18" rx="3" fill="#21262D" stroke="#2D333B"/><rect x="28" y="58" width="22" height="4" rx="1" fill="#A78BFA" opacity="0.4"/></svg></div>
+        <div class="wip-title">Components</div>
+        <div class="wip-sub">Building and scaling design system components with Claude Code — coming soon.</div>
+        <div class="wip-pill">◈ Work in progress</div>
+      </div>
+    </div>
+
+    <div class="page" id="page-ds-documentation">
+      <div class="wip-screen">
+        <div class="wip-illo"><svg width="100" height="100" viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="42" fill="#161B22" stroke="#21262D" stroke-width="1.5"/><rect x="28" y="24" width="44" height="52" rx="4" fill="#21262D" stroke="#2D333B"/><rect x="34" y="32" width="24" height="3" rx="1.5" fill="#FF6B35" opacity="0.7"/><rect x="34" y="38" width="32" height="2" rx="1" fill="#3D4956"/><rect x="34" y="43" width="28" height="2" rx="1" fill="#3D4956"/><rect x="34" y="48" width="30" height="2" rx="1" fill="#2DD4C8" opacity="0.4"/><rect x="34" y="53" width="24" height="2" rx="1" fill="#3D4956"/><rect x="34" y="58" width="20" height="2" rx="1" fill="#3D4956"/><rect x="34" y="63" width="26" height="2" rx="1" fill="#3D4956"/></svg></div>
+        <div class="wip-title">Documentation</div>
+        <div class="wip-sub">Auto-generating design system documentation with Claude — coming soon.</div>
         <div class="wip-pill">◈ Work in progress</div>
       </div>
     </div>
@@ -1297,16 +1364,7 @@ a:focus-visible,
         <div class="sp-layout">
 
           <!-- Sticky section nav -->
-          <nav class="sp-sidenav" aria-label="Skills page sections">
-            <div class="sp-sidenav-label">On this page</div>
-            <a class="sp-sidenav-item active" href="#sk-what">What are Claude Skills?</a>
-            <a class="sp-sidenav-item" href="#sk-works">Where Skills Work vs Fall Short</a>
-            <a class="sp-sidenav-item" href="#sk-decision">Quick Decision Test</a>
-            <a class="sp-sidenav-item" href="#sk-deliverables">UX Deliverables</a>
-            <a class="sp-sidenav-item" href="#sk-anatomy">Skill Anatomy at a Glance</a>
-            <a class="sp-sidenav-item" href="#sk-howto">How to Write a Skill</a>
-            <a class="sp-sidenav-item" href="#sk-demo">Demo: Personas from SOW</a>
-          </nav>
+          
 
           <!-- Content -->
           <div class="sp-content">
@@ -1776,22 +1834,18 @@ a:focus-visible,
 <script>
 // ── Theme Toggle ──────────────────────────────────────────────────────────────
 function applyTheme(theme) {
-  const html = document.documentElement;
-  const btn  = document.getElementById('theme-toggle');
-  const ico  = document.getElementById('theme-ico');
-  const lbl  = document.getElementById('theme-label');
-  if (!btn) return;
-  html.setAttribute('data-theme', theme);
-  if (theme === 'light') {
-    ico.textContent = '☀️';
-    lbl.textContent = 'Light';
-    btn.setAttribute('aria-label', 'Switch to dark mode');
-    btn.setAttribute('aria-pressed', 'true');
-  } else {
-    ico.textContent = '🌙';
-    lbl.textContent = 'Dark';
-    btn.setAttribute('aria-label', 'Switch to light mode');
-    btn.setAttribute('aria-pressed', 'false');
+  // Always set the attribute on html — works even before DOM is fully parsed
+  document.documentElement.setAttribute('data-theme', theme);
+
+  // DOM updates — only run if elements exist
+  const btn = document.getElementById('theme-toggle');
+  const ico = document.getElementById('theme-ico');
+  if (btn) {
+    btn.setAttribute('aria-label', theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode');
+    btn.setAttribute('aria-pressed', theme === 'light' ? 'true' : 'false');
+  }
+  if (ico) {
+    ico.textContent = theme === 'light' ? '☀️' : '🌙';
   }
 }
 function toggleTheme() {
@@ -1800,14 +1854,16 @@ function toggleTheme() {
   applyTheme(next);
   try { localStorage.setItem('playbook-theme', next); } catch(e) {}
 }
-// Restore on load
+// Restore on load — runs immediately, only sets data-theme attribute (no DOM needed)
 (function() {
   let saved; try { saved = localStorage.getItem('playbook-theme'); } catch(e) {}
   const preferred = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-  applyTheme(preferred);
+  document.documentElement.setAttribute('data-theme', preferred);
+  // Update button once DOM is ready
+  document.addEventListener('DOMContentLoaded', function() { applyTheme(preferred); });
 })();
 
-const pageMap = ['intro','setup','ui','ds','skills'];
+const pageMap = ['intro','ui','ui-overview','ui-prompting','ds','ds-tokens','ds-components','ds-documentation','skills','resources-internal','resources-external'];
 
 function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
@@ -1876,6 +1932,20 @@ function initSkillsScrollSpy() {
 
   sections.forEach(s => observer.observe(s));
 }
+
+// ── Back to Top ───────────────────────────────────────────────────────────────
+function scrollToTop() {
+  document.querySelector('.main').scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.addEventListener('DOMContentLoaded', () => {
+  const main = document.querySelector('.main');
+  const btn  = document.getElementById('back-to-top');
+  if (main && btn) {
+    main.addEventListener('scroll', () => {
+      btn.classList.toggle('visible', main.scrollTop > 300);
+    });
+  }
+});
 
 // Keyboard support for nav items and buttons
 document.addEventListener('keydown', function(e) {
