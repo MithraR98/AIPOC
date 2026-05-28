@@ -62,12 +62,12 @@
 .il-a4{animation:il-fadeUp 0.65s 0.35s both ease}
 .il-a5{animation:il-fadeUp 0.65s 0.45s both ease}
 
-.il-wrap  { max-width:1080px; padding:0 60px; margin:0 auto; }
+.il-wrap  { padding:0 64px; box-sizing:border-box; }
 .il-section{ padding:56px 0; }
 .il-section + .il-section { border-top:1px solid var(--border); }
 
 /* Hero */
-.il-hero { padding-top:72px; padding-bottom:56px; }
+.il-hero { padding:72px 0 56px 0; }
 .il-tag { display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:0.16em; color:var(--orange); margin-bottom:22px; }
 .il-tag-dot { width:6px; height:6px; border-radius:50%; background:var(--orange); animation:il-pulse 2s infinite; }
 .il-h1 { font-family:'Fraunces',serif; font-size:58px; font-weight:700; line-height:1.06; letter-spacing:-0.035em; color:var(--tp); margin-bottom:22px; max-width:640px; }
@@ -135,7 +135,7 @@
 
 @media(max-width:900px){
   .il-hero{padding-top:40px;padding-bottom:32px;}
-  .il-wrap{padding:0 24px}
+  .il-wrap{padding:0 24px !important}
   .il-h1{font-size:38px}
   .il-stats-grid{grid-template-columns:1fr;}
   .il-cards{grid-template-columns:1fr}
@@ -146,7 +146,7 @@
 </style>
 
 <!-- HERO -->
-<div class="il-wrap">
+<div class="il-wrap" style="padding-left:64px;padding-right:64px;">
 <div class="il-hero il-a1">
   <div class="il-tag"><span class="il-tag-dot"></span>AI-Assisted Design · Emids · 2026</div>
   <h1 class="il-h1">Design faster.<br>Think <em>deeper.</em><br>Ship smarter.</h1>
@@ -155,7 +155,7 @@
 </div>
 
 <!-- STATS 1x3 -->
-<div class="il-wrap il-a2" style="padding-top:48px;padding-bottom:48px;">
+<div class="il-wrap il-a2" style="padding-top:48px;padding-bottom:48px;padding-left:64px;padding-right:64px;">
 <div class="il-stats-grid" style="grid-template-columns:repeat(3,1fr);">
   <div class="il-stat" style="--stat-color:var(--orange)">
     <div class="il-stat-val">40<sup>%</sup></div>
@@ -173,7 +173,7 @@
 </div>
 
 <!-- IMPACT CARDS -->
-<div class="il-wrap il-section il-a3">
+<div class="il-wrap il-section il-a3" style="padding-left:64px;padding-right:64px;">
   <div class="il-eyebrow">Where AI moves the needle</div>
   <div class="il-sec-title">Three areas of highest impact</div>
   <div class="il-sec-sub">AI doesn't replace design judgment — it removes the friction that slows it down. Here's where the gains are most significant.</div>
@@ -196,45 +196,18 @@
   </div>
 </div>
 
-<!-- BEFORE / AFTER -->
-<div class="il-wrap il-section il-a5">
+<!-- WHAT THIS PLAYBOOK GIVES YOU -->
+<div class="il-wrap il-section il-a5" style="padding-left:64px;padding-right:64px;padding-bottom:80px;">
   <div class="il-eyebrow">Workflow shift</div>
   <div class="il-sec-title">How the day-to-day changes</div>
-  <div class="il-sec-sub">AI doesn't change what designers do — it changes how long it takes and how consistently it gets done.</div>
-  <div class="il-bva">
-    <div class="il-bva-col">
-      <div class="il-bva-head b">📘 What this Playbook gives you</div>
-      <div class="il-bva-row"><span class="il-bva-ico">🔌</span>Plug-and-play prompt templates you can drop into any project immediately — no setup required.</div>
-      <div class="il-bva-row"><span class="il-bva-ico">📋</span>A clear SOP for AI-assisted UX work — from audit to handoff, every phase is covered.</div>
-      <div class="il-bva-row"><span class="il-bva-ico">♻️</span>Reusable Claude Skills that produce consistent, structured outputs every time you run them.</div>
-      <div class="il-bva-row"><span class="il-bva-ico">⚡</span>Faster delivery — replace days of manual work with hours of AI-assisted outputs.</div>
-      <div class="il-bva-row"><span class="il-bva-ico">🎯</span>More time for judgment — let AI handle structure so designers focus on decisions that matter.</div>
-    </div>
-    <div class="il-bva-arrow-col">→</div>
-    <div class="il-bva-col after-col">
-      <div class="il-bva-head a">✦ How to use it in your workflow</div>
-      <div class="il-bva-row"><span class="il-bva-ico">1️⃣</span>Pick the deliverable you need — persona, audit, UI screen, or documentation.</div>
-      <div class="il-bva-row"><span class="il-bva-ico">2️⃣</span>Open the relevant section — prompts, skills, and examples are ready to copy and adapt.</div>
-      <div class="il-bva-row"><span class="il-bva-ico">3️⃣</span>Swap in your project context — replace placeholders with your product, user, and constraints.</div>
-      <div class="il-bva-row"><span class="il-bva-ico">4️⃣</span>Run it and review — AI generates the structure, you apply your expertise to refine it.</div>
-      <div class="il-bva-row"><span class="il-bva-ico">5️⃣</span>Build a personal library — save what works, iterate on what doesn't, and make it yours.</div>
-    </div>
-  </div>
-</div>
-
-<!-- KEY PRINCIPLES -->
-<div class="il-wrap il-section il-a5" style="padding-bottom:80px;">
-  <div class="il-eyebrow">How to use this playbook</div>
-  <div class="il-sec-title">AI assists. Designers decide.</div>
-  <div class="il-sec-sub">These principles guide how we work with AI tools across every section of this playbook.</div>
-  <div class="il-pills">
-    <div class="il-pill"><span class="il-pill-ico">🧠</span>AI handles structure — you bring judgment</div>
-    <div class="il-pill"><span class="il-pill-ico">🔁</span>Iterate in layers, not single prompts</div>
-    <div class="il-pill"><span class="il-pill-ico">🎯</span>Define user goals before generating UI</div>
-    <div class="il-pill"><span class="il-pill-ico">⚡</span>Validate structure before visual polish</div>
-    <div class="il-pill"><span class="il-pill-ico">📐</span>Use skills for repeatable, consistent work</div>
-    <div class="il-pill"><span class="il-pill-ico">🚫</span>Never regenerate blindly — diagnose first</div>
-  </div>
+  <p style="font-size:15px;color:var(--ts);line-height:1.75;max-width:720px;margin-bottom:28px;font-weight:300;">This playbook gives designers a practical framework for integrating AI into real UX workflows. It helps teams use AI more effectively through structured prompting, practical experimentation, reusable resources, and real implementation learnings.</p>
+  <ul style="list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;max-width:720px;">
+    <li style="display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--bg-2);border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--ts);line-height:1.6;"><span style="color:var(--orange);font-size:16px;flex-shrink:0;margin-top:1px;">→</span>Reusable prompt frameworks for common UX tasks and deliverables</li>
+    <li style="display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--bg-2);border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--ts);line-height:1.6;"><span style="color:var(--orange);font-size:16px;flex-shrink:0;margin-top:1px;">→</span>Guidance on using different AI tools and offerings within the design process</li>
+    <li style="display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--bg-2);border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--ts);line-height:1.6;"><span style="color:var(--orange);font-size:16px;flex-shrink:0;margin-top:1px;">→</span>Better prompting techniques for generating more structured and reliable outputs</li>
+    <li style="display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--bg-2);border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--ts);line-height:1.6;"><span style="color:var(--orange);font-size:16px;flex-shrink:0;margin-top:1px;">→</span>Downloadable skills and resources created by the team during the POC</li>
+    <li style="display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:var(--bg-2);border:1px solid var(--border);border-radius:8px;font-size:14px;color:var(--ts);line-height:1.6;"><span style="color:var(--orange);font-size:16px;flex-shrink:0;margin-top:1px;">→</span>Real examples showing what works, what fails, and how to improve AI-generated results</li>
+  </ul>
 </div>
 
 </div>
@@ -340,8 +313,8 @@
 <div class="cmd-page" style="max-width:960px;">
 
   <div class="intro">
-    <h1 class="intro-h">Best Prompting Practices</h1>
-    <p style="font-size:17px;color:var(--ts);line-height:1.7;max-width:800px;"> Prompting is becoming a core design skill — not a tool trick. </p>
+    <h1 class="intro-h">Prompting Practices for AI-Assisted UI Screen Design</h1>
+    <p style="font-size:17px;color:var(--ts);line-height:1.7;max-width:800px;">As AI becomes part of the product design workflow, prompting is no longer just an experimentation skill — it is becoming a core design capability. The quality of AI-generated UI outputs depends heavily on how designers structure context, constraints, workflows, and intent within prompts. Strong prompting helps teams generate more relevant layouts, reduce ambiguity, and improve the reliability of AI-assisted design outcomes.</p>
   </div>
 
   <section class="section">
@@ -593,6 +566,11 @@ function downloadDesignSystemMd(e) {
 
   <!-- ── Panel: UI Screens ── -->
   <div class="pt-panel active" id="pt-ui-screens">
+
+    <div style="max-width:760px;margin-bottom:36px;">
+      <p style="font-size:15px;color:var(--ts);line-height:1.75;margin-bottom:16px;font-weight:300;">Use the prompt templates below to build a strong foundation prompt for UI screen generation. Start with the base prompt, then layer additional prompts for domain rules, technical constraints, accessibility, and other requirements.</p>
+      <p style="font-size:15px;color:var(--ts);line-height:1.75;font-weight:300;">This staged approach makes prompting more modular and iterative — allowing teams to refine outputs based on specific use cases, workflow complexity, and feedback during the design process. It also improves output quality, reduces ambiguity, and creates UI generations that are easier to scale and align.</p>
+    </div>
 
     <!-- Accordion 1: Base Foundation -->
     <div class="pt-acc" id="pt-acc-base">
