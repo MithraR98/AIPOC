@@ -1,1469 +1,2611 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UX Resource Center — Emids Design</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght@8..144,300;8..144,400;8..144,500;8..144,600;8..144,700&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <title>Claude for Designers - Playbook</title>
-
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
 <style>
+/* ─── TOKENS ─────────────────────────────────────────────── */
 :root {
-  /* Fresh Orange Brand Palette */
-  --orange:#FFD4C4; --orange-d:#E85A28; --orange-l:#FFF5F2;
-  --coral:#FF8B6A; --teal:#00B5AD; --teal-l:#E6F7F6;
-  --amber:#FFA726; --sky:#4FC3F7; --mint:#26C6B8;
-  
-  /* Surfaces & Backgrounds */
-  --bg:#FAFBFC; --surface:#FFFFFF; --s1:#FFFFFF; --s2:#F7FAFC; --s3:#EDF2F7;
-  --border:#E2E8F0; --border2:#CBD5E0;
-  
-  /* Text Colors */
-  --tp:#1A1D29; --ts:#4A5568; --tm:#718096; --tl:#A0AEC0;
-  
-  /* Semantic */
-  --success:#10B981; --warning:#F59E0B; --error:#EF4444; --info:#3B82F6;
-  --red:#EF4444; --red-l:#FEE2E2; --green:#10B981; --green-l:#D1FAE5;
-  
-  /* Backward compatibility */
-  --indigo:var(--orange); --indigo-l:var(--orange-l); --indigo-b:#FFD4C8;
-  --teal-b:#B3E5E2; --amber-l:#FFF4E6; --amber-b:#FFE0B2;
-  --purple:var(--coral); --purple-l:#FFF0ED; --purple-b:#FFD4C8;
-  
-  --nav-w:240px; --header-h:120px;
-}
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-html, body{margin:0;padding:0;width:100%;scroll-behavior:smooth;}
-body{background:var(--bg);color:var(--tp);font-family:'Roboto Flex',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:16px;line-height:1.65;}
-a{text-decoration:none;color:inherit;}
+  --bg:        #0D1117;
+  --bg-2:      #161B22;
+  --bg-3:      #21262D;
+  --bg-4:      #2D333B;
+  --border:    rgba(255,255,255,0.08);
+  --border-2:  rgba(255,255,255,0.14);
+  --tp:  #F0F6FC;
+  --ts:  #A8B4C0;
+  --tm:  #8C8C8C;
+  --tl:  #6B7280;
+  --orange:    #FF6B35;
+  --orange-l:  rgba(255,107,53,0.12);
+  --orange-ll: rgba(255,107,53,0.06);
+  --teal:      #2DD4C8;
+  --teal-l:    rgba(45,212,200,0.10);
+  --teal-ll:   rgba(45,212,200,0.05);
+  --amber:     #F59E0B;
+  --amber-l:   rgba(245,158,11,0.12);
+  --green:     #34D399;
+  --green-l:   rgba(52,211,153,0.10);
+  --purple:    #A78BFA;
+  --purple-l:  rgba(167,139,250,0.10);
+  --red:       #F87171;
+  --red-l:     rgba(248,113,113,0.10);
 
-/* Tooltip */
-.tooltip {
-  position: relative;
-  display: inline-block;
-  border-bottom: 1px dotted var(--indigo);
-  cursor: help;
-  color: var(--indigo);
-  font-weight: 500;
+  /* Practice area accents */
+  --uxr-color:   #2DD4C8;
+  --uxr-l:       rgba(45,212,200,0.10);
+  --uxr-ll:      rgba(45,212,200,0.05);
+  --uxa-color:   #A78BFA;
+  --uxa-l:       rgba(167,139,250,0.10);
+  --uxa-ll:      rgba(167,139,250,0.05);
+  --uxd-color:   #FF6B35;
+  --uxd-l:       rgba(255,107,53,0.12);
+  --uxd-ll:      rgba(255,107,53,0.06);
+  --uxt-color:   #34D399;
+  --uxt-l:       rgba(52,211,153,0.10);
+  --uxt-ll:      rgba(52,211,153,0.05);
+
+  --radius-sm:  6px;
+  --radius-md:  10px;
+  --radius-lg:  14px;
+  --radius-xl:  20px;
 }
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 220px;
-  background-color: var(--tp);
-  color: #fff;
-  text-align: left;
-  border-radius: 6px;
-  padding: 8px 10px;
+
+[data-theme="light"] {
+  --bg:        #FFFFFF;
+  --bg-2:      #F6F8FA;
+  --bg-3:      #EAECEF;
+  --bg-4:      #D0D7DE;
+  --border:    rgba(0,0,0,0.10);
+  --border-2:  rgba(0,0,0,0.18);
+  --tp:  #1C2128;
+  --ts:  #3B4456;
+  --tm:  #555F6E;
+  --tl:  #6E7781;
+  --orange:    #B84218;
+  --orange-l:  rgba(184,66,24,0.10);
+  --orange-ll: rgba(184,66,24,0.05);
+  --teal:      #0E7A75;
+  --teal-l:    rgba(14,122,117,0.10);
+  --teal-ll:   rgba(14,122,117,0.05);
+  --amber:     #92600A;
+  --amber-l:   rgba(146,96,10,0.10);
+  --green:     #1A7F4B;
+  --green-l:   rgba(26,127,75,0.10);
+  --purple:    #6E3FA3;
+  --purple-l:  rgba(110,63,163,0.10);
+  --red:       #C0392B;
+  --red-l:     rgba(192,57,43,0.10);
+
+  --uxr-color:   #0E7A75;
+  --uxr-l:       rgba(14,122,117,0.10);
+  --uxr-ll:      rgba(14,122,117,0.05);
+  --uxa-color:   #6E3FA3;
+  --uxa-l:       rgba(110,63,163,0.10);
+  --uxa-ll:      rgba(110,63,163,0.05);
+  --uxd-color:   #B84218;
+  --uxd-l:       rgba(184,66,24,0.10);
+  --uxd-ll:      rgba(184,66,24,0.05);
+  --uxt-color:   #1A7F4B;
+  --uxt-l:       rgba(26,127,75,0.10);
+  --uxt-ll:      rgba(26,127,75,0.05);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  background: var(--bg);
+  color: var(--tp);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+*, *::before, *::after {
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 3px; }
+
+/* ─── LAYOUT ─────────────────────────────────────────────── */
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* ─── TOP BAR ─────────────────────────────────────────────── */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 60px;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-shrink: 0;
+}
+
+.topbar-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.topbar-title {
+  font-family: 'Fraunces', serif;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--tp);
+  letter-spacing: -0.02em;
+}
+
+.topbar-version {
+  font-size: 11px;
+  color: var(--tm);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ─── THEME TOGGLE ────────────────────────────────────────── */
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: background 0.2s, transform 0.15s;
+}
+.theme-toggle:hover { background: var(--bg-4); transform: scale(1.08); }
+
+/* ─── HERO ───────────────────────────────────────────────── */
+.hero {
+  padding: 56px 40px 48px;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.hero-eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--teal);
+  margin-bottom: 12px;
+}
+
+.hero-h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 38px;
+  font-weight: 700;
+  color: var(--tp);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 14px;
+}
+
+.hero-lead {
+  font-size: 16px;
+  color: var(--ts);
+  line-height: 1.7;
+  max-width: 640px;
+  font-weight: 300;
+}
+
+/* ─── TABS ───────────────────────────────────────────────── */
+.tabs-wrap {
+  padding: 0 40px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+  position: sticky;
+  top: 60px;
+  z-index: 90;
+}
+
+.tabs {
+  display: flex;
+  gap: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tm);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  user-select: none;
+  position: relative;
+  top: 1px;
+}
+
+.tab:hover { color: var(--tp); }
+
+.tab.active[data-tab="uxr"] { color: var(--uxr-color); border-bottom-color: var(--uxr-color); }
+.tab.active[data-tab="uxa"] { color: var(--uxa-color); border-bottom-color: var(--uxa-color); }
+.tab.active[data-tab="uxd"] { color: var(--uxd-color); border-bottom-color: var(--uxd-color); }
+.tab.active[data-tab="uxt"] { color: var(--uxt-color); border-bottom-color: var(--uxt-color); }
+
+.tab-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+[data-tab="uxr"] .tab-dot { background: var(--uxr-color); }
+[data-tab="uxa"] .tab-dot { background: var(--uxa-color); }
+[data-tab="uxd"] .tab-dot { background: var(--uxd-color); }
+[data-tab="uxt"] .tab-dot { background: var(--uxt-color); }
+
+.tab-label {}
+.tab-count {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 10px;
+  background: var(--bg-3);
+  color: var(--tm);
+  margin-left: 2px;
+}
+
+/* ─── MAIN CONTENT ──────────────────────────────────────── */
+.content {
+  flex: 1;
+  padding: 0 40px 80px;
+}
+
+.content-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* ─── TAB PANELS ─────────────────────────────────────────── */
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ─── SECTION HEADER ─────────────────────────────────────── */
+.section-header {
+  padding: 36px 0 28px;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.section-tag.uxr { background: var(--uxr-ll); color: var(--uxr-color); border: 1px solid rgba(45,212,200,0.2); }
+.section-tag.uxa { background: var(--uxa-ll); color: var(--uxa-color); border: 1px solid rgba(167,139,250,0.2); }
+.section-tag.uxd { background: var(--uxd-ll); color: var(--uxd-color); border: 1px solid rgba(255,107,53,0.2); }
+.section-tag.uxt { background: var(--uxt-ll); color: var(--uxt-color); border: 1px solid rgba(52,211,153,0.2); }
+
+.section-title {
+  font-family: 'Fraunces', serif;
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--tp);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+
+.section-desc {
+  font-size: 15px;
+  color: var(--ts);
+  line-height: 1.7;
+  max-width: 680px;
+  font-weight: 300;
+}
+
+/* ─── CARD GRID ──────────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1024px) { .card-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 640px)  { .card-grid { grid-template-columns: 1fr; } }
+
+/* ─── DELIVERABLE CARD ───────────────────────────────────── */
+.card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, transform 0.15s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
   position: absolute;
-  z-index: 1000;
-  bottom: 125%;
-  left: 50%;
-  margin-left: -110px;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
   opacity: 0;
   transition: opacity 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+.card:hover::before { opacity: 1; }
+
+/* per-practice color stripes */
+.uxr-card:hover { border-color: rgba(45,212,200,0.3); }
+.uxr-card::before { background: var(--uxr-color); }
+.uxa-card:hover { border-color: rgba(167,139,250,0.3); }
+.uxa-card::before { background: var(--uxa-color); }
+.uxd-card:hover { border-color: rgba(255,107,53,0.3); }
+.uxd-card::before { background: var(--uxd-color); }
+.uxt-card:hover { border-color: rgba(52,211,153,0.3); }
+.uxt-card::before { background: var(--uxt-color); }
+
+.card-icon {
+  font-size: 24px;
+  margin-bottom: 14px;
+  line-height: 1;
+}
+
+.card-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--tp);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.card-desc {
   font-size: 13px;
-  line-height: 1.4;
-  font-weight: 400;
+  color: var(--ts);
+  line-height: 1.6;
+  margin-bottom: 18px;
 }
-.tooltip .tooltiptext::after {
-  content: "";
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.card-resources {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.res-chip {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 8px;
+  border-radius: 4px;
+  border: 1px solid var(--border);
+  background: var(--bg-3);
+  color: var(--tm);
+}
+
+.card-arrow {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: var(--tm);
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+.card:hover .card-arrow {
+  background: var(--bg-4);
+  color: var(--tp);
+}
+
+/* ─── DETAIL PAGE ────────────────────────────────────────── */
+.detail-page {
+  display: none;
+}
+.detail-page.active {
+  display: block;
+}
+
+.detail-topnav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 24px 0 0;
+  font-size: 13px;
+  color: var(--tm);
+}
+
+.detail-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ts);
+  cursor: pointer;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  transition: all 0.15s;
+}
+.detail-back:hover { color: var(--tp); background: var(--bg-3); }
+
+.detail-breadcrumb-sep { color: var(--tl); }
+.detail-breadcrumb-current { color: var(--tp); font-weight: 500; }
+
+/* detail header */
+.detail-header {
+  padding: 32px 0 28px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 40px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.detail-header-left {}
+
+.detail-practice-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 12px;
+  border-radius: 20px;
+  margin-bottom: 14px;
+}
+
+.detail-h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--tp);
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+
+.detail-desc {
+  font-size: 15px;
+  color: var(--ts);
+  line-height: 1.7;
+  max-width: 620px;
+  font-weight: 300;
+}
+
+.detail-icon {
+  font-size: 52px;
+  line-height: 1;
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+/* ─── RESOURCE SECTIONS ──────────────────────────────────── */
+.resource-sections {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding-bottom: 80px;
+}
+
+.res-section {}
+
+.res-section-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.res-section-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.res-section-title {
+  font-family: 'Fraunces', serif;
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--tp);
+  letter-spacing: -0.01em;
+}
+
+.res-section-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tm);
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  padding: 2px 9px;
+  border-radius: 10px;
+  margin-left: 4px;
+}
+
+/* ─── VISUAL HIERARCHY: META vs PRIMARY ──────────────────── */
+
+/* Meta sections (Overview, Workflow, Sample Output, Checklist, Related)
+   — small label-style headers, low visual weight */
+.res-section-header.meta {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.res-meta-icon {
+  font-size: 13px;
+  line-height: 1;
+  opacity: 0.8;
+}
+
+.res-section-header.meta .res-section-title {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--tm);
+}
+
+/* Primary section (Resources) — large, bordered, stands apart */
+.resources-block {
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  overflow: hidden;
+  position: relative;
+  background: var(--bg);
+  border-top-width: 4px;
+}
+
+.resources-block.uxr { border-top-color: var(--uxr-color); }
+.resources-block.uxa { border-top-color: var(--uxa-color); }
+.resources-block.uxd { border-top-color: var(--uxd-color); }
+.resources-block.uxt { border-top-color: var(--uxt-color); }
+
+.resources-block .res-section-header {
+  margin-bottom: 28px;
+}
+
+.resources-block .res-section-icon {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  font-size: 22px;
+}
+
+.resources-block .res-section-title {
+  font-size: 23px;
+}
+
+/* ─── PROMPTS ────────────────────────────────────────────── */
+.prompt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.prompt-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.prompt-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  cursor: pointer;
+  gap: 12px;
+}
+.prompt-card-header:hover { background: var(--bg-3); }
+
+.prompt-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tp);
+  flex: 1;
+}
+
+.prompt-card-chevron {
+  font-size: 11px;
+  color: var(--tm);
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.prompt-card.open .prompt-card-chevron { transform: rotate(90deg); }
+
+.prompt-card-body {
+  display: none;
+  padding: 0 18px 18px;
+}
+.prompt-card.open .prompt-card-body { display: block; }
+
+.prompt-context {
+  font-size: 13px;
+  color: var(--tm);
+  margin-bottom: 10px;
+  font-style: italic;
+}
+
+.prompt-text {
+  background: var(--bg);
+  border: 1px solid var(--border-2);
+  border-left: 3px solid var(--orange);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 14px 16px;
+  font-family: 'DM Mono', monospace;
+  font-size: 12.5px;
+  line-height: 1.8;
+  color: var(--ts);
+  white-space: pre-wrap;
+  margin-bottom: 10px;
+}
+
+.prompt-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--teal);
+  background: var(--teal-ll);
+  border: 1px solid rgba(45,212,200,0.2);
+  padding: 5px 12px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.prompt-copy-btn:hover { background: var(--teal-l); }
+.prompt-copy-btn.copied { color: var(--green); background: var(--green-l); border-color: rgba(52,211,153,0.2); }
+
+/* ─── TOOLS ──────────────────────────────────────────────── */
+.tools-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 720px) { .tools-grid { grid-template-columns: 1fr; } }
+
+.tool-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  transition: border-color 0.2s, background 0.2s;
+}
+.tool-card:hover { background: var(--bg-3); border-color: var(--border-2); }
+
+.tool-card-icon {
+  font-size: 28px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.tool-card-body { flex: 1; min-width: 0; }
+
+.tool-card-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--tp);
+  margin-bottom: 3px;
+}
+
+.tool-card-desc {
+  font-size: 13px;
+  color: var(--ts);
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.tool-badges {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tool-type-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.badge-ai    { background: var(--teal-l);   color: var(--teal);   border: 1px solid rgba(45,212,200,0.2); }
+.badge-plugin { background: var(--purple-l); color: var(--purple); border: 1px solid rgba(167,139,250,0.2); }
+.badge-tool   { background: var(--amber-l);  color: var(--amber);  border: 1px solid rgba(245,158,11,0.2); }
+.badge-free   { background: var(--green-l);  color: var(--green);  border: 1px solid rgba(52,211,153,0.2); }
+.badge-paid   { background: var(--bg-3);     color: var(--tm);     border: 1px solid var(--border); }
+
+.tool-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--teal);
+  text-decoration: none;
+  margin-left: auto;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--teal-ll);
+  border: 1px solid rgba(45,212,200,0.15);
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.tool-link:hover { background: var(--teal-l); border-color: rgba(45,212,200,0.3); }
+
+/* ─── SKILL FILES ────────────────────────────────────────── */
+.skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skill-file-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.skill-file-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: var(--orange-l);
+  border: 1px solid rgba(255,107,53,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  flex-shrink: 0;
+}
+
+.skill-file-body { flex: 1; min-width: 0; }
+
+.skill-file-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--tp);
+  margin-bottom: 2px;
+  font-family: 'DM Mono', monospace;
+}
+
+.skill-file-desc {
+  font-size: 13px;
+  color: var(--ts);
+  line-height: 1.5;
+}
+
+.skill-download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--orange);
+  background: var(--orange-l);
+  border: 1px solid rgba(255,107,53,0.2);
+  padding: 6px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.skill-download-btn:hover { background: rgba(255,107,53,0.18); }
+
+/* ─── EMPTY STATE ────────────────────────────────────────── */
+.empty-res {
+  padding: 24px 20px;
+  background: var(--bg-2);
+  border: 1px dashed var(--border-2);
+  border-radius: var(--radius-md);
+  text-align: center;
+  color: var(--tm);
+  font-size: 13px;
+  font-style: italic;
+}
+
+/* ─── BACK TO TOP ────────────────────────────────────────── */
+.back-to-top {
+  position: fixed;
+  bottom: 28px;
+  right: 24px;
+  z-index: 999;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--bg-3);
+  border: 1px solid var(--border-2);
+  color: var(--ts);
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s, transform 0.2s;
+}
+.back-to-top.visible { opacity: 1; pointer-events: auto; }
+.back-to-top:hover { background: var(--bg-4); transform: translateY(-2px); }
+
+/* ─── SEARCH ─────────────────────────────────────────────── */
+.search-wrap {
+  padding: 0 40px 32px;
+}
+
+.search-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.search-input-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-icon {
   position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: var(--tp) transparent transparent transparent;
-}
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
+  left: 16px;
+  color: var(--tm);
+  font-size: 15px;
+  pointer-events: none;
+  line-height: 1;
 }
 
-/* Layout */
-.page{display:grid;grid-template-columns:1fr;grid-template-rows:auto 1fr;overflow:hidden;}
-
-/* Header */
-.hdr{grid-column:1;grid-row:1;background:var(--surface);border-bottom:1px solid var(--border);z-index:100;display:flex;flex-direction:column;}
-.hdr-top{display:flex;align-items:center;padding:16px 32px;border-bottom:1px solid var(--border);min-height:70px;}
-.hdr-brand{display:flex;align-items:center;gap:24px;}
-.logo{width:40px;height:40px;background:linear-gradient(135deg, #CC9B7A 0%, #D4A574 100%);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 3px 10px rgba(204,155,122,0.3);}
-.logo svg{width:24px;height:24px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
-.brand{font-size:20px;font-weight:700;color:var(--tp);letter-spacing:-0.03em;}
-.brand-sub{font-size:12px;color:var(--tm);font-weight:500;margin-top:2px;}
-.hdr-actions{margin-left:auto;display:flex;gap:24px;}
-.hdr-btn{padding:8px 16px;border-radius:8px;font-size:14px;font-weight:600;border:none;cursor:pointer;transition:all 0.15s;}
-.hdr-btn.primary{background:#FF6B35;color:#fff;}
-.hdr-btn.primary:hover{background:#FF5722;transform:translateY(-1px);box-shadow:0 4px 12px rgba(255,107,53,0.4);}
-.hdr-btn.secondary{background:var(--s2);color:var(--tp);}
-.hdr-btn.secondary:hover{background:var(--s3);}
-
-/* Horizontal Nav */
-/* Modern Elegant Horizontal Nav */
-.hdr{position:sticky;top:0;z-index:1000;background:var(--bg);}
-.hdr-nav{
-  display:flex;
-  align-items:center;
-  padding:0 32px;
-  gap:4px;
-  overflow-x:auto;
-  overflow-y:hidden;
-  background:linear-gradient(135deg, rgba(255,255,255,0.95) 0%, rgba(250,250,250,0.95) 100%);
-  backdrop-filter:blur(10px);
-  min-height:56px;
-  border-bottom:1px solid rgba(0,0,0,0.06);
-  box-shadow:0 2px 8px rgba(0,0,0,0.04);
-  position:sticky;
-  top:0;
-  z-index:100;
+.search-input {
+  width: 100%;
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-lg);
+  padding: 13px 16px 13px 44px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: var(--tp);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.search-input::placeholder { color: var(--tl); }
+.search-input:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(45,212,200,0.1);
 }
 
-.hdr-nav-item{
-  position:relative;
-  padding:16px 24px;
-  font-size:14px;
-  font-weight:500;
-  color:var(--ts);
-  cursor:pointer;
-  transition:all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  white-space:nowrap;
-  background:transparent;
-  border:none;
-  flex-shrink:0;
-  border-radius:0;
-  letter-spacing:0.01em;
+.search-clear {
+  position: absolute;
+  right: 14px;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--tm);
+  cursor: pointer;
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+}
+.search-clear:hover { background: var(--bg-4); color: var(--tp); }
+.search-clear.visible { display: flex; }
+
+/* search results overlay */
+.search-results {
+  display: none;
+  margin-top: 10px;
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+.search-results.visible { display: block; }
+
+.search-results-header {
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tm);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-3);
 }
 
-.hdr-nav-item::after{
-  content:'';
-  position:absolute;
-  bottom:0;
-  left:50%;
-  transform:translateX(-50%) scaleX(0);
-  width:80%;
-  height:3px;
-  background:linear-gradient(90deg, var(--orange) 0%, var(--coral) 100%);
-  border-radius:3px 3px 0 0;
-  transition:transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 16px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.12s;
+}
+.search-result-item:last-child { border-bottom: none; }
+.search-result-item:hover { background: var(--bg-3); }
+
+.sri-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.hdr-nav-item:hover{
-  color:var(--tp);
-  background:linear-gradient(180deg, rgba(255,107,53,0.08) 0%, rgba(255,107,53,0.03) 100%);
+.sri-body { flex: 1; min-width: 0; }
+
+.sri-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tp);
+  margin-bottom: 2px;
 }
 
-.hdr-nav-item:hover::after{
-  transform:translateX(-50%) scaleX(0.6);
+.sri-meta {
+  font-size: 12px;
+  color: var(--tm);
+  display: flex;
+  gap: 8px;
+  align-items: center;
 }
 
-.hdr-nav-item.active{
-  color:#FF6B35;
-  font-weight:600;
-  background:transparent;
+.sri-tag {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.sri-tag.uxr { background: var(--uxr-ll); color: var(--uxr-color); }
+.sri-tag.uxa { background: var(--uxa-ll); color: var(--uxa-color); }
+.sri-tag.uxd { background: var(--uxd-ll); color: var(--uxd-color); }
+.sri-tag.uxt { background: var(--uxt-ll); color: var(--uxt-color); }
+
+.sri-match-type {
+  font-size: 11px;
+  color: var(--tl);
 }
 
-.hdr-nav-item.active::after{
-  transform:translateX(-50%) scaleX(1);
-  background:linear-gradient(90deg, var(--orange) 0%, var(--teal) 100%);
-  height:3px;
-  box-shadow:0 2px 8px rgba(255,107,53,0.4);
+.search-no-results {
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--tm);
 }
 
-.hdr-nav-item.soon{
-  opacity:0.4;
-  cursor:not-allowed;
-  color:var(--tm);
+
+
+/* ─── OVERVIEW ───────────────────────────────────────────── */
+.overview-text {
+  font-size: 15px;
+  color: var(--ts);
+  line-height: 1.8;
+}
+.overview-text p { margin-bottom: 14px; }
+.overview-text p:last-child { margin-bottom: 0; }
+
+/* ─── BEST AI WORKFLOW ───────────────────────────────────── */
+.workflow-list {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+}
+@media (max-width: 760px) {
+  .workflow-list { flex-direction: column; }
 }
 
-.hdr-nav-item.soon:hover{
-  background:transparent;
-  color:var(--tm);
+.workflow-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  min-width: 0;
 }
 
-.hdr-nav-item.soon::after{
-  display:none;
+.workflow-step-num {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--orange);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: 'DM Mono', monospace;
+  margin-bottom: 4px;
 }
 
-/* Smooth scroll behavior for nav */
-.hdr{position:sticky;top:0;z-index:1000;background:var(--bg);}
-.hdr-nav{
-  scrollbar-width:thin;
-  scrollbar-color:rgba(255,107,53,0.3) transparent;
+.workflow-step-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--tp);
 }
 
-.hdr-nav::-webkit-scrollbar{
-  height:4px;
+.workflow-step-desc {
+  font-size: 12px;
+  color: var(--tm);
+  line-height: 1.5;
 }
 
-.hdr-nav::-webkit-scrollbar-track{
-  background:transparent;
+.workflow-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--tl);
+  font-size: 14px;
+  flex-shrink: 0;
+  padding-top: 12px;
+}
+@media (max-width: 760px) {
+  .workflow-arrow { display: none; }
 }
 
-.hdr-nav::-webkit-scrollbar-thumb{
-  background:rgba(255,107,53,0.3);
-  border-radius:2px;
+/* ─── RESOURCE LIBRARY (subsections) ────────────────────── */
+.res-subsection { margin-bottom: 32px; }
+.res-subsection:last-child { margin-bottom: 0; }
+
+.res-subsection-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
 }
 
-.hdr-nav::-webkit-scrollbar-thumb:hover{
-  background:rgba(255,107,53,0.5);
+.res-subsection-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--tm);
 }
 
-/* Content Grid */
-.content-grid{display:grid;grid-template-columns:var(--nav-w) 1fr;grid-row:2;}
-
-/* Left Sidebar (Page Sections) */
-.sidebar{
-  background:var(--surface);
-  border-right:1px solid var(--border);
-  overflow:visible;
-  padding:24px 0;
-  width:var(--nav-w);
-  display:block;
-  position:relative;
-  align-self:start;
-}
-.sidebar[style*="display: none"]{display:none !important;width:0 !important;padding:0 !important;border:none !important;}
-.sidebar.hidden{display:none !important;width:0 !important;padding:0 !important;border:none !important;}
-.content-grid:has(.sidebar[style*="display: none"]), .content-grid:has(.sidebar.hidden){grid-template-columns:1fr !important;}
-.sidebar, .sidebar *{list-style:none !important;list-style-type:none !important;margin:0;padding-left:0 !important;}
-.sidebar::before, .sidebar::after, .sidebar *::before, .sidebar *::after{content:none !important;}
-.sidebar-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--tm);padding:0 24px !important;margin-bottom:12px;display:block;}
-.sidebar-item{display:flex !important;align-items:center;gap:24px;padding:10px 24px !important;font-size:14px;font-weight:500;color:var(--ts);border-left:3px solid transparent;transition:all 0.15s;cursor:pointer;margin:0 !important;}
-.sidebar-item:hover{color:var(--tp);background:var(--s2);}
-.sidebar-item.active{color:#FF6B35;border-left-color:#FF6B35;background:rgba(255,107,53,0.1);font-weight:600;}
-.sidebar-pip{width:5px;height:5px;border-radius:50%;flex-shrink:0;display:block;}
-
-/* Main */
-.main{
-  padding:40px 56px 120px 56px;
-  background:var(--bg);
-  position:relative;
-  min-height:100vh;
+.res-subsection-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--tm);
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  padding: 1px 8px;
+  border-radius: 10px;
 }
 
-/* Intro */
-.intro{margin-bottom:40px;padding-bottom:32px;border-bottom:1px solid var(--border);}
-.intro-eye{font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:0.1em;color:var(--teal);margin-bottom:6px;}
-.intro-h{font-family:'Roboto Flex',sans-serif;font-size:34px;font-weight:700;color:var(--tp);letter-spacing:-0.03em;line-height:1.1;margin-bottom:10px;}
-.chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
-.chip{font-size:13px;padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:var(--surface);color:var(--ts);font-weight:500;}
-.chip.i{background:var(--indigo-l);border-color:var(--indigo-b);color:var(--indigo);}
-.chip.t{background:var(--teal-l);border-color:var(--teal-b);color:var(--teal);}
-
-/* Section */
-.section{margin-bottom:64px;scroll-margin-top:20px;}
-.sec-hd{display:flex;align-items:center;gap:24px;padding-bottom:16px;margin-bottom:24px;border-bottom:1px solid var(--border);}
-.sec-ico{width:36px;height:36px;border-radius:9px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
-.sec-title{font-size:24px;font-weight:700;color:var(--tp);letter-spacing:-0.02em;}
-
-/* Cards */
-.card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px 24px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
-.card.red{border-color:var(--red-b);background:var(--red-l);}
-.card.teal{border-color:var(--teal-b);background:var(--teal-l);}
-.card.green{border-color:var(--green-b);background:var(--green-l);}
-.card-title{font-size:16px;font-weight:600;color:var(--tp);margin-bottom:6px;}
-.card-body{font-size:15px;color:var(--ts);line-height:1.6;}
-
-/* Subsection */
-.subsec{margin-top:24px;}
-
-/* Tags */
-.tag{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;padding:4px 10px;border-radius:20px;display:inline-block;margin-bottom:8px;border:1px solid transparent;}
-.tag.red{background:var(--red-l);color:var(--red);border-color:var(--red-b);}
-.tag.green{background:var(--green-l);color:var(--green);border-color:var(--green-b);}
-
-/* Grid layouts */
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px;}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-top:16px;}
-
-/* Callout */
-.callout{display:flex;gap:24px;padding:16px 20px;border-radius:12px;margin-top:16px;font-size:15px;line-height:1.7;border:1px solid transparent;}
-.callout.teal{background:var(--teal-l);border-color:var(--teal-b);color:var(--ts);}
-.callout-ico{font-size:18px;flex-shrink:0;margin-top:2px;}
-.callout strong{color:var(--tp);font-weight:600;}
-
-/* Table */
-.tbl{width:100%;border-collapse:collapse;margin-top:16px;border:1px solid var(--border);border-radius:12px;overflow:hidden;font-size:15px;}
-.tbl th{font-size:13px;font-weight:600;color:var(--ts);text-align:left;padding:12px 16px;border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:0.06em;background:var(--s2);}
-.tbl td{padding:14px 16px;border-bottom:1px solid var(--s3);color:var(--ts);vertical-align:top;}
-.tbl tr:last-child td{border-bottom:none;}
-.tbl td:first-child{color:var(--tp);font-weight:600;}
-.mono{font-family:'Roboto Mono',monospace;font-size:13px;background:var(--s2);border:1px solid var(--border);padding:2px 6px;border-radius:4px;color:var(--green);}
-
-/* Coming soon */
-.coming-soon{text-align:center;padding:120px 40px;}
-.coming-soon-icon{font-size:64px;margin-bottom:24px;opacity:0.3;}
-.coming-soon h2{font-size:32px;font-weight:700;color:var(--tp);margin-bottom:12px;}
-.coming-soon p{font-size:16px;color:var(--ts);line-height:1.6;}
-
-@media(max-width:1200px){
-  .content-grid{grid-template-columns:1fr;}
-  .sidebar{display:none;}
-  .main{padding:32px 24px 120px 24px;}
-  .g2,.g3{grid-template-columns:1fr;}
+/* ─── SAMPLE OUTPUT ──────────────────────────────────────── */
+.sample-output-note {
+  font-size: 13px;
+  color: var(--tm);
+  margin-bottom: 12px;
+  font-style: italic;
 }
+
+.sample-output-block {
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  font-size: 13.5px;
+  color: var(--ts);
+  line-height: 1.8;
+}
+.sample-output-block strong { color: var(--tp); }
+.sample-output-block .so-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--teal);
+  display: block;
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+.sample-output-block .so-label:first-child { margin-top: 0; }
+.sample-output-block .so-quote {
+  font-style: italic;
+  color: var(--tp);
+  border-left: 2px solid var(--border-2);
+  padding-left: 12px;
+  margin: 4px 0;
+}
+.sample-output-block ul { list-style: none; padding: 0; margin: 0; }
+.sample-output-block li { padding: 3px 0; padding-left: 18px; position: relative; }
+.sample-output-block li::before { content: '–'; position: absolute; left: 0; color: var(--tl); }
+
+/* ─── HUMAN REVIEW CHECKLIST ─────────────────────────────── */
+.checklist {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 14px;
+  color: var(--ts);
+  line-height: 1.6;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 12px 16px;
+}
+
+.checklist-check {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  border: 1.5px solid var(--border-2);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: var(--teal);
+  margin-top: 1px;
+}
+
+/* ─── RELATED DELIVERABLES ───────────────────────────────── */
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+@media (max-width: 900px) { .related-grid { grid-template-columns: 1fr; } }
+
+.related-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.related-card:hover {
+  background: var(--bg-3);
+  border-color: var(--border-2);
+  transform: translateY(-1px);
+}
+
+.related-card-icon { font-size: 22px; flex-shrink: 0; }
+.related-card-body { flex: 1; min-width: 0; }
+.related-card-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--tp);
+  margin-bottom: 4px;
+}
+.related-card-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+.related-card-tag.uxr { background: var(--uxr-ll); color: var(--uxr-color); }
+.related-card-tag.uxa { background: var(--uxa-ll); color: var(--uxa-color); }
+.related-card-tag.uxd { background: var(--uxd-ll); color: var(--uxd-color); }
+.related-card-tag.uxt { background: var(--uxt-ll); color: var(--uxt-color); }
+.related-card-arrow { color: var(--tl); font-size: 13px; flex-shrink: 0; }
+
+/* ─── FOCUS ──────────────────────────────────────────────── */
+:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; border-radius: 3px; }
 </style>
 </head>
 <body>
-<div class="page">
-
-<!-- HEADER -->
-<header class="hdr">
-  <div class="hdr-top">
-    <div class="hdr-brand">
-      <div class="logo">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-          <path d="M8 12h8M12 8v8"/>
-        </svg>
-      </div>
-      <div>
-        <div class="brand">Claude for Designers</div>
-        <div class="brand-sub">The Complete Playbook</div>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Horizontal Navigation -->
-  <div class="hdr-nav">
-    <div class="hdr-nav-item active" onclick="switchSection('getting-started')">🚀 Getting Started</div>
-    <div class="hdr-nav-item" onclick="switchSection('claude-md')">📄 CLAUDE.md</div>
-    <div class="hdr-nav-item" onclick="switchSection('skills')">📚 Claude Skills</div>
-  </div>
-</header>
-
-<!-- CONTENT GRID -->
-<div class="content-grid">
-  
-  <!-- LEFT SIDEBAR (Page Sections) -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-title">On This Page</div>
-    <div class="sidebar-item active" onclick="scrollToSection('what-is')">
-      <div class="sidebar-pip" style="background:var(--indigo);"></div>
-      <span>What is CLAUDE.md?</span>
-    </div>
-    <div class="sidebar-item" onclick="scrollToSection('vs-figma')">
-      <div class="sidebar-pip" style="background:var(--purple);"></div>
-      <span>vs Figma Design System</span>
-    </div>
-    <div class="sidebar-item" onclick="scrollToSection('vs-skills')">
-      <div class="sidebar-pip" style="background:var(--amber);"></div>
-      <span>vs Skills</span>
-    </div>
-  </aside>
-
-  <!-- MAIN CONTENT -->
-  <main class="main" id="main-content">
-    <!-- Content will be loaded here -->
-  </main>
-
-</div>
-
-</div>
-
-<script>
-// Store page content
-const pageContent = {};
-
-// CLAUDE.MD REFERENCE CONTENT (from index-trimmed.html)
-pageContent['claude-md-reference'] = `
-  <div class="intro">
-    <h1 class="intro-h">CLAUDE.md</h1>
-    <div style="font-size:17px;color:var(--ts);line-height:1.7;max-width:880px;">
-      Your project's instruction manual for Claude. Simple, effective, essential.
-    </div>
-  </div>
-
-  <!-- Main Section: What's CLAUDE.md? -->
-  <section class="section">
-    <div class="sec-hd">
-      <div class="sec-ico">📄</div>
-      <div class="sec-title">What's CLAUDE.md?</div>
-    </div>
-
-    <!-- What is Claude.md? -->
-    <div style="margin-bottom:48px;">
-      <h3 style="font-size:22px;font-weight:600;color:var(--tp);margin:0 0 16px 0;">What is Claude.md?</h3>
-      <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0;">
-        CLAUDE.md is a simple text file that lives in your project folder. When you start working with Claude, it automatically reads this file first. Think of it like giving Claude a quick briefing document about your project before every conversation—your design system colors, your preferred naming conventions, your "never do this" rules. It's Claude's cheat sheet for working on YOUR specific project.
-      </p>
-    </div>
-
-    <!-- Why is it needed? -->
-    <div style="margin-bottom:48px;">
-      <h3 style="font-size:22px;font-weight:600;color:var(--tp);margin:0 0 16px 0;">Why is it needed?</h3>
-      <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0 0 20px 0;">
-        Without CLAUDE.md, you'd start every chat from scratch. You'd repeatedly explain "we use this color palette," "buttons should always have rounded corners," "never use inline styles," and so on. It's exhausting and wastes time.
-      </p>
-      <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0;">
-        With CLAUDE.md, Claude already knows your project rules. You write them once, and Claude remembers them forever. Every component it generates, every code suggestion it makes—all automatically aligned with your project standards. It's like having a teammate who actually reads and remembers the project documentation.
-      </p>
-    </div>
-
-    <!-- When to use? -->
-    <div style="margin-bottom:48px;">
-      <h3 style="font-size:22px;font-weight:600;color:var(--tp);margin:0 0 16px 0;">When to use?</h3>
-      <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0 0 20px 0;">
-        Use CLAUDE.md when:
-      </p>
-      <ul style="font-size:16px;line-height:1.8;color:var(--ts);max-width:800px;margin:0;padding-left:24px;">
-        <li><strong>You have a design system</strong> — Colors, typography, spacing rules that need to be followed consistently</li>
-        <li><strong>You're working on a real project</strong> — Not just experimenting, but building something that will ship</li>
-        <li><strong>You have naming conventions</strong> — Specific ways you name CSS classes, components, or files</li>
-        <li><strong>Multiple people are involved</strong> — Your whole team can use Claude and get consistent results</li>
-        <li><strong>You've learned lessons the hard way</strong> — Browser bugs, accessibility gotchas, things that broke before and shouldn't happen again</li>
-      </ul>
-    </div>
-
-    <!-- How to write Claude.md effectively -->
-    <div style="margin-bottom:48px;">
-      <h3 style="font-size:22px;font-weight:600;color:var(--tp);margin:0 0 16px 0;">How to write Claude.md effectively</h3>
-      <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0 0 24px 0;">
-        A good CLAUDE.md file for designers includes these sections with real examples:
-      </p>
-
-      <style>
-        .accordion-minimal {
-          border-bottom: 1px solid var(--border);
-          padding: 20px 0;
-        }
-        .accordion-minimal:first-child {
-          border-top: 1px solid var(--border);
-        }
-        .accordion-minimal-header {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          cursor: pointer;
-          padding: 8px 0;
-        }
-        .accordion-minimal-header:hover .accordion-minimal-title {
-          color: var(--orange);
-        }
-        .accordion-minimal-title {
-          font-size: 18px;
-          font-weight: 600;
-          color: var(--tp);
-          transition: color 0.2s;
-          display: flex;
-          align-items: center;
-          gap: 12px;
-        }
-        .accordion-minimal-icon {
-          font-size: 20px;
-          color: var(--tm);
-          transition: transform 0.3s;
-        }
-        .accordion-minimal.active .accordion-minimal-icon {
-          transform: rotate(45deg);
-        }
-        .accordion-minimal-content {
-          max-height: 0;
-          overflow: hidden;
-          transition: max-height 0.3s ease;
-        }
-        .accordion-minimal.active .accordion-minimal-content {
-          max-height: 600px;
-        }
-        .accordion-minimal-content-inner {
-          padding: 20px 0 8px 0;
-        }
-        .code-snippet {
-          background: var(--s2);
-          border-left: 3px solid var(--orange);
-          padding: 20px;
-          font-family: 'Roboto Mono', monospace;
-          font-size: 14px;
-          line-height: 1.8;
-          color: var(--tp);
-          margin: 16px 0;
-          overflow-x: auto;
-          border-radius: 4px;
-        }
-      </style>
-
-      <div style="max-width:900px;">
-
-        <!-- Accordion 1: Design Tokens -->
-        <div class="accordion-minimal">
-          <div class="accordion-minimal-header" onclick="this.parentElement.classList.toggle('active')">
-            <div class="accordion-minimal-title">
-              <span>🎨</span>
-              <span>Design Tokens & Spacing</span>
-            </div>
-            <div class="accordion-minimal-icon">+</div>
-          </div>
-          <div class="accordion-minimal-content">
-            <div class="accordion-minimal-content-inner">
-              <p style="font-size:15px;color:var(--ts);line-height:1.7;margin:0 0 16px 0;">
-                <strong>What to include:</strong> Your colors, typography, and spacing values. Write them in CSS variable format so Claude can copy-paste directly into code.
-              </p>
-              <div class="code-snippet">## Design Tokens<br><br>Colors:<br>  --primary: #5B5BD6;<br>  --primary-light: #E8E8F8;<br>  --text-primary: #1A1D29;<br>  --text-secondary: #4A5568;<br>  --surface: #FFFFFF;<br>  --border: #E5E7EB;<br><br>Spacing (8px base grid):<br>  xs: 4px<br>  sm: 8px<br>  md: 16px<br>  lg: 24px<br>  xl: 32px<br>  2xl: 48px<br><br>Typography:<br>  H1: 32px / 1.2 · 700 weight<br>  H2: 24px / 1.3 · 600 weight<br>  Body: 16px / 1.6 · 400 weight<br>  Small: 14px / 1.5 · 400 weight</div>
-              <p style="font-size:15px;color:var(--tp);margin:16px 0 0 0;"><strong>💡 Pro tip:</strong> Use exact CSS variable syntax so Claude can copy-paste into your stylesheets.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Accordion 2: Component Patterns -->
-        <div class="accordion-minimal">
-          <div class="accordion-minimal-header" onclick="this.parentElement.classList.toggle('active')">
-            <div class="accordion-minimal-title">
-              <span>🧩</span>
-              <span>Component Patterns</span>
-            </div>
-            <div class="accordion-minimal-icon">+</div>
-          </div>
-          <div class="accordion-minimal-content">
-            <div class="accordion-minimal-content-inner">
-              <p style="font-size:15px;color:var(--ts);line-height:1.7;margin:0 0 16px 0;">
-                <strong>What to include:</strong> Your naming conventions and component structure. Show actual class names and patterns so Claude follows your exact style.
-              </p>
-              <div class="code-snippet">## Components<br><br>Naming: BEM methodology<br>  Block:    .card<br>  Element:  .card__header, .card__body, .card__footer<br>  Modifier: .card--featured, .card--large<br><br>Button patterns:<br>  Base:      .btn<br>  Primary:   .btn .btn--primary<br>  Secondary: .btn .btn--secondary<br>  Sizes:     .btn--sm, .btn--md, .btn--lg<br><br>Layout containers:<br>  .container (max-width: 1200px)<br>  .container--narrow (max-width: 800px)<br><br>NEVER use:<br>  - Generic names (button1, box2)<br>  - camelCase for classes<br>  - Inline styles (use utility classes)</div>
-              <p style="font-size:15px;color:var(--tp);margin:16px 0 0 0;"><strong>💡 Pro tip:</strong> Show actual examples of class names you use, not just rules. Claude learns better from examples.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Accordion 3: Tech Stack -->
-        <div class="accordion-minimal">
-          <div class="accordion-minimal-header" onclick="this.parentElement.classList.toggle('active')">
-            <div class="accordion-minimal-title">
-              <span>⚙️</span>
-              <span>Tech Stack</span>
-            </div>
-            <div class="accordion-minimal-icon">+</div>
-          </div>
-          <div class="accordion-minimal-content">
-            <div class="accordion-minimal-content-inner">
-              <p style="font-size:15px;color:var(--ts);line-height:1.7;margin:0 0 16px 0;">
-                <strong>What to include:</strong> What frameworks and libraries you're using, and importantly, what you're NOT using. Include the "why" when it matters.
-              </p>
-              <div class="code-snippet">## Stack<br><br>HTML:    Vanilla — no framework (React/Vue forbidden)<br>CSS:     Custom properties + utility classes — no Tailwind<br>JS:      Vanilla ES6 modules — no jQuery, no bundler<br>Icons:   Tabler Icons (CDN) — ti-* class names<br>Fonts:   Roboto (body) + Roboto Mono (code/data)<br><br>> Why vanilla? Client maintains the site post-handoff<br>> and doesn't have frontend devs on staff.</div>
-              <p style="font-size:15px;color:var(--tp);margin:16px 0 0 0;"><strong>💡 Pro tip:</strong> Include the "why" for tech choices so Claude understands your constraints, not just preferences.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Accordion 4: Constraints & Gotchas -->
-        <div class="accordion-minimal">
-          <div class="accordion-minimal-header" onclick="this.parentElement.classList.toggle('active')">
-            <div class="accordion-minimal-title">
-              <span>🚫</span>
-              <span>Constraints & Gotchas</span>
-            </div>
-            <div class="accordion-minimal-icon">+</div>
-          </div>
-          <div class="accordion-minimal-content">
-            <div class="accordion-minimal-content-inner">
-              <p style="font-size:15px;color:var(--ts);line-height:1.7;margin:0 0 16px 0;">
-                <strong>What to include:</strong> Your "never do this" rules, browser constraints, accessibility requirements, and past bugs you've fixed.
-              </p>
-              <div class="code-snippet">## Never Do This<br><br>❌ NEVER use jQuery — client requirement<br>❌ NEVER use position: fixed for modals — breaks iOS Safari<br>❌ NEVER forget alt text on images — accessibility requirement<br>❌ NEVER use px for font sizes — use rem for accessibility<br>❌ NEVER mix inline styles — always use classes<br><br>## Browser Support<br><br>Must support: Chrome, Firefox, Safari (desktop + mobile)<br>IE11 support: NO (confirmed with client)<br><br>## Past Bugs Fixed<br><br>BUG-001: Safari flex gap issue<br>  Problem: gap property not supported in Safari 14.0<br>  Solution: Use margin on child elements instead<br><br>BUG-002: Z-index conflicts with header<br>  Problem: Modals appearing behind sticky header<br>  Solution: Header uses z-index: 1000, modals use 2000+</div>
-              <p style="font-size:15px;color:var(--tp);margin:16px 0 0 0;"><strong>💡 Pro tip:</strong> Number your bugs (BUG-001, BUG-002) so you can reference them in future chats with Claude.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Accordion 5: File Structure -->
-        <div class="accordion-minimal">
-          <div class="accordion-minimal-header" onclick="this.parentElement.classList.toggle('active')">
-            <div class="accordion-minimal-title">
-              <span>📁</span>
-              <span>File Structure</span>
-            </div>
-            <div class="accordion-minimal-icon">+</div>
-          </div>
-          <div class="accordion-minimal-content">
-            <div class="accordion-minimal-content-inner">
-              <p style="font-size:15px;color:var(--ts);line-height:1.7;margin:0 0 16px 0;">
-                <strong>What to include:</strong> Your folder organization with exact paths and naming rules. Show the tree structure so Claude knows where to create files.
-              </p>
-              <div class="code-snippet">## File Structure<br><br>src/<br>  components/<br>    button.css<br>    card.css<br>    modal.css<br>    navigation.css<br>  layouts/<br>    header.css<br>    footer.css<br>    sidebar.css<br>  pages/<br>    dashboard.html<br>    profile.html<br>    settings.html<br>  utils/<br>    helpers.js<br>    validators.js<br>  main.css<br>  main.js<br><br>RULES:<br>- One component per file<br>- CSS files match component names exactly<br>- NEVER create new top-level folders without approval<br>- HTML pages go in pages/, not root</div>
-              <p style="font-size:15px;color:var(--tp);margin:16px 0 0 0;"><strong>💡 Pro tip:</strong> Show the actual tree structure so Claude knows exactly where to put new files you ask it to create.</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Accordion 6: Code Style -->
-        <div class="accordion-minimal">
-          <div class="accordion-minimal-header" onclick="this.parentElement.classList.toggle('active')">
-            <div class="accordion-minimal-title">
-              <span>✨</span>
-              <span>Code Style Guidelines</span>
-            </div>
-            <div class="accordion-minimal-icon">+</div>
-          </div>
-          <div class="accordion-minimal-content">
-            <div class="accordion-minimal-content-inner">
-              <p style="font-size:15px;color:var(--ts);line-height:1.7;margin:0 0 16px 0;">
-                <strong>What to include:</strong> Specific formatting rules for HTML, CSS, and JavaScript so generated code matches your style perfectly.
-              </p>
-              <div class="code-snippet">## Code Style<br><br>HTML:<br>- Indent: 2 spaces (not tabs)<br>- Attributes: double quotes<br>- Self-closing: no trailing slash (&lt;img&gt; not &lt;img /&gt;)<br>- Boolean attributes: no value (disabled, not disabled="true")<br>- Order: id, class, data-*, other attributes<br><br>CSS:<br>- Indent: 2 spaces<br>- Property order: position, display, layout, typography, colors<br>- Space after colon, none before<br>- Always end with semicolon (even last property)<br>- One selector per line for multiple selectors<br><br>JavaScript:<br>- Indent: 2 spaces<br>- Use const/let, NEVER var<br>- Single quotes for strings<br>- Semicolons required<br>- Function declarations: function name() {} (not arrow functions)<br>- Descriptive variable names (not x, y, z)</div>
-              <p style="font-size:15px;color:var(--tp);margin:16px 0 0 0;"><strong>💡 Pro tip:</strong> Be hyper-specific about formatting. The more detail you give, the more consistent Claude's code will be.</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div style="margin-top:32px;padding:20px;background:var(--s2);border-radius:8px;max-width:900px;">
-        <div style="font-size:15px;color:var(--tp);font-weight:600;margin-bottom:8px;">💡 Overall Pro tip</div>
-        <div style="font-size:15px;color:var(--ts);line-height:1.7;">
-          Be specific, not general. Don't write "use good spacing"—write "use 8px, 16px, 24px, 32px spacing values only." Don't write "follow best practices"—write "buttons must have at least 44px touch target for mobile." The more specific you are, the more accurate Claude's suggestions will be.
-        </div>
-      </div>
-    </div>
-
-  </section>
-
-  <!-- Comparison 1: vs Design System -->
-  <section class="section" style="margin-top:64px;">
-    <div class="sec-hd">
-      <div class="sec-ico">🎨</div>
-      <div class="sec-title">How it differs from Design System?</div>
-    </div>
-
-    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0 0 32px 0;">
-      Your Figma design system and CLAUDE.md work together but serve different purposes. Figma shows WHAT things should look like. CLAUDE.md tells Claude HOW to code them with your specific tech choices and conventions.
-    </p>
-
-    <div style="overflow-x:auto;">
-      <table style="width:100%;max-width:900px;border-collapse:collapse;font-size:15px;">
-        <thead>
-          <tr style="background:var(--s2);">
-            <th style="padding:16px;text-align:left;border:1px solid var(--border);font-weight:600;width:25%;">Aspect</th>
-            <th style="padding:16px;text-align:left;border:1px solid var(--border);font-weight:600;">CLAUDE.md</th>
-            <th style="padding:16px;text-align:left;border:1px solid var(--border);font-weight:600;">Design System (Figma)</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Purpose</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">HOW to code it—tech stack, class names, code rules</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">WHAT it looks like—visual appearance, colors, spacing</td>
-          </tr>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Format</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Text file with code examples and constraints</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Visual mockups with component states</td>
-          </tr>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Contains</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Naming conventions, file structure, tech choices</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Color palettes, typography, spacing systems</td>
-          </tr>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Example</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">"Use .btn-primary class" · "Never use jQuery"</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Button with hover states · Primary color #5B5BD6</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div style="margin-top:32px;padding:24px;background:linear-gradient(135deg, var(--orange-l) 0%, rgba(255,107,53,0.1) 100%);border-left:4px solid var(--orange);border-radius:4px;max-width:800px;">
-      <div style="font-size:16px;color:var(--tp);line-height:1.7;">
-        <strong>Think of it this way:</strong> Your Figma design system is the "what"—it shows the finished button should be blue with rounded corners. CLAUDE.md is the "how"—it tells Claude to use <code style="background:var(--s2);padding:2px 6px;border-radius:3px;font-family:monospace;">.btn-primary</code> class, apply <code style="background:var(--s2);padding:2px 6px;border-radius:3px;font-family:monospace;">border-radius: 8px</code>, and never use inline styles. You need both.
-      </div>
-    </div>
-  </section>
-
-  <!-- Comparison 2: vs Skills -->
-  <section class="section" style="margin-top:64px;">
-    <div class="sec-hd">
-      <div class="sec-ico">📚</div>
-      <div class="sec-title">How it differs from Skills?</div>
-    </div>
-
-    <p style="font-size:16px;line-height:1.7;color:var(--ts);max-width:800px;margin:0 0 32px 0;">
-      Skills are Claude's built-in knowledge about general best practices (like "how to make good PDFs" or "React patterns"). CLAUDE.md is YOUR specific project rules. Skills teach Claude universal principles; CLAUDE.md teaches Claude YOUR way of doing things.
-    </p>
-
-    <div style="overflow-x:auto;">
-      <table style="width:100%;max-width:900px;border-collapse:collapse;font-size:15px;">
-        <thead>
-          <tr style="background:var(--s2);">
-            <th style="padding:16px;text-align:left;border:1px solid var(--border);font-weight:600;width:25%;">Aspect</th>
-            <th style="padding:16px;text-align:left;border:1px solid var(--border);font-weight:600;">CLAUDE.md</th>
-            <th style="padding:16px;text-align:left;border:1px solid var(--border);font-weight:600;">Skills</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">What is it</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Your project's instruction manual</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Claude's built-in best practices</td>
-          </tr>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Created by</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">You write it for your specific project</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Anthropic creates it based on industry standards</td>
-          </tr>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Scope</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">Only this project</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">All your projects everywhere</td>
-          </tr>
-          <tr>
-            <td style="padding:16px;border:1px solid var(--border);font-weight:500;color:var(--tp);">Example</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">"Use .btn-primary" · "No jQuery" · "IE11 required"</td>
-            <td style="padding:16px;border:1px solid var(--border);color:var(--ts);">"React best practices" · "How to make PDFs"</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div style="margin-top:32px;padding:24px;background:linear-gradient(135deg, var(--teal-l) 0%, rgba(45,212,191,0.1) 100%);border-left:4px solid var(--teal);border-radius:4px;max-width:800px;">
-      <div style="font-size:16px;color:var(--tp);line-height:1.7;">
-        <strong>Think of it this way:</strong> Skills teach Claude "this is how good developers generally structure React apps." CLAUDE.md teaches Claude "but on THIS project, we use our own custom pattern because our client has specific needs." Skills are universal knowledge; CLAUDE.md is your specific implementation.
-      </div>
-    </div>
-  </section>
-`;
-
-// INTRO CONTENT
-pageContent['intro'] = `
-  <div class="intro">
-    <div class="intro-eye">Welcome</div>
-    <h1 class="intro-h">Getting Started with Claude</h1>
-    <div style="font-size:16px;color:var(--ts);line-height:1.7;max-width:880px;margin-bottom:32px;">
-      Welcome to the Claude for Designers playbook. Get started by exploring these essential resources.
-    </div>
-  </div>
-
-  <section class="section">
-    <div class="sec-hd">
-      <div class="sec-ico">🔗</div>
-      <div class="sec-title">Claude AI Resources</div>
-    </div>
-    
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px;margin-top:32px;">
-      
-      <div class="card" style="padding:24px;">
-        <div style="font-size:18px;font-weight:600;color:var(--tp);margin-bottom:12px;">Claude.ai</div>
-        <div style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:16px;">
-          The main Claude platform for chat, projects, and AI assistance
-        </div>
-        <a href="https://claude.ai" target="_blank" style="display:inline-block;padding:10px 20px;background:var(--orange-d);color:#fff;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;">
-          Visit Claude.ai →
-        </a>
-      </div>
-
-      <div class="card" style="padding:24px;">
-        <div style="font-size:18px;font-weight:600;color:var(--tp);margin-bottom:12px;">Documentation</div>
-        <div style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:16px;">
-          API docs, guides, and technical documentation
-        </div>
-        <a href="https://docs.anthropic.com" target="_blank" style="display:inline-block;padding:10px 20px;background:var(--orange-d);color:#fff;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;">
-          View Docs →
-        </a>
-      </div>
-
-      <div class="card" style="padding:24px;">
-        <div style="font-size:18px;font-weight:600;color:var(--tp);margin-bottom:12px;">Support</div>
-        <div style="font-size:15px;color:var(--ts);line-height:1.7;margin-bottom:16px;">
-          Get help and find answers to common questions
-        </div>
-        <a href="https://support.anthropic.com" target="_blank" style="display:inline-block;padding:10px 20px;background:var(--orange-d);color:#fff;border-radius:8px;font-weight:600;font-size:14px;text-decoration:none;">
-          Get Support →
-        </a>
-      </div>
-
-    </div>
-  </section>
-`;
-
-pageContent['skills-overview'] = `
-  <div class="coming-soon">
-    <div class="coming-soon-icon">📚</div>
-    <h2>Skills System</h2>
-    <p>Learn how to create and use Skills for reusable expertise across all your projects.</p>
-  </div>
-`;
-
-
-
-
-
-
-// Section navigation data
-const sections = {
-  'getting-started': {
-    pages: ['intro'],
-    sidebar: []
-  },
-  'claude-md': {
-    pages: ['claude-md-reference'],
-    sidebar: [
-      { id: 'what-is', label: 'What is CLAUDE.md?', color: 'indigo' },
-      { id: 'vs-figma', label: 'vs Figma Design System', color: 'purple' },
-      { id: 'vs-skills', label: 'vs Skills', color: 'amber' }
-    ]
-  },
-  'skills': {
-    pages: ['skills-overview'],
-    sidebar: []
-  }
-};
-
-let currentSection = 'getting-started';
-let currentPage = 'intro';
-
-// Switch main section
-
-function downloadClaudeMD() {
-  const claudeMDContent = `# ClearPath FDO - Design System Reference
-
-## Stack
-HTML:    Vanilla — no framework (React/Vue/Svelte forbidden)
-CSS:     Custom properties + utility classes — no Tailwind
-JS:      Vanilla ES6 modules — no jQuery, no bundler
-Icons:   Tabler Icons (CDN) — ti-* class names
-Fonts:   Roboto (body) + Roboto Mono (code/data)
-Charts:  Chart.js 4 — already loaded in base layout
-Hosting: Static files — no server-side rendering needed
-
-> Why vanilla? The client team maintains this post-handoff. No build toolchain means any dev can open a file, edit it, and see results.
-
-## Dev server
-npx serve .             → serves on http://localhost:3000
-python3 -m http.server  → fallback if serve not available
-open index.html         → works for most tasks (no CORS needs)
-
-No build step. No compilation. No hot reload needed.
-Open the HTML file directly in browser for quick checks.
-
-## Page types
-list-page       Sidebar + header + data table + side panel
-                e.g. patients.html, providers.html, rooms.html
-
-form-page       Sidebar + header + multi-step form wizard
-                e.g. new-patient.html, appointment-booking.html
-
-dashboard       Sidebar + header + stat cards + charts
-                e.g. index.html
-
-detail-page     Sidebar + header + entity info + action buttons
-                e.g. patient-detail.html, provider-detail.html
-
-## Spacing (8px grid system)
---space-0:  0px      No space (rare, for zero margins)
---space-1:  8px      Tightest — inline elements, icon gaps
---space-2:  16px     Default component padding
---space-3:  24px     Section padding, card spacing
---space-4:  32px     Major section gaps
---space-5:  40px     Page-level spacing
---space-6:  48px     Hero sections
---space-8:  64px     Rare — only for dramatic spacing
-
-RULE: Never use arbitrary values. If you need 20px, use calc(var(--space-2) + var(--space-1)/2) or reconsider.
-
-## Layout tokens
---container-max:  1280px     Max width for main content
---sidebar-w:      240px       Left nav width
---header-h:       64px        Top header height
---panel-w:        320px       Right side panel width
---modal-sm:       400px       Small modal/dialog
---modal-md:       600px       Standard modal
---modal-lg:       900px       Large modal/form
-
-## Colors
-
-### Brand
---color-primary:     #5B5BD6    Indigo (primary actions, links)
---color-primary-l:   #EEEEFF    Pale indigo (hover states)
---color-primary-d:   #3A3AA8    Dark indigo (active states)
-
---color-secondary:   #B8E6E3    Teal (secondary actions)
---color-secondary-l: #E8FAF9    Pale teal
---color-secondary-d: #0A7B77    Dark teal
-
-### Neutrals
---color-bg:          #F5F4F0    Page background (warm white)
---color-surface:     #FFFFFF    Cards, modals, panels
---color-surface-2:   #F0EFEB    Hover states, disabled
---color-surface-3:   #E8E7E2    Table stripes, subtle dividers
-
---color-border:      #DDD9D0    Default borders
---color-border-2:    #C8C4BA    Strong borders, focus rings
-
---color-text-p:      #1C1B18    Primary text (headings, labels)
---color-text-s:      #5C5A53    Secondary text (body copy)
---color-text-m:      #9B998F    Muted text (captions, placeholders)
-
-### Semantic
---color-success:     #197A4A    Green (success states)
---color-success-l:   #EDFAF3    Pale green
---color-warning:     #92620A    Amber (warnings)
---color-warning-l:   #FDF6E7    Pale amber
---color-error:       #C0392B    Red (errors, destructive)
---color-error-l:     #FEF1F0    Pale red
---color-info:        #2E86AB    Blue (info, neutral alerts)
---color-info-l:      #EFF7FB    Pale blue
-
-### Special
---color-chart-1:     #5B5BD6    Indigo
---color-chart-2:     #B8E6E3    Teal
---color-chart-3:     #92620A    Amber
---color-chart-4:     #197A4A    Green
---color-chart-5:     #C0392B    Red
---color-chart-6:     #6B3FA0    Purple
-
-RULE: Never use hex codes directly in components. Always reference CSS variables.
-
-## Typography
-
-### Font families
---font-body:   'Roboto', sans-serif
---font-mono:   'Roboto Mono', monospace
---font-head:   'Roboto', sans-serif
-
-### Font sizes
---text-xs:   12px      Captions, small labels
---text-sm:   14px      Body text, table cells
---text-base: 16px      Default size
---text-lg:   18px      Subheadings
---text-xl:   20px      Card titles
---text-2xl:  24px      Section headings
---text-3xl:  30px      Page titles
---text-4xl:  36px      Hero text
-
-### Font weights
---weight-normal:  400
---weight-medium:  500
---weight-semibold: 600
---weight-bold:    700
-
-### Line heights
---leading-tight:  1.2      Headings
---leading-normal: 1.5      Body text
---leading-loose:  1.8      Long-form content
-
-RULE: Use font-size: var(--text-lg) not font-size: 18px.
-
-## Component Standards
-
-### Buttons
-.btn            Base button class (required)
-.btn-primary    Indigo fill (main actions)
-.btn-secondary  Teal fill (secondary actions)
-.btn-ghost      Transparent + border (tertiary)
-.btn-danger     Red fill (destructive actions)
-.btn-sm         Height 32px, padding 0 12px
-.btn-md         Height 40px, padding 0 16px (default)
-.btn-lg         Height 48px, padding 0 24px
-
-Structure:
-<button class="btn btn-primary btn-md">
-  <i class="ti ti-plus"></i>
-  <span>Add Patient</span>
-</button>
-
-NEVER use <a> tags styled as buttons. Use <button> with type="button".
-
-### Cards
-.card           Base card class
-.card-header    Optional header with title + actions
-.card-body      Main content area (padding: var(--space-3))
-.card-footer    Optional footer with actions
-
-Structure:
-<div class="card">
-  <div class="card-header">
-    <h3>Card Title</h3>
-    <button class="btn btn-ghost btn-sm">Edit</button>
-  </div>
-  <div class="card-body">
-    Content goes here...
-  </div>
-</div>
-
-### Forms
-.form-group     Wrapper for label + input
-.form-label     Label text (required for every input)
-.form-input     Text inputs, textareas, selects
-.form-help      Helper text below input
-.form-error     Error message styling
-
-Structure:
-<div class="form-group">
-  <label class="form-label">Patient Name</label>
-  <input type="text" class="form-input" placeholder="Enter name">
-  <span class="form-help">First and last name required</span>
-</div>
-
-RULE: Every input must have a label. No placeholders as labels.
-
-### Tables
-.table          Base table class
-.table-hover    Row hover effect
-.table-striped  Alternating row colors
-.table-sm       Compact spacing
-
-Structure:
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Status</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>John Doe</td>
-      <td><span class="badge badge-success">Active</span></td>
-      <td><button class="btn btn-ghost btn-sm">Edit</button></td>
-    </tr>
-  </tbody>
-</table>
-
-### Modals
-.modal          Modal overlay + container
-.modal-dialog   Dialog box (centered)
-.modal-header   Title + close button
-.modal-body     Content area
-.modal-footer   Action buttons
-
-Structure:
-<div class="modal" id="myModal">
-  <div class="modal-dialog">
-    <div class="modal-header">
-      <h3>Modal Title</h3>
-      <button class="btn-close" onclick="closeModal('myModal')"></button>
-    </div>
-    <div class="modal-body">
-      Content...
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-ghost">Cancel</button>
-      <button class="btn btn-primary">Save</button>
-    </div>
-  </div>
-</div>
-
-## App Shell
-Every page uses this structure:
 
 <div class="app">
-  <aside class="sidebar">
-    <!-- Navigation -->
-  </aside>
-  <div class="main">
-    <header class="header">
-      <!-- Page title + actions -->
-    </header>
-    <div class="content">
-      <!-- Page content -->
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <span class="topbar-title">UX Resource Center</span>
+      <span class="topbar-version">Emids Design · v1.0</span>
     </div>
-  </div>
-</div>
-
-NEVER deviate from this. Sidebar is always on the left, header always at top.
-
-## Data Display States
-
-### Loading
-Show skeleton loaders matching the content shape:
-<div class="skeleton skeleton-text"></div>
-<div class="skeleton skeleton-card"></div>
-
-### Empty
-Always show an empty state with illustration + message + action:
-<div class="empty-state">
-  <img src="assets/empty-patients.svg" alt="">
-  <h3>No patients yet</h3>
-  <p>Get started by adding your first patient</p>
-  <button class="btn btn-primary">Add Patient</button>
-</div>
-
-### Error
-Use alert component:
-<div class="alert alert-error">
-  <i class="ti ti-alert-circle"></i>
-  <span>Unable to load data. Please try again.</span>
-</div>
-
-## Routing (Client-side)
-const routes = {
-  '/': 'pages/dashboard.html',
-  '/patients': 'pages/patients.html',
-  '/appointments': 'pages/appointments.html',
-}
-
-Use history.pushState for navigation. No page reloads.
-
-## Form Validation
-ALWAYS validate on submit, not on blur.
-Show errors below each field, not in a summary block.
-
-## Multi-step Forms
-.step-indicator     Progress dots at top
-.step              Individual step container
-.step-header       Step title + description
-.step-body         Form fields
-.step-footer       Back + Next buttons
-
-NEVER show all steps at once. One step visible at a time.
-
-## Toasts (Notifications)
-Position: top-right
-Duration: 4 seconds (success), 6 seconds (error)
-Max 3 visible at once (stack from top)
-
-Structure:
-<div class="toast toast-success">
-  <i class="ti ti-check"></i>
-  <span>Patient saved successfully</span>
-</div>
-
-## Content Cards
-For list views showing entities (patients, providers, etc):
-
-<div class="content-card">
-  <div class="content-card-header">
-    <h4>Patient Name</h4>
-    <span class="badge">Active</span>
-  </div>
-  <div class="content-card-body">
-    <div class="meta-row">
-      <span class="meta-label">DOB:</span>
-      <span class="meta-value">Jan 15, 1985</span>
+    <div class="topbar-right">
+      <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" id="theme-toggle">🌙</button>
     </div>
-  </div>
-  <div class="content-card-footer">
-    <button class="btn btn-ghost btn-sm">View Details</button>
-  </div>
-</div>
+  </header>
 
-## Grid Layout
-Use CSS Grid for dashboards:
+  <!-- MAIN VIEW: card listing -->
+  <div id="listing-view">
 
-.grid-2         2 columns
-.grid-3         3 columns
-.grid-4         4 columns
-.grid-auto      Auto-fit columns
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow">AI-Assisted Design</div>
+      <h1 class="hero-h1">Find the right resource,<br>wherever you are.</h1>
+      <p class="hero-lead">Browse by practice area, pick a deliverable, and get the prompts, tools, plugins, and skill files you need — right now.</p>
+    </div>
 
-Gap is always var(--space-3) (24px).
-
-## Dark Theme
-NOT IMPLEMENTED. Entire app is light theme only.
-If asked to build dark theme, decline — it's out of scope.
-
-## Icons (Tabler Icons)
-Always use Tabler Icons via CDN:
-<i class="ti ti-user"></i>
-<i class="ti ti-calendar"></i>
-<i class="ti ti-plus"></i>
-
-Icon size: 20px (default), 16px (small), 24px (large)
-
-Find icons at: https://tabler.io/icons
-
-## Accessibility
-- Every input must have a <label>
-- Use semantic HTML (<nav>, <main>, <section>)
-- Buttons must have text or aria-label
-- Focus states required on all interactive elements
-- Color contrast must pass WCAG AA
-
-## Heuristics (Decision-making rules)
-- If unsure about spacing, use var(--space-3) (24px)
-- If unsure about font size, use var(--text-base) (16px)
-- If unsure about color, use --color-text-s (secondary text)
-- Default button is .btn-primary unless destructive action
-- Default form layout is vertical (label above input)
-- Tables always have hover effect (.table-hover)
-
-## Animation
-Keep it subtle. No animations >300ms.
-Use CSS transitions, not keyframe animations.
-
-Allowed:
-- Button hover: background color transition (150ms)
-- Modal open: fade in + scale (200ms)
-- Toast: slide in from right (250ms)
-
-Forbidden:
-- Page transitions
-- Parallax effects
-- Scroll-based animations
-- Loading spinners >2 seconds
-
-## Known Bugs & Fixes
-
-### BUG-001: Modal backdrop z-index collision
-NEVER set z-index on .modal higher than 1000. Use z-index: 999 for modal, 998 for backdrop.
-
-### BUG-002: Table scroll in cards
-Tables inside .card must wrap in .table-wrapper:
-<div class="card">
-  <div class="table-wrapper">
-    <table class="table">...</table>
-  </div>
-</div>
-
-### BUG-003: Form validation not clearing
-After successful submit, call form.reset() AND manually clear .form-error spans.
-
-### BUG-004: Sidebar collapse on mobile
-At <768px, sidebar becomes overlay. MUST add .sidebar-open class to body when open.
-
-### BUG-005: Chart.js not responsive
-Always set maintainAspectRatio: false in Chart.js config.
-
-## File Structure
-src/
-  assets/
-    icons/
-    images/
-  components/
-    button.css
-    card.css
-    form.css
-    modal.css
-    table.css
-  layouts/
-    app-shell.css
-    sidebar.css
-    header.css
-  pages/
-    dashboard.html
-    patients.html
-    appointments.html
-  utils/
-    router.js
-    validation.js
-  main.css
-  main.js
-index.html
-
-NEVER create new top-level folders. Everything goes under src/.
-
-## Page Build Status
-
-### ✅ Done
-- Dashboard (index.html)
-- Patients List (patients.html)
-- Patient Detail (patient-detail.html)
-- Appointments List (appointments.html)
-
-### 🚧 In Progress
-- New Appointment Form (appointment-booking.html)
-  Status: Multi-step form built, validation pending
-  Next: Add time slot picker component
-
-### 📝 Todo
-- Providers List (providers.html)
-- Rooms Management (rooms.html)
-- Reports Dashboard (reports.html)
-- User Settings (settings.html)
-
-### 🚫 Blocked
-- Billing Module
-  Reason: Waiting for API spec from backend team
-  Don't attempt to build until unblocked.
-
-## Shared Components
-These components are built and located in src/components/:
-- Button (button.css + button.js)
-- Card (card.css)
-- Form Elements (form.css + validation.js)
-- Modal (modal.css + modal.js)
-- Table (table.css + table.js)
-- Toast (toast.css + toast.js)
-- Sidebar (sidebar.css + sidebar.js)
-- Header (header.css)
-
-Import them in this order in every page:
-1. main.css (tokens + reset)
-2. Component CSS files
-3. Page-specific CSS
-
-## Code Style
-
-### HTML
-- Indent: 2 spaces
-- Attributes: double quotes
-- Self-closing tags: no trailing slash
-- Boolean attributes: no value (e.g., <input disabled>)
-
-### CSS
-- Indent: 2 spaces
-- Property order: position, display, layout, typography, colors
-- One selector per line
-- Space after colon, no space before
-- End every rule with semicolon
-
-### JavaScript
-- Indent: 2 spaces
-- Use const/let, never var
-- Single quotes for strings
-- Semicolons required
-- Functions: function name() {} not const name = () => {}
-- Comments: // for single line, /* */ for blocks
-
-## Dependencies (CDN)
-Tabler Icons:    https://unpkg.com/@tabler/icons@latest/icons-sprite.svg
-Chart.js 4:      https://cdn.jsdelivr.net/npm/chart.js@4
-Roboto Font:     https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700
-Roboto Mono:     https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;600
-
-NEVER install via npm. Always use CDN links.
-
-## Browser Support
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
-
-No IE11 support. No polyfills needed.
-
-## Performance Targets
-- First Contentful Paint: <1.5s
-- Time to Interactive: <3s
-- Lighthouse score: >90
-
-Keep bundle size <100KB (excluding Chart.js).
-Lazy load images with loading="lazy".
-Defer non-critical CSS.
-
----
-
-Last updated: 2024
-Maintained by: FDO Engineering Team
-Questions: Refer to this file first, then ask in #frontend-help Slack channel`;
-
-  const blob = new Blob([claudeMDContent], { type: 'text/markdown' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'CLAUDE.md';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
-
-function switchSection(sectionId) {
-  currentSection = sectionId;
-  
-  // Update nav
-  document.querySelectorAll('.hdr-nav-item').forEach(item => {
-    item.classList.remove('active');
-  });
-  event.target.classList.add('active');
-  
-  // Load first page of section
-  const firstPage = sections[sectionId].pages[0];
-  if (firstPage) {
-    loadPage(firstPage);
-    updateSidebar(sectionId);
-  }
-}
-
-// Load page content
-function loadPage(pageId) {
-  currentPage = pageId;
-  const content = pageContent[pageId] || '<div class="coming-soon"><div class="coming-soon-icon">🚧</div><h2>Coming Soon</h2></div>';
-  document.getElementById('main-content').innerHTML = content;
-  document.getElementById('main-content').scrollTop = 0;
-  
-  // Update sidebar active state
-  document.querySelectorAll('.sidebar-item').forEach(item => {
-    item.classList.remove('active');
-    // Check if this sidebar item corresponds to the current page
-    const onclick = item.getAttribute('onclick');
-    if (onclick && onclick.includes(`'${pageId}'`)) {
-      item.classList.add('active');
-    }
-  });
-}
-
-// Update sidebar based on section
-function updateSidebar(sectionId) {
-  const sidebar = document.getElementById('sidebar');
-  const sidebarData = sections[sectionId].sidebar;
-  
-  if (sidebarData && sidebarData.length > 0) {
-    let html = '<div class="sidebar-title">On This Page</div>';
-    
-    // Check if this section has multiple pages (like POC Insights)
-    const sectionPages = sections[sectionId].pages;
-    const isMultiPage = sectionPages && sectionPages.length > 1;
-    
-    sidebarData.forEach((item, index) => {
-      const activeClass = index === 0 ? 'active' : '';
-      
-      // For multi-page sections, use loadPage; for single-page sections, use scrollToSection
-      const clickHandler = isMultiPage 
-        ? `loadPage('${item.id}')`
-        : `scrollToSection('${item.id}')`;
-      
-      html += `
-        <div class="sidebar-item ${activeClass}" onclick="${clickHandler}">
-          <div class="sidebar-pip" style="background:var(--${item.color});"></div>
-          <span>${item.label}</span>
+    <!-- SEARCH -->
+    <div class="search-wrap">
+      <div class="search-inner">
+        <div class="search-input-wrap">
+          <span class="search-icon">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.5"/><path d="M11 11l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </span>
+          <input
+            class="search-input"
+            id="search-input"
+            type="text"
+            placeholder="Search deliverables, tools, or UX stage… e.g. "persona", "accessibility", "Figma""
+            autocomplete="off"
+            oninput="handleSearch(this.value)"
+          />
+          <button class="search-clear" id="search-clear" onclick="clearSearch()" aria-label="Clear search">✕</button>
         </div>
-      `;
-    });
-    sidebar.innerHTML = html;
-    sidebar.style.display = 'block';
-    sidebar.classList.remove('hidden');
-  } else {
-    sidebar.innerHTML = '';
-    sidebar.style.display = 'none';
-    sidebar.classList.add('hidden');
-  }
-}
+        <div class="search-results" id="search-results"></div>
 
-// Scroll to section
-function scrollToSection(id) {
-  const element = document.getElementById(id);
-  if (element) {
-    element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-  
-  // Update sidebar active state
-  document.querySelectorAll('.sidebar-item').forEach(item => {
-    item.classList.remove('active');
+      </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="tabs-wrap">
+      <div class="tabs">
+        <div class="tab active" data-tab="uxr" onclick="switchTab('uxr')">
+          <span class="tab-dot"></span>
+          <span class="tab-label">UX Research</span>
+          <span class="tab-count">6</span>
+        </div>
+        <div class="tab" data-tab="uxa" onclick="switchTab('uxa')">
+          <span class="tab-dot"></span>
+          <span class="tab-label">UX Analysis</span>
+          <span class="tab-count">5</span>
+        </div>
+        <div class="tab" data-tab="uxd" onclick="switchTab('uxd')">
+          <span class="tab-dot"></span>
+          <span class="tab-label">UX Design</span>
+          <span class="tab-count">5</span>
+        </div>
+        <div class="tab" data-tab="uxt" onclick="switchTab('uxt')">
+          <span class="tab-dot"></span>
+          <span class="tab-label">UX Testing</span>
+          <span class="tab-count">4</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+      <div class="content-inner">
+
+        <!-- UXR PANEL -->
+        <div class="tab-panel active" id="panel-uxr">
+          <div class="section-header">
+            <div class="section-tag uxr">◎ UX Research</div>
+            <h2 class="section-title">Research deliverables</h2>
+            <p class="section-desc">Understand your users before you design. Use AI to extract insights, synthesise findings, and build research artefacts faster.</p>
+          </div>
+          <div class="card-grid">
+            <div class="card uxr-card" onclick="openDetail('user-personas')">
+              <div class="card-icon">👤</div>
+              <div class="card-title">User Personas</div>
+              <div class="card-desc">Build structured, evidence-backed personas from research notes, interviews, or SOW documents.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                  <span class="res-chip">Skills</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxr-card" onclick="openDetail('interview-synthesis')">
+              <div class="card-icon">🎙️</div>
+              <div class="card-title">Interview Synthesis</div>
+              <div class="card-desc">Turn raw interview notes and call transcripts into structured themes, quotes, and insights.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                  <span class="res-chip">Skills</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxr-card" onclick="openDetail('research-plan')">
+              <div class="card-icon">🗺️</div>
+              <div class="card-title">Research Plan</div>
+              <div class="card-desc">Draft research plans, discussion guides, and screener questions tailored to your project goals.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxr-card" onclick="openDetail('jtbd-statements')">
+              <div class="card-icon">🎯</div>
+              <div class="card-title">JTBD Statements</div>
+              <div class="card-desc">Convert research insights and user needs into structured Jobs-to-be-Done statements.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Skills</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxr-card" onclick="openDetail('affinity-mapping')">
+              <div class="card-icon">🗂️</div>
+              <div class="card-title">Affinity Mapping</div>
+              <div class="card-desc">Cluster observations and data points into themes using AI-assisted grouping and labelling.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                  <span class="res-chip">Plugins</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxr-card" onclick="openDetail('sow-analysis')">
+              <div class="card-icon">📋</div>
+              <div class="card-title">SOW / Brief Analysis</div>
+              <div class="card-desc">Extract user goals, constraints, and assumptions from business documents before design starts.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Skills</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- UXA PANEL -->
+        <div class="tab-panel" id="panel-uxa">
+          <div class="section-header">
+            <div class="section-tag uxa">◈ UX Analysis</div>
+            <h2 class="section-title">Analysis deliverables</h2>
+            <p class="section-desc">Make sense of what you know. Use AI to evaluate existing products, map user flows, and identify design problems before you solve them.</p>
+          </div>
+          <div class="card-grid">
+            <div class="card uxa-card" onclick="openDetail('heuristic-eval')">
+              <div class="card-icon">🔍</div>
+              <div class="card-title">Heuristic Evaluation</div>
+              <div class="card-desc">Evaluate screens against Nielsen's 10 usability heuristics with structured severity ratings and recommendations.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Skills</span>
+                  <span class="res-chip">Tools</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxa-card" onclick="openDetail('accessibility-audit')">
+              <div class="card-icon">♿</div>
+              <div class="card-title">Accessibility Audit</div>
+              <div class="card-desc">Audit UI screens and flows against WCAG 2.1 standards. Identify violations and generate a prioritised fix list.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                  <span class="res-chip">Plugins</span>
+                  <span class="res-chip">Skills</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxa-card" onclick="openDetail('user-journey-map')">
+              <div class="card-icon">🗺️</div>
+              <div class="card-title">User Journey Mapping</div>
+              <div class="card-desc">Map how users move across a product — stages, actions, touchpoints, emotions, and pain points.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                  <span class="res-chip">Skills</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxa-card" onclick="openDetail('workflow-diagram')">
+              <div class="card-icon">◧</div>
+              <div class="card-title">Workflow Diagram</div>
+              <div class="card-desc">Visualise how users navigate a product from entry to goal completion using FigJam AI.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                  <span class="res-chip">Plugins</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxa-card" onclick="openDetail('competitive-analysis')">
+              <div class="card-icon">⚡</div>
+              <div class="card-title">Competitive Analysis</div>
+              <div class="card-desc">Structure a feature and UX comparison across competitors to find gaps and opportunities.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- UXD PANEL -->
+        <div class="tab-panel" id="panel-uxd">
+          <div class="section-header">
+            <div class="section-tag uxd">◧ UX Design</div>
+            <h2 class="section-title">Design deliverables</h2>
+            <p class="section-desc">Move from idea to interface faster. Leverage AI for wireframes, high-fidelity screens, and design system components.</p>
+          </div>
+          <div class="card-grid">
+            <div class="card uxd-card" onclick="openDetail('hifi-screens')">
+              <div class="card-icon">🖥️</div>
+              <div class="card-title">High-Fidelity Screens</div>
+              <div class="card-desc">Generate polished UI screens from wireframes or written briefs using Figma Make with Claude Sonnet.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxd-card" onclick="openDetail('design-tokens')">
+              <div class="card-icon">🎨</div>
+              <div class="card-title">Design Tokens</div>
+              <div class="card-desc">Define and document color, typography, spacing, and elevation tokens using Claude Code.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                  <span class="res-chip">Plugins</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxd-card" onclick="openDetail('component-library')">
+              <div class="card-icon">🧩</div>
+              <div class="card-title">Component Library</div>
+              <div class="card-desc">Build and scale reusable design system components with Claude Code. Consistent, documented, production-ready.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                  <span class="res-chip">Plugins</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxd-card" onclick="openDetail('ux-writing')">
+              <div class="card-icon">✍️</div>
+              <div class="card-title">UX Writing & Microcopy</div>
+              <div class="card-desc">Generate consistent interface copy — CTAs, error messages, empty states, tooltips — at scale.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Skills</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxd-card" onclick="openDetail('ds-documentation')">
+              <div class="card-icon">📚</div>
+              <div class="card-title">Design System Docs</div>
+              <div class="card-desc">Auto-generate usage rules, do/don'ts, and component guidelines from your existing design system.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                  <span class="res-chip">Skills</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- UXT PANEL -->
+        <div class="tab-panel" id="panel-uxt">
+          <div class="section-header">
+            <div class="section-tag uxt">✦ UX Testing</div>
+            <h2 class="section-title">Testing deliverables</h2>
+            <p class="section-desc">Validate before you ship. AI helps you write test plans, analyse session recordings, and turn test findings into actionable fixes.</p>
+          </div>
+          <div class="card-grid">
+            <div class="card uxt-card" onclick="openDetail('usability-test-plan')">
+              <div class="card-icon">📝</div>
+              <div class="card-title">Usability Test Plan</div>
+              <div class="card-desc">Write moderator guides, task scenarios, and screener questionnaires for usability sessions.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                  <span class="res-chip">Skills</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxt-card" onclick="openDetail('test-findings')">
+              <div class="card-icon">📊</div>
+              <div class="card-title">Test Findings Report</div>
+              <div class="card-desc">Synthesise observations from usability sessions into a structured findings report with severity ratings.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Skills</span>
+                  <span class="res-chip">Tools</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxt-card" onclick="openDetail('session-analysis')">
+              <div class="card-icon">🎬</div>
+              <div class="card-title">Session Recording Analysis</div>
+              <div class="card-desc">Extract behaviour patterns, friction points, and drop-off reasons from session recordings and transcripts.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+            <div class="card uxt-card" onclick="openDetail('ab-test-brief')">
+              <div class="card-icon">⚖️</div>
+              <div class="card-title">A/B Test Brief</div>
+              <div class="card-desc">Structure hypotheses, success metrics, and variant descriptions for A/B or multivariate tests.</div>
+              <div class="card-footer">
+                <div class="card-resources">
+                  <span class="res-chip">Prompts</span>
+                  <span class="res-chip">Tools</span>
+                </div>
+                <div class="card-arrow">→</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div><!-- /listing-view -->
+
+  <!-- DETAIL VIEW -->
+  <div id="detail-view" style="display:none;">
+    <div class="content" style="padding-top:0;">
+      <div class="content-inner">
+
+        <div class="detail-topnav">
+          <button class="detail-back" onclick="closeDetail()">← Back</button>
+          <span class="detail-breadcrumb-sep">/</span>
+          <span id="detail-breadcrumb-tab" style="color:var(--tm);font-size:13px;"></span>
+          <span class="detail-breadcrumb-sep">/</span>
+          <span class="detail-breadcrumb-current" id="detail-breadcrumb-title"></span>
+        </div>
+
+        <div class="detail-header">
+          <div class="detail-header-left">
+            <div class="detail-practice-tag" id="detail-tag"></div>
+            <h1 class="detail-h1" id="detail-title"></h1>
+            <p class="detail-desc" id="detail-desc"></p>
+          </div>
+          <div class="detail-icon" id="detail-icon"></div>
+        </div>
+
+        <div class="resource-sections" id="detail-resources"></div>
+
+      </div>
+    </div>
+  </div>
+
+</div><!-- /app -->
+
+<button class="back-to-top" id="back-to-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+<script>
+/* ── DATA ─────────────────────────────────────────────────── */
+const DETAILS = {
+
+  'user-personas': {
+    practice: 'uxr',
+    practiceLabel: 'UX Research',
+    title: 'User Personas',
+    desc: 'Build structured, evidence-backed personas from research notes, interviews, or SOW documents. Avoid assumptions — surface gaps before design begins.',
+    icon: '👤',
+    overview: [
+      `Structured, evidence-backed personas built from research notes, interviews, or SOW documents — with assumptions and gaps clearly flagged.`
+    ],
+    workflow: [
+      { title: 'Gather inputs', desc: 'Interview notes, SOW docs, or survey data.' },
+      { title: 'Run the prompt', desc: 'Pick SOW or interview prompt based on what you have.' },
+      { title: 'Validate', desc: 'Check flagged assumptions with someone close to the users.' },
+      { title: 'Visualise', desc: 'Move the final persona into your Figma template.' }
+    ],
+    prompts: [
+      {
+        title: 'Persona from SOW / brief',
+        context: 'Use when starting from a business document with no user research yet.',
+        text: `You are a senior UX researcher. I'm sharing a Statement of Work (SOW) document.
+
+Extract all implicit and explicit references to users, their goals, frustrations, and context. Then structure a user persona with the following sections:
+
+1. Name & role (inferred archetype)
+2. Goals — what they are trying to achieve
+3. Frustrations — pain points mentioned or implied
+4. Behaviours — how they work / interact with the product
+5. Context — environment, devices, constraints
+6. Assumptions flagged — mark anything inferred, not stated
+7. Gaps — what information is missing that we need
+
+Be honest about uncertainty. Mark every inferred item clearly.
+
+Here is the SOW:
+[PASTE SOW TEXT]`
+      },
+      {
+        title: 'Persona from interview notes',
+        context: 'Use after conducting user interviews to synthesise findings into a persona.',
+        text: `I have raw notes from [NUMBER] user interviews. Please synthesise these into a structured persona.
+
+For each persona, include:
+- Name + archetype label
+- Quote (pull the most representative quote from the notes)
+- Goals (top 3)
+- Frustrations (top 3)
+- Typical workflow / day-in-the-life
+- Technology comfort level
+- What success looks like for them
+
+After each point, reference which participant or note it came from (e.g. P1, P3).
+
+Interview notes:
+[PASTE NOTES]`
+      },
+      {
+        title: 'Validate an existing persona',
+        context: 'Use to stress-test a persona you already have against new evidence.',
+        text: `Here is an existing user persona: [PASTE PERSONA]
+
+And here is new research data / interview transcripts: [PASTE DATA]
+
+Please:
+1. Identify which persona attributes are confirmed by the new data
+2. Identify which attributes are contradicted or need updating
+3. Flag any new patterns in the data not captured in the current persona
+4. Recommend specific edits to the persona
+
+Be specific and cite evidence.`
+      }
+    ],
+    tools: [
+      { name: 'Claude.ai', desc: 'Best for SOW-to-persona synthesis. Upload the PDF and use the persona prompt directly.', type: 'ai', pricing: 'free', icon: '🤖', url: 'https://claude.ai' },
+      { name: 'Notion AI', desc: 'Good for iterating on persona docs collaboratively. Use Notion AI to refine language and structure.', type: 'ai', pricing: 'paid', icon: '📓', url: 'https://notion.so' },
+      { name: 'Otter.ai', desc: 'Transcribes and summarises interview recordings automatically. Export transcripts, then paste into Claude.', type: 'tool', pricing: 'freemium', icon: '🎙️', url: 'https://otter.ai' },
+    ],
+    plugins: [
+      { name: 'Figma AI (Beta)', desc: 'Generate persona cards directly in Figma using natural language. Still early but promising for quick visual output.', type: 'plugin', pricing: 'free', icon: '🔌', url: '#' },
+    ],
+    skills: [
+      { name: 'persona-synthesis.skill', desc: 'Structured skill file for turning SOW or research notes into a consistent persona format. Includes gap flagging.' }
+    ],
+    sampleOutput: {
+      note: 'Example output generated from a project SOW using the "Persona from SOW / brief" prompt.',
+      html: `<span class="so-label">Name &amp; Role</span>
+Maya Chen — <strong>"The Overwhelmed Operations Manager"</strong>, mid-level manager overseeing 3 field teams
+
+<span class="so-label">Quote</span>
+<div class="so-quote">"I just need one place to see where things stand — without chasing five people for updates."</div>
+
+<span class="so-label">Goals</span>
+<ul>
+<li>Get a single, reliable view of project status across teams</li>
+<li>Reduce time spent compiling manual status reports</li>
+<li>Catch blockers before they become deadline risks</li>
+</ul>
+
+<span class="so-label">Frustrations</span>
+<ul>
+<li>Status updates are scattered across email, Slack, and spreadsheets</li>
+<li>Has to manually chase team leads for weekly updates</li>
+<li>No visibility into field team progress until it's too late</li>
+</ul>
+
+<span class="so-label">Assumptions Flagged</span>
+<ul>
+<li>Team size assumed to be 8–12 based on org chart reference — not explicitly confirmed</li>
+<li>Assumed primary device is desktop — SOW does not mention mobile usage</li>
+</ul>
+
+<span class="so-label">Gaps</span>
+<ul>
+<li>No data on how often Maya checks status (daily? hourly?)</li>
+<li>Unclear whether she needs read-only or edit access to field updates</li>
+</ul>`
+    },
+    reviewChecklist: [
+      'Flagged assumptions verified with research or stakeholders',
+      'No unsupported demographic details',
+      'Goals & frustrations are specific, not generic',
+      'Reviewed by someone close to these users',
+      'Every claim traceable to a source'
+    ],
+    related: ['interview-synthesis', 'jtbd-statements', 'user-journey-map']
+  },
+
+  'interview-synthesis': {
+    practice: 'uxr',
+    practiceLabel: 'UX Research',
+    title: 'Interview Synthesis',
+    desc: 'Turn raw interview notes and call transcripts into structured themes, key quotes, and actionable insights.',
+    icon: '🎙️',
+    prompts: [
+      {
+        title: 'Extract themes from transcripts',
+        context: 'Use after collecting multiple interview transcripts to find patterns.',
+        text: `I have [NUMBER] user interview transcripts. Please analyse them and:
+
+1. Identify the top 5–8 recurring themes across all interviews
+2. For each theme:
+   - Write a clear theme statement (one sentence)
+   - List supporting evidence (direct quotes with participant labels)
+   - Note how many participants mentioned it
+   - Flag if it's a pain point, desire, or behaviour
+3. Note any surprising or contradictory findings
+4. Suggest 3 "How might we" questions based on the themes
+
+Transcripts:
+[PASTE TRANSCRIPTS]`
+      },
+      {
+        title: 'Synthesise a single interview',
+        context: 'Use to quickly summarise one interview before a team synthesis session.',
+        text: `Summarise this user interview transcript for a UX research team.
+
+Structure your output as:
+- Participant snapshot (role, context, 1 sentence)
+- Top 3 goals mentioned
+- Top 3 pain points or frustrations
+- 3 memorable / standout quotes (verbatim)
+- Behaviours observed or described
+- Anything surprising or unexpected
+- 1 key design implication
+
+Transcript:
+[PASTE TRANSCRIPT]`
+      }
+    ],
+    tools: [
+      { name: 'Otter.ai', desc: 'Auto-transcribes calls and meetings. Exports clean transcripts ready to paste into Claude.', type: 'tool', pricing: 'freemium', icon: '🎙️', url: 'https://otter.ai' },
+      { name: 'Fireflies.ai', desc: 'Records, transcribes, and summarises meetings. Has a basic AI analysis layer built in.', type: 'ai', pricing: 'freemium', icon: '🔥', url: 'https://fireflies.ai' },
+      { name: 'Dovetail', desc: 'Purpose-built research repository. Tag, cluster, and share insights with your team.', type: 'tool', pricing: 'paid', icon: '🗂️', url: 'https://dovetailapp.com' },
+    ],
+    plugins: [],
+    skills: [
+      { name: 'interview-synthesis.skill', desc: 'Applies a consistent framework for extracting themes, quotes, and implications from raw interview notes.' }
+    ]
+  },
+
+  'heuristic-eval': {
+    practice: 'uxa',
+    practiceLabel: 'UX Analysis',
+    title: 'Heuristic Evaluation',
+    desc: 'Evaluate UI screens against Nielsen\'s 10 usability heuristics. Get structured issues with severity ratings and actionable recommendations.',
+    icon: '🔍',
+    prompts: [
+      {
+        title: 'Full heuristic evaluation from screenshots',
+        context: 'Paste or upload screenshots of your UI screens before running this prompt.',
+        text: `You are a senior UX specialist. Evaluate the attached UI screens against Jakob Nielsen's 10 Usability Heuristics.
+
+For each heuristic:
+- List any violations found
+- Provide evidence (what you see on screen)
+- Rate severity: 0 = No issue · 1 = Cosmetic · 2 = Minor · 3 = Major · 4 = Critical
+- Write a specific, actionable recommendation
+
+At the end, provide:
+- A summary table: Heuristic | Issues found | Highest severity
+- Top 3 priority fixes
+
+Do not invent issues. Only report what is visible in the screens provided.`
+      },
+      {
+        title: 'Single heuristic deep dive',
+        context: 'Use when you want to focus on one specific usability dimension.',
+        text: `Evaluate this UI screen specifically against the heuristic: [HEURISTIC NAME]
+
+Heuristic: [e.g. Error Prevention / User Control and Freedom / Consistency and Standards]
+
+Screen context: [describe what the screen does and who uses it]
+
+Please:
+1. Describe what you observe related to this heuristic
+2. Identify specific violations with evidence
+3. Suggest concrete design changes with reasoning
+
+Attached: [SCREENSHOT]`
+      }
+    ],
+    tools: [
+      { name: 'Claude.ai', desc: 'Upload screenshots directly and run the evaluation prompt. Works best with Claude Sonnet for detailed analysis.', type: 'ai', pricing: 'free', icon: '🤖', url: 'https://claude.ai' },
+    ],
+    plugins: [
+      { name: 'Stark', desc: 'Figma plugin for accessibility and contrast checking. Complements heuristic evaluation.', type: 'plugin', pricing: 'freemium', icon: '🔌', url: 'https://www.getstark.co' },
+    ],
+    skills: [
+      { name: 'heuristic-evaluation.skill', desc: 'Structured skill that applies all 10 Nielsen heuristics consistently. Includes severity scale and output format.' }
+    ]
+  },
+
+  'accessibility-audit': {
+    practice: 'uxa',
+    practiceLabel: 'UX Analysis',
+    title: 'Accessibility Audit',
+    desc: 'Audit UI screens and flows against WCAG 2.1 standards. Identify violations, prioritise fixes, and generate a report for your team.',
+    icon: '♿',
+    prompts: [
+      {
+        title: 'WCAG audit from screenshots',
+        context: 'Upload UI screens and describe the interaction context before running.',
+        text: `You are an accessibility specialist. Audit the attached screens against WCAG 2.1 AA standards.
+
+For each violation found:
+- WCAG criterion (e.g. 1.4.3 Contrast Minimum)
+- What was observed on screen
+- Why it fails the criterion
+- Impact on users (which disability groups are affected)
+- Severity: Critical / Major / Minor
+- Recommended fix
+
+Group your findings by WCAG category:
+- Perceivable
+- Operable
+- Understandable
+- Robust
+
+End with a pass/fail summary and a prioritised fix list.`
+      }
+    ],
+    tools: [
+      { name: 'Stark', desc: 'Figma plugin for contrast checking, colour blindness simulation, and focus order review.', type: 'plugin', pricing: 'freemium', icon: '⚡', url: 'https://www.getstark.co' },
+      { name: 'axe DevTools', desc: 'Browser extension for automated WCAG testing on live web products.', type: 'tool', pricing: 'free', icon: '🔧', url: 'https://www.deque.com/axe' },
+      { name: 'Claude.ai', desc: 'Best for analysing screenshots for visual accessibility issues and generating structured reports.', type: 'ai', pricing: 'free', icon: '🤖', url: 'https://claude.ai' },
+    ],
+    plugins: [
+      { name: 'Stark (Figma)', desc: 'Colour contrast, blind simulations, focus order, and touch target checks — all inside Figma.', type: 'plugin', pricing: 'freemium', icon: '🔌', url: 'https://www.getstark.co' },
+      { name: 'A11y Annotation Kit', desc: 'Community Figma plugin for annotating accessibility requirements in design files before handoff.', type: 'plugin', pricing: 'free', icon: '🔌', url: '#' },
+    ],
+    skills: [
+      { name: 'accessibility-audit.skill', desc: 'Applies WCAG 2.1 AA criteria to screen images. Structured output with severity ratings and recommendations.' }
+    ]
+  },
+
+  'hifi-screens': {
+    practice: 'uxd',
+    practiceLabel: 'UX Design',
+    title: 'High-Fidelity Screens',
+    desc: 'Generate polished UI screens from wireframes, written briefs, or design direction using Figma Make with Claude Sonnet.',
+    icon: '🖥️',
+    prompts: [
+      {
+        title: 'Wireframe to high-fidelity brief',
+        context: 'Use in Figma Make after attaching wireframes or screen sketches.',
+        text: `Convert this wireframe into a high-fidelity UI screen.
+
+Design direction:
+- Style: [e.g. clean enterprise, warm consumer, clinical/medical]
+- Primary colour: [HEX or description]
+- Font: [specify or leave to you]
+- Tone: [professional / friendly / minimal]
+
+Content to use: [describe or paste real content]
+
+Constraints:
+- Do not change the layout structure from the wireframe
+- Use only the components defined in the design system (attached)
+- Ensure all interactive elements have 44px minimum touch targets
+- Do not use placeholder lorem ipsum — use realistic content`
+      },
+      {
+        title: 'Screen variant generation',
+        context: 'Use to quickly explore visual alternatives for a specific screen.',
+        text: `I have a high-fidelity screen design. Generate 3 visual variants exploring different:
+
+Variant A — Information density: more compact, data-dense layout
+Variant B — Visual hierarchy: stronger typographic hierarchy, minimal colour use
+Variant C — Colour expression: more expressive use of the primary colour
+
+Keep the same content and interaction model. Only change the visual treatment.
+
+Base screen: [attach or describe]`
+      }
+    ],
+    tools: [
+      { name: 'Figma Make', desc: 'AI-powered screen generation inside Figma. Works best with Claude Sonnet 4.6. Attach wireframes for better results.', type: 'ai', pricing: 'paid', icon: '🎨', url: 'https://figma.com' },
+      { name: 'Claude.ai', desc: 'Generate HTML/CSS UI prototypes directly. Useful for quick layout explorations before moving to Figma.', type: 'ai', pricing: 'free', icon: '🤖', url: 'https://claude.ai' },
+    ],
+    plugins: [],
+    skills: []
+  },
+
+  'ux-writing': {
+    practice: 'uxd',
+    practiceLabel: 'UX Design',
+    title: 'UX Writing & Microcopy',
+    desc: 'Generate consistent interface copy — CTAs, error messages, empty states, tooltips — at scale, matched to your product tone.',
+    icon: '✍️',
+    prompts: [
+      {
+        title: 'Microcopy for UI states',
+        context: 'Use when designing a new feature and you need copy for all interaction states.',
+        text: `Write microcopy for the following UI states for [FEATURE NAME].
+
+Tone of voice: [e.g. professional and direct / warm and encouraging / clinical and precise]
+Product context: [describe what the product does and who uses it]
+
+Provide copy for:
+1. Empty state (no data yet)
+2. Loading state
+3. Success state
+4. Error state — generic
+5. Error state — no internet connection
+6. Error state — permission denied
+7. Confirmation dialog (destructive action)
+8. Tooltip for [specific element]
+
+Keep copy concise. Lead with the action or outcome. No jargon.`
+      },
+      {
+        title: 'Rewrite existing copy for clarity',
+        context: 'Use to improve existing UI text that is confusing or too technical.',
+        text: `Rewrite the following UI copy to be clearer and more user-friendly.
+
+Current copy: [PASTE EXISTING COPY]
+
+Context: [Where does this appear? What is the user doing?]
+Target user: [Who reads this?]
+Tone: [How should it sound?]
+
+Provide:
+1. Rewritten version
+2. Explanation of what you changed and why
+3. Alternative option (different approach)
+
+Rules: Active voice. No jargon. Maximum [X] words.`
+      }
+    ],
+    tools: [
+      { name: 'Claude.ai', desc: 'Excellent for generating consistent microcopy at scale. Add your tone guidelines for better results.', type: 'ai', pricing: 'free', icon: '🤖', url: 'https://claude.ai' },
+    ],
+    plugins: [],
+    skills: [
+      { name: 'ux-writing.skill', desc: 'Generates UI copy for all interaction states consistently. Accepts tone guidelines and product context.' }
+    ]
+  },
+
+  'usability-test-plan': {
+    practice: 'uxt',
+    practiceLabel: 'UX Testing',
+    title: 'Usability Test Plan',
+    desc: 'Write moderator guides, task scenarios, and screener questionnaires for usability sessions — ready to use.',
+    icon: '📝',
+    prompts: [
+      {
+        title: 'Full test plan from brief',
+        context: 'Use when you need to set up a usability study from scratch.',
+        text: `You are a UX research specialist. Create a usability test plan for the following:
+
+Product: [NAME + brief description]
+Feature being tested: [FEATURE]
+Test goals: [What do you want to learn?]
+Participants: [Who, how many, any specific screener criteria]
+Method: [Moderated / Unmoderated / Remote / In-person]
+Duration per session: [e.g. 45 minutes]
+
+Please generate:
+1. Research objectives (3–5 clear questions this test will answer)
+2. Screener questionnaire (8–10 questions to recruit the right participants)
+3. Moderator guide — including intro script, warm-up questions, task scenarios
+4. Task scenarios (5–7 realistic tasks, written from the user's perspective)
+5. Post-task questions (SUS-style or custom)
+6. Debrief questions
+7. Metrics to track (task completion, time on task, error rate, satisfaction)`
+      }
+    ],
+    tools: [
+      { name: 'Maze', desc: 'Unmoderated usability testing platform. Import Figma prototypes directly and run tests at scale.', type: 'tool', pricing: 'freemium', icon: '🌀', url: 'https://maze.co' },
+      { name: 'UserTesting', desc: 'Full-service moderated and unmoderated testing platform with a participant panel.', type: 'tool', pricing: 'paid', icon: '👥', url: 'https://usertesting.com' },
+      { name: 'Claude.ai', desc: 'Generate screeners, moderator guides, and task scenarios in minutes.', type: 'ai', pricing: 'free', icon: '🤖', url: 'https://claude.ai' },
+    ],
+    plugins: [],
+    skills: [
+      { name: 'usability-test-plan.skill', desc: 'Generates complete test plans from a project brief. Includes screener, moderator guide, and task scenarios.' }
+    ]
+  },
+
+  'test-findings': {
+    practice: 'uxt',
+    practiceLabel: 'UX Testing',
+    title: 'Test Findings Report',
+    desc: 'Synthesise observations from usability sessions into a structured findings report with severity ratings and design recommendations.',
+    icon: '📊',
+    prompts: [
+      {
+        title: 'Findings from session notes',
+        context: 'Use after completing usability sessions and collecting observer notes.',
+        text: `I have notes from [NUMBER] usability test sessions. Please synthesise them into a structured findings report.
+
+For each finding:
+- Issue title (short, descriptive)
+- Observed behaviour (what users did)
+- Number of participants affected
+- Severity: Critical / Major / Minor / Observation
+- Verbatim quote (most representative)
+- Design recommendation
+
+Structure the report as:
+1. Executive summary (3–5 bullet points)
+2. Key findings (ordered by severity)
+3. Observations (patterns that aren't problems but are worth noting)
+4. Recommended next steps
+
+Session notes:
+[PASTE NOTES]`
+      }
+    ],
+    tools: [
+      { name: 'Dovetail', desc: 'Centralise session recordings, transcripts, and tags. AI clustering helps surface patterns.', type: 'tool', pricing: 'paid', icon: '🗂️', url: 'https://dovetailapp.com' },
+      { name: 'Claude.ai', desc: 'Best for synthesising notetaker observations into a structured, shareable report.', type: 'ai', pricing: 'free', icon: '🤖', url: 'https://claude.ai' },
+    ],
+    plugins: [],
+    skills: [
+      { name: 'test-findings.skill', desc: 'Structures usability session notes into a findings report with severity ratings and recommendations.' }
+    ]
+  },
+
+};
+
+/* ── THEME ───────────────────────────────────────────────── */
+function toggleTheme() {
+  const current = document.documentElement.getAttribute('data-theme') || 'dark';
+  const next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  document.getElementById('theme-toggle').textContent = next === 'dark' ? '🌙' : '☀️';
+  try { localStorage.setItem('rc-theme', next); } catch(e){}
+}
+(function(){
+  let saved; try { saved = localStorage.getItem('rc-theme'); } catch(e){}
+  const pref = saved || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
+  document.documentElement.setAttribute('data-theme', pref);
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('theme-toggle').textContent = pref === 'dark' ? '🌙' : '☀️';
   });
-  event.currentTarget.classList.add('active');
+})();
+
+/* ── TABS ────────────────────────────────────────────────── */
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.querySelector(`.tab[data-tab="${tab}"]`).classList.add('active');
+  document.getElementById(`panel-${tab}`).classList.add('active');
 }
 
-// Initialize
-document.addEventListener('DOMContentLoaded', function() {
-  loadPage('intro');
-  updateSidebar('getting-started');
+/* ── DETAIL ──────────────────────────────────────────────── */
+const PRACTICE_LABELS = { uxr: 'UX Research', uxa: 'UX Analysis', uxd: 'UX Design', uxt: 'UX Testing' };
+const PRACTICE_CLASS  = { uxr: 'uxr', uxa: 'uxa', uxd: 'uxd', uxt: 'uxt' };
+
+function openDetail(id) {
+  const d = DETAILS[id];
+  if (!d) return;
+
+  const pClass = PRACTICE_CLASS[d.practice];
+  const pLabel = PRACTICE_LABELS[d.practice];
+
+  document.getElementById('detail-breadcrumb-tab').textContent = pLabel;
+  document.getElementById('detail-breadcrumb-title').textContent = d.title;
+  document.getElementById('detail-icon').textContent = d.icon;
+  document.getElementById('detail-title').textContent = d.title;
+  document.getElementById('detail-desc').textContent = d.desc;
+
+  const tag = document.getElementById('detail-tag');
+  tag.textContent = pLabel;
+  tag.className = `detail-practice-tag section-tag ${pClass}`;
+
+  document.getElementById('detail-resources').innerHTML = buildResources(d);
+
+  document.getElementById('listing-view').style.display = 'none';
+  document.getElementById('detail-view').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+function closeDetail() {
+  document.getElementById('detail-view').style.display = 'none';
+  document.getElementById('listing-view').style.display = 'block';
+  window.scrollTo(0, 0);
+}
+
+function goToRelated(id, practice) {
+  if (DETAILS[id]) {
+    openDetail(id);
+  } else {
+    closeDetail();
+    switchTab(practice);
+  }
+}
+
+function buildResources(d) {
+  let html = '';
+
+  /* 1. DELIVERABLE OVERVIEW */
+  if (d.overview && d.overview.length) {
+    html += `<div class="res-section">
+      <div class="res-section-header meta">
+        <span class="res-meta-icon">📖</span>
+        <div class="res-section-title">Overview</div>
+      </div>
+      <div class="overview-text">${d.overview.map(p => `<p>${p}</p>`).join('')}</div>
+    </div>`;
+  }
+
+  /* 2. BEST AI WORKFLOW */
+  if (d.workflow && d.workflow.length) {
+    html += `<div class="res-section">
+      <div class="res-section-header meta">
+        <span class="res-meta-icon">🛠️</span>
+        <div class="res-section-title">Best AI Workflow</div>
+      </div>
+      <div class="workflow-list">`;
+    d.workflow.forEach((w, i) => {
+      if (i > 0) {
+        html += `<div class="workflow-arrow">→</div>`;
+      }
+      html += `<div class="workflow-step">
+        <div class="workflow-step-num">${i + 1}</div>
+        <div class="workflow-step-title">${w.title}</div>
+        <div class="workflow-step-desc">${w.desc}</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  /* 3. PROMPT / TEMPLATE / PLUGIN LIBRARY */
+  const hasPrompts = d.prompts && d.prompts.length;
+  const hasTools   = d.tools && d.tools.length;
+  const hasPlugins = d.plugins && d.plugins.length;
+  const hasSkills  = d.skills && d.skills.length;
+
+  if (hasPrompts || hasTools || hasPlugins || hasSkills) {
+    html += `<div class="resources-block ${d.practice}">
+      <div class="res-section-header">
+        <div class="res-section-icon">🧰</div>
+        <div class="res-section-title">Resources</div>
+      </div>`;
+
+    /* PROMPTS */
+    if (hasPrompts) {
+      html += `<div class="res-subsection">
+        <div class="res-subsection-header">
+          <div class="res-subsection-title">📝 Prompts</div>
+          <div class="res-subsection-count">${d.prompts.length}</div>
+        </div>
+        <div class="prompt-list">`;
+      d.prompts.forEach((p, i) => {
+        const uid = `prompt-${i}-${Math.random().toString(36).slice(2)}`;
+        html += `<div class="prompt-card" id="${uid}">
+          <div class="prompt-card-header" onclick="togglePrompt('${uid}')">
+            <div class="prompt-card-title">${p.title}</div>
+            <div class="prompt-card-chevron">▶</div>
+          </div>
+          <div class="prompt-card-body">
+            <div class="prompt-context">${p.context}</div>
+            <div class="prompt-text" id="pt-${uid}">${escHtml(p.text)}</div>
+            <button class="prompt-copy-btn" onclick="copyPrompt('pt-${uid}', this)">
+              <svg width="13" height="13" viewBox="0 0 12 12" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 4V2.5A1.5 1.5 0 015.5 1H9.5A1.5 1.5 0 0111 2.5v4A1.5 1.5 0 019.5 8H8" stroke="currentColor" stroke-width="1.4"/></svg>
+              Copy prompt
+            </button>
+          </div>
+        </div>`;
+      });
+      html += `</div></div>`;
+    }
+
+    /* TOOLS */
+    if (hasTools) {
+      html += `<div class="res-subsection">
+        <div class="res-subsection-header">
+          <div class="res-subsection-title">🔧 Recommended Tools</div>
+          <div class="res-subsection-count">${d.tools.length}</div>
+        </div>
+        <div class="tools-grid">`;
+      d.tools.forEach(t => {
+        const typeBadge = t.type === 'ai' ? '<span class="tool-type-badge badge-ai">AI</span>' :
+                          t.type === 'plugin' ? '<span class="tool-type-badge badge-plugin">Plugin</span>' :
+                          '<span class="tool-type-badge badge-tool">Tool</span>';
+        const priceBadge = t.pricing === 'free' ? '<span class="tool-type-badge badge-free">Free</span>' :
+                           t.pricing === 'freemium' ? '<span class="tool-type-badge badge-free">Freemium</span>' :
+                           '<span class="tool-type-badge badge-paid">Paid</span>';
+        html += `<div class="tool-card">
+          <div class="tool-card-icon">${t.icon}</div>
+          <div class="tool-card-body">
+            <div class="tool-card-name">${t.name}</div>
+            <div class="tool-card-desc">${t.desc}</div>
+            <div class="tool-badges">${typeBadge}${priceBadge}</div>
+          </div>
+          ${t.url !== '#' ? `<a href="${t.url}" target="_blank" class="tool-link">Visit <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>` : ''}
+        </div>`;
+      });
+      html += `</div></div>`;
+    }
+
+    /* PLUGINS */
+    if (hasPlugins) {
+      html += `<div class="res-subsection">
+        <div class="res-subsection-header">
+          <div class="res-subsection-title">🔌 Figma Plugins</div>
+          <div class="res-subsection-count">${d.plugins.length}</div>
+        </div>
+        <div class="tools-grid">`;
+      d.plugins.forEach(p => {
+        html += `<div class="tool-card">
+          <div class="tool-card-icon">${p.icon}</div>
+          <div class="tool-card-body">
+            <div class="tool-card-name">${p.name}</div>
+            <div class="tool-card-desc">${p.desc}</div>
+            <div class="tool-badges">
+              <span class="tool-type-badge badge-plugin">Plugin</span>
+              ${p.pricing === 'free' ? '<span class="tool-type-badge badge-free">Free</span>' : p.pricing === 'freemium' ? '<span class="tool-type-badge badge-free">Freemium</span>' : '<span class="tool-type-badge badge-paid">Paid</span>'}
+            </div>
+          </div>
+          ${p.url !== '#' ? `<a href="${p.url}" target="_blank" class="tool-link">Visit <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V7M8 1h3m0 0v3m0-3L5 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>` : ''}
+        </div>`;
+      });
+      html += `</div></div>`;
+    }
+
+    /* SKILL FILES */
+    if (hasSkills) {
+      html += `<div class="res-subsection">
+        <div class="res-subsection-header">
+          <div class="res-subsection-title">📄 Skill Files</div>
+          <div class="res-subsection-count">${d.skills.length}</div>
+        </div>
+        <div class="skill-list">`;
+      d.skills.forEach(s => {
+        html += `<div class="skill-file-card">
+          <div class="skill-file-icon">⚙️</div>
+          <div class="skill-file-body">
+            <div class="skill-file-name">${s.name}</div>
+            <div class="skill-file-desc">${s.desc}</div>
+          </div>
+          <button class="skill-download-btn" onclick="alert('Skill file download coming soon.')">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3M1 10h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Download
+          </button>
+        </div>`;
+      });
+      html += `</div></div>`;
+    }
+
+    html += `</div>`; // close resources-block
+  }
+
+  /* 4. SAMPLE OUTPUT */
+  if (d.sampleOutput) {
+    html += `<div class="res-section">
+      <div class="res-section-header meta">
+        <span class="res-meta-icon">📤</span>
+        <div class="res-section-title">Sample Output</div>
+      </div>`;
+    if (d.sampleOutput.note) {
+      html += `<div class="sample-output-note">${d.sampleOutput.note}</div>`;
+    }
+    html += `<div class="sample-output-block">${d.sampleOutput.html}</div>
+    </div>`;
+  }
+
+  /* 5. HUMAN REVIEW CHECKLIST */
+  if (d.reviewChecklist && d.reviewChecklist.length) {
+    html += `<div class="res-section">
+      <div class="res-section-header meta">
+        <span class="res-meta-icon">✅</span>
+        <div class="res-section-title">Human Review Checklist</div>
+      </div>
+      <ul class="checklist">`;
+    d.reviewChecklist.forEach(item => {
+      html += `<li class="checklist-item"><span class="checklist-check">✓</span><span>${item}</span></li>`;
+    });
+    html += `</ul></div>`;
+  }
+
+  /* 6. RELATED DELIVERABLES */
+  if (d.related && d.related.length) {
+    html += `<div class="res-section">
+      <div class="res-section-header meta">
+        <span class="res-meta-icon">🔗</span>
+        <div class="res-section-title">Related Deliverables</div>
+      </div>
+      <div class="related-grid">`;
+    d.related.forEach(relId => {
+      const rc = ALL_CARDS.find(c => c.id === relId);
+      if (!rc) return;
+      html += `<div class="related-card" onclick="goToRelated('${relId}', '${rc.practice}')">
+        <div class="related-card-icon">${rc.icon}</div>
+        <div class="related-card-body">
+          <div class="related-card-title">${rc.title}</div>
+          <span class="related-card-tag ${rc.practice}">${rc.practiceLabel}</span>
+        </div>
+        <div class="related-card-arrow">→</div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  }
+
+  return html;
+}
+
+/* ── HELPERS ─────────────────────────────────────────────── */
+function togglePrompt(id) {
+  document.getElementById(id).classList.toggle('open');
+}
+
+function copyPrompt(id, btn) {
+  const text = document.getElementById(id).textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.textContent = '✓ Copied!';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.innerHTML = `<svg width="13" height="13" viewBox="0 0 12 12" fill="none"><rect x="4" y="4" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.4"/><path d="M4 4V2.5A1.5 1.5 0 015.5 1H9.5A1.5 1.5 0 0111 2.5v4A1.5 1.5 0 019.5 8H8" stroke="currentColor" stroke-width="1.4"/></svg> Copy prompt`;
+    }, 2000);
+  });
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+/* ── SCROLL ──────────────────────────────────────────────── */
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('back-to-top');
+  btn.classList.toggle('visible', window.scrollY > 300);
 });
 
-// Download CLAUDE.md function
-function downloadClaude() {
-  const CLAUDE_MD_CONTENT = `# ClearPath FDO - Design System Reference
+/* ── SEARCH ──────────────────────────────────────────────── */
 
-## Stack
-HTML:    Vanilla — no framework (React/Vue/Svelte forbidden)
-CSS:     Custom properties + utility classes — no Tailwind
-JS:      Vanilla ES6 modules — no jQuery, no bundler
-Icons:   Tabler Icons (CDN) — ti-* class names
-Fonts:   Roboto (body) + Roboto Mono (code/data)
+// Build a flat index from DETAILS + card grid metadata
+const SEARCH_INDEX = [];
 
-... [Full content from your index-trimmed.html embedded CLAUDE.md content] ...
-`;
-  
-  const blob = new Blob([CLAUDE_MD_CONTENT], { type: 'text/markdown' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'CLAUDE.md';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+// All deliverable cards (including ones without full detail pages yet)
+const ALL_CARDS = [
+  { id: 'user-personas',       title: 'User Personas',             practice: 'uxr', practiceLabel: 'UX Research',  icon: '👤',  desc: 'Build structured, evidence-backed personas from research notes, interviews, or SOW documents.', tags: ['persona','sow','research','users','archetype'] },
+  { id: 'interview-synthesis', title: 'Interview Synthesis',       practice: 'uxr', practiceLabel: 'UX Research',  icon: '🎙️', desc: 'Turn raw interview notes and call transcripts into structured themes and insights.', tags: ['interview','transcript','synthesis','themes','quotes','otter','fireflies'] },
+  { id: 'research-plan',       title: 'Research Plan',             practice: 'uxr', practiceLabel: 'UX Research',  icon: '🗺️', desc: 'Draft research plans, discussion guides, and screener questions.', tags: ['research','plan','screener','guide','questions'] },
+  { id: 'jtbd-statements',     title: 'JTBD Statements',           practice: 'uxr', practiceLabel: 'UX Research',  icon: '🎯', desc: 'Convert research insights and user needs into structured Jobs-to-be-Done statements.', tags: ['jtbd','jobs to be done','needs','motivations'] },
+  { id: 'affinity-mapping',    title: 'Affinity Mapping',          practice: 'uxr', practiceLabel: 'UX Research',  icon: '🗂️', desc: 'Cluster observations and data points into themes using AI-assisted grouping.', tags: ['affinity','cluster','themes','grouping','figjam'] },
+  { id: 'sow-analysis',        title: 'SOW / Brief Analysis',      practice: 'uxr', practiceLabel: 'UX Research',  icon: '📋', desc: 'Extract user goals, constraints, and assumptions from business documents.', tags: ['sow','brief','analysis','assumptions','goals'] },
+  { id: 'heuristic-eval',      title: 'Heuristic Evaluation',      practice: 'uxa', practiceLabel: 'UX Analysis',  icon: '🔍', desc: 'Evaluate screens against Nielsen\'s 10 usability heuristics with severity ratings.', tags: ['heuristic','nielsen','usability','evaluation','audit','severity'] },
+  { id: 'accessibility-audit', title: 'Accessibility Audit',       practice: 'uxa', practiceLabel: 'UX Analysis',  icon: '♿', desc: 'Audit UI screens and flows against WCAG 2.1 standards.', tags: ['accessibility','wcag','a11y','audit','stark','contrast','axe'] },
+  { id: 'user-journey-map',    title: 'User Journey Mapping',      practice: 'uxa', practiceLabel: 'UX Analysis',  icon: '🗺️', desc: 'Map how users move across a product — stages, actions, touchpoints, emotions, and pain points.', tags: ['journey','map','touchpoints','emotions','stages'] },
+  { id: 'workflow-diagram',    title: 'Workflow Diagram',           practice: 'uxa', practiceLabel: 'UX Analysis',  icon: '◧',  desc: 'Visualise how users navigate a product from entry to goal completion.', tags: ['workflow','diagram','navigation','flow','figjam'] },
+  { id: 'competitive-analysis',title: 'Competitive Analysis',      practice: 'uxa', practiceLabel: 'UX Analysis',  icon: '⚡', desc: 'Structure a feature and UX comparison across competitors to find gaps.', tags: ['competitive','analysis','comparison','features','gaps'] },
+  { id: 'hifi-screens',        title: 'High-Fidelity Screens',     practice: 'uxd', practiceLabel: 'UX Design',    icon: '🖥️', desc: 'Generate polished UI screens from wireframes or briefs using Figma Make.', tags: ['hifi','high fidelity','figma','make','screens','ui','wireframe'] },
+  { id: 'design-tokens',       title: 'Design Tokens',             practice: 'uxd', practiceLabel: 'UX Design',    icon: '🎨', desc: 'Define and document color, typography, spacing, and elevation tokens.', tags: ['tokens','design system','color','typography','spacing','variables'] },
+  { id: 'component-library',   title: 'Component Library',         practice: 'uxd', practiceLabel: 'UX Design',    icon: '🧩', desc: 'Build and scale reusable design system components with Claude Code.', tags: ['components','library','design system','claude code','reusable'] },
+  { id: 'ux-writing',          title: 'UX Writing & Microcopy',    practice: 'uxd', practiceLabel: 'UX Design',    icon: '✍️', desc: 'Generate consistent interface copy — CTAs, error messages, empty states.', tags: ['writing','microcopy','copy','cta','error','empty state','content'] },
+  { id: 'ds-documentation',    title: 'Design System Docs',        practice: 'uxd', practiceLabel: 'UX Design',    icon: '📚', desc: 'Auto-generate usage rules, do/don\'ts, and component guidelines.', tags: ['documentation','design system','guidelines','handoff','components'] },
+  { id: 'usability-test-plan', title: 'Usability Test Plan',       practice: 'uxt', practiceLabel: 'UX Testing',   icon: '📝', desc: 'Write moderator guides, task scenarios, and screener questionnaires.', tags: ['usability','test','plan','moderator','screener','tasks','maze'] },
+  { id: 'test-findings',       title: 'Test Findings Report',      practice: 'uxt', practiceLabel: 'UX Testing',   icon: '📊', desc: 'Synthesise observations from usability sessions into a structured report.', tags: ['findings','report','testing','observations','severity','dovetail'] },
+  { id: 'session-analysis',    title: 'Session Recording Analysis',practice: 'uxt', practiceLabel: 'UX Testing',   icon: '🎬', desc: 'Extract behaviour patterns and friction points from session recordings.', tags: ['session','recording','hotjar','heatmap','behaviour','friction'] },
+  { id: 'ab-test-brief',       title: 'A/B Test Brief',            practice: 'uxt', practiceLabel: 'UX Testing',   icon: '⚖️', desc: 'Structure hypotheses, success metrics, and variant descriptions for A/B tests.', tags: ['ab test','experiment','hypothesis','variant','metrics'] },
+];
+
+// Also index individual tools from DETAILS
+const TOOL_RESULTS = [];
+Object.entries(DETAILS).forEach(([id, d]) => {
+  (d.tools || []).forEach(t => {
+    TOOL_RESULTS.push({ deliverableId: id, deliverableTitle: d.title, practice: d.practice, practiceLabel: d.practiceLabel, name: t.name, desc: t.desc, icon: t.icon, type: 'tool' });
+  });
+  (d.plugins || []).forEach(p => {
+    TOOL_RESULTS.push({ deliverableId: id, deliverableTitle: d.title, practice: d.practice, practiceLabel: d.practiceLabel, name: p.name, desc: p.desc, icon: p.icon, type: 'plugin' });
+  });
+});
+
+function handleSearch(query) {
+  const q = query.trim().toLowerCase();
+  const resultsEl = document.getElementById('search-results');
+  const clearBtn  = document.getElementById('search-clear');
+
+  clearBtn.classList.toggle('visible', q.length > 0);
+
+  if (q.length < 2) {
+    resultsEl.classList.remove('visible');
+    return;
+  }
+
+  const delivMatches = ALL_CARDS.filter(c =>
+    c.title.toLowerCase().includes(q) ||
+    c.desc.toLowerCase().includes(q) ||
+    c.practiceLabel.toLowerCase().includes(q) ||
+    c.practice.toLowerCase().includes(q) ||
+    c.tags.some(t => t.includes(q))
+  );
+
+  const toolMatches = TOOL_RESULTS.filter(t =>
+    t.name.toLowerCase().includes(q) ||
+    t.desc.toLowerCase().includes(q)
+  ).slice(0, 4);
+
+  if (delivMatches.length === 0 && toolMatches.length === 0) {
+    resultsEl.innerHTML = `
+      <div class="search-results-header">No results</div>
+      <div class="search-no-results">Nothing matched "<strong>${escHtml(query)}</strong>". Try a deliverable name, tool, or UX stage.</div>`;
+    resultsEl.classList.add('visible');
+    return;
+  }
+
+  let html = '';
+
+  if (delivMatches.length > 0) {
+    html += `<div class="search-results-header">Deliverables (${delivMatches.length})</div>`;
+    delivMatches.slice(0, 6).forEach(c => {
+      const hasDetail = !!DETAILS[c.id];
+      html += `<div class="search-result-item" onclick="searchGoTo('${c.id}', '${c.practice}')">
+        <div class="sri-icon">${c.icon}</div>
+        <div class="sri-body">
+          <div class="sri-title">${c.title}</div>
+          <div class="sri-meta">
+            <span class="sri-tag ${c.practice}">${c.practiceLabel}</span>
+            ${hasDetail ? '<span class="sri-match-type">Full resources available</span>' : '<span class="sri-match-type">Coming soon</span>'}
+          </div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 12 12" fill="none" style="color:var(--tl);flex-shrink:0;"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>`;
+    });
+  }
+
+  if (toolMatches.length > 0) {
+    html += `<div class="search-results-header" style="border-top:1px solid var(--border);">Tools & Plugins (${toolMatches.length})</div>`;
+    toolMatches.forEach(t => {
+      html += `<div class="search-result-item" onclick="searchGoTo('${t.deliverableId}', '${t.practice}')">
+        <div class="sri-icon">${t.icon}</div>
+        <div class="sri-body">
+          <div class="sri-title">${t.name}</div>
+          <div class="sri-meta">
+            <span class="sri-tag ${t.practice}">${t.practiceLabel}</span>
+            <span class="sri-match-type">Found in: ${t.deliverableTitle}</span>
+          </div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 12 12" fill="none" style="color:var(--tl);flex-shrink:0;"><path d="M4 2l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>`;
+    });
+  }
+
+  resultsEl.innerHTML = html;
+  resultsEl.classList.add('visible');
 }
-</script>
 
+function searchGoTo(deliverableId, practice) {
+  clearSearch();
+  if (DETAILS[deliverableId]) {
+    openDetail(deliverableId);
+  } else {
+    // no detail page yet — switch to the right tab and scroll
+    switchTab(practice);
+    resultsEl && resultsEl.classList.remove('visible');
+  }
+}
+
+function clearSearch() {
+  const inp = document.getElementById('search-input');
+  inp.value = '';
+  document.getElementById('search-results').classList.remove('visible');
+  document.getElementById('search-clear').classList.remove('visible');
+  inp.focus();
+}
+
+// Close search results when clicking outside
+document.addEventListener('click', e => {
+  const wrap = document.querySelector('.search-inner');
+  if (wrap && !wrap.contains(e.target)) {
+    document.getElementById('search-results').classList.remove('visible');
+  }
+});
+</script>
 </body>
 </html>
