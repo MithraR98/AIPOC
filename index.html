@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The AI Prompt and Skill Playbook — EMIDS Global UX</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300&family=DM+Mono:wght@400;500&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
@@ -1646,7 +1647,7 @@ body {
   padding: 20px 40px 16px;
   position: sticky;
   top: 60px;
-  z-index: 89;
+  z-index: 200;
   background: var(--bg);
 }
 
@@ -1709,11 +1710,18 @@ body {
 /* search results overlay */
 .search-results {
   display: none;
-  margin-top: 10px;
+  position: absolute;
+  top: calc(100% - 10px);
+  left: 40px;
+  right: 40px;
   background: var(--bg-2);
   border: 1px solid var(--border-2);
   border-radius: var(--radius-lg);
   overflow: hidden;
+  max-height: calc(100vh - 200px);
+  overflow-y: auto;
+  z-index: 201;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
 }
 .search-results.visible { display: block; }
 
@@ -2784,7 +2792,12 @@ Be specific and cite evidence.`
     ],
     plugins: [],
     skills: [
-      { name: 'persona-synthesis.skill', desc: 'Structured skill file for turning SOW or research notes into a consistent persona format. Includes gap flagging.', content: `## Purpose
+      { name: 'persona-synthesis.skill', desc: 'Structured skill file for turning SOW or research notes into a consistent persona format. Includes gap flagging.', content: `---
+name: Persona Synthesis
+description: Structured skill file for turning SOW or research notes into a consistent persona format. Includes gap flagging.
+---
+
+## Purpose
 Synthesise raw research inputs into a structured UX persona. Separate explicit facts from inferences. Flag assumptions and surface research gaps.
 
 ## Input
@@ -2907,7 +2920,12 @@ Transcript:
     ],
     plugins: [],
     skills: [
-      { name: 'interview-synthesis.skill', desc: 'Applies a consistent framework for extracting themes, quotes, and implications from raw interview notes.', content: `## Purpose
+      { name: 'interview-synthesis.skill', desc: 'Applies a consistent framework for extracting themes, quotes, and implications from raw interview notes.', content: `---
+name: Interview Synthesis
+description: Applies a consistent framework for extracting themes, quotes, and implications from raw interview notes.
+---
+
+## Purpose
 Extract structured insights from raw user interview notes. Identify themes, representative quotes, and design implications.
 
 ## Input
@@ -2984,7 +3002,12 @@ Attached: [SCREENSHOT]`
     ],
     plugins: [],
     skills: [
-      { name: 'heuristic-evaluation.skill', desc: 'Structured skill that applies all 10 Nielsen heuristics consistently. Includes severity scale and output format.', content: `## Purpose
+      { name: 'heuristic-evaluation.skill', desc: 'Structured skill that applies all 10 Nielsen heuristics consistently. Includes severity scale and output format.', content: `---
+name: Heuristic Evaluation
+description: Structured skill that applies all 10 Nielsen heuristics consistently. Includes severity scale and output format.
+---
+
+## Purpose
 Evaluate a UI against Jakob Nielsen's 10 usability heuristics. Produce a structured audit with severity ratings and prioritised recommendations.
 
 ## Input
@@ -3058,7 +3081,12 @@ End with a pass/fail summary and a prioritised fix list.`
     ],
     plugins: [],
     skills: [
-      { name: 'accessibility-audit.skill', desc: 'Applies WCAG 2.1 AA criteria to screen images. Structured output with severity ratings and recommendations.', content: `## Purpose
+      { name: 'accessibility-audit.skill', desc: 'Applies WCAG 2.1 AA criteria to screen images. Structured output with severity ratings and recommendations.', content: `---
+name: Accessibility Audit
+description: Applies WCAG 2.1 AA criteria to screen images. Structured output with severity ratings and recommendations.
+---
+
+## Purpose
 Audit UI screens against WCAG 2.1 Level AA criteria. Produce a structured report with severity ratings and remediation guidance.
 
 ## Input
@@ -3169,7 +3197,12 @@ Rules: Active voice. No jargon. Maximum [X] words.`
     ],
     plugins: [],
     skills: [
-      { name: 'ux-writing.skill', desc: 'Generates UI copy for all interaction states consistently. Accepts tone guidelines and product context.', content: `## Purpose
+      { name: 'ux-writing.skill', desc: 'Generates UI copy for all interaction states consistently. Accepts tone guidelines and product context.', content: `---
+name: Ux Writing
+description: Generates UI copy for all interaction states consistently. Accepts tone guidelines and product context.
+---
+
+## Purpose
 Generate consistent UI copy for all interaction states: labels, CTAs, error messages, empty states, tooltips, and confirmations.
 
 ## Input
@@ -3238,7 +3271,12 @@ Please generate:
     ],
     plugins: [],
     skills: [
-      { name: 'usability-test-plan.skill', desc: 'Generates complete test plans from a project brief. Includes screener, moderator guide, and task scenarios.', content: `## Purpose
+      { name: 'usability-test-plan.skill', desc: 'Generates complete test plans from a project brief. Includes screener, moderator guide, and task scenarios.', content: `---
+name: Usability Test Plan
+description: Generates complete test plans from a project brief. Includes screener, moderator guide, and task scenarios.
+---
+
+## Purpose
 Generate a complete usability test plan from a project brief. Includes research objectives, screener, moderator guide, task scenarios, and session structure.
 
 ## Input
@@ -3312,7 +3350,12 @@ Session notes:
     ],
     plugins: [],
     skills: [
-      { name: 'test-findings.skill', desc: 'Structures usability session notes into a findings report with severity ratings and recommendations.', content: `## Purpose
+      { name: 'test-findings.skill', desc: 'Structures usability session notes into a findings report with severity ratings and recommendations.', content: `---
+name: Test Findings
+description: Structures usability session notes into a findings report with severity ratings and recommendations.
+---
+
+## Purpose
 Structure raw usability session notes into a formatted findings report with severity ratings, evidence, and design recommendations.
 
 ## Input
@@ -3399,7 +3442,12 @@ Keep questions open-ended. Avoid leading questions.`
     ],
     plugins: [],
     skills: [
-      { name: 'research-plan.skill', desc: 'Generates structured research plans including objectives, methods, screener, and timeline from a project brief.', content: `## Purpose
+      { name: 'research-plan.skill', desc: 'Generates structured research plans including objectives, methods, screener, and timeline from a project brief.', content: `---
+name: Research Plan
+description: Generates structured research plans including objectives, methods, screener, and timeline from a project brief.
+---
+
+## Purpose
 Generate a structured UX research plan from a project brief. Covers objectives, method selection, screener, timeline, and deliverables.
 
 ## Input
@@ -3478,7 +3526,12 @@ Research input:
     ],
     plugins: [],
     skills: [
-      { name: 'jtbd-synthesis.skill', desc: 'Converts research inputs into structured Jobs-to-be-Done statements. Flags functional, emotional, and social jobs.', content: `## Purpose
+      { name: 'jtbd-synthesis.skill', desc: 'Converts research inputs into structured Jobs-to-be-Done statements. Flags functional, emotional, and social jobs.', content: `---
+name: Jtbd Synthesis
+description: Converts research inputs into structured Jobs-to-be-Done statements. Flags functional, emotional, and social jobs.
+---
+
+## Purpose
 Convert research inputs into structured Jobs-to-be-Done statements. Distinguish functional, emotional, and social jobs.
 
 ## Input
@@ -3553,7 +3606,12 @@ Raw observations:
     ],
     plugins: [],
     skills: [
-      { name: 'affinity-mapping.skill', desc: 'Groups raw observations into labelled themes with summaries and evidence counts.', content: `## Purpose
+      { name: 'affinity-mapping.skill', desc: 'Groups raw observations into labelled themes with summaries and evidence counts.', content: `---
+name: Affinity Mapping
+description: Groups raw observations into labelled themes with summaries and evidence counts.
+---
+
+## Purpose
 Group raw observations and sticky-note data into labelled themes with summaries and evidence counts.
 
 ## Input
@@ -3626,7 +3684,12 @@ SOW:
     ],
     plugins: [],
     skills: [
-      { name: 'sow-analysis.skill', desc: 'Extracts user goals, constraints, assumptions, and research gaps from SOW and brief documents.', content: `## Purpose
+      { name: 'sow-analysis.skill', desc: 'Extracts user goals, constraints, assumptions, and research gaps from SOW and brief documents.', content: `---
+name: Sow Analysis
+description: Extracts user goals, constraints, assumptions, and research gaps from SOW and brief documents.
+---
+
+## Purpose
 Analyse a Statement of Work (SOW) or project brief from a UX perspective. Extract user references, goals, constraints, assumptions, and research gaps.
 
 ## Input
@@ -3709,7 +3772,12 @@ Present as a structured table.`
     ],
     plugins: [],
     skills: [
-      { name: 'journey-mapping.skill', desc: 'Generates structured journey maps from user flows or scenarios. Covers stages, actions, emotions, and opportunities.', content: `## Purpose
+      { name: 'journey-mapping.skill', desc: 'Generates structured journey maps from user flows or scenarios. Covers stages, actions, emotions, and opportunities.', content: `---
+name: Journey Mapping
+description: Generates structured journey maps from user flows or scenarios. Covers stages, actions, emotions, and opportunities.
+---
+
+## Purpose
 Generate a structured user journey map from flows, scenarios, or requirements. Covers stages, actions, touchpoints, emotions, and opportunities.
 
 ## Input
@@ -3970,7 +4038,12 @@ Generate:
     ],
     plugins: [],
     skills: [
-      { name: 'ds-documentation.skill', desc: 'Generates structured component documentation: overview, usage rules, do/don\'ts, accessibility notes.', content: `## Purpose
+      { name: 'ds-documentation.skill', desc: 'Generates structured component documentation: overview, usage rules, do/don\'ts, accessibility notes.', content: `---
+name: Ds Documentation
+description: Generates structured component documentation: overview, usage rules, do/don'ts, accessibility notes.
+---
+
+## Purpose
 Generate structured component documentation for a design system. Covers overview, usage rules, do/don'ts, props, states, and accessibility notes.
 
 ## Input
@@ -4048,7 +4121,12 @@ Transcript:
     ],
     plugins: [],
     skills: [
-      { name: 'session-analysis.skill', desc: 'Extracts friction points, behaviour patterns, and design implications from session recording transcripts.', content: `## Purpose
+      { name: 'session-analysis.skill', desc: 'Extracts friction points, behaviour patterns, and design implications from session recording transcripts.', content: `---
+name: Session Analysis
+description: Extracts friction points, behaviour patterns, and design implications from session recording transcripts.
+---
+
+## Purpose
 Analyse session recording transcripts or observation notes to extract friction points, behaviour patterns, and design implications.
 
 ## Input
@@ -4159,6 +4237,7 @@ function toggleTheme() {
 
 /* ── TABS ────────────────────────────────────────────────── */
 function switchTab(tab) {
+  clearSearch();
   // Don't switch tabs if a sub-page is open
   if (document.querySelector('.listing-left')?.style.display === 'none') return;
   const detailEl = document.getElementById('detail-view');
@@ -4271,7 +4350,7 @@ function renderAllPanel(filter, practiceFilter) {
               <div class="skill-file-name">${s.name}</div>
               <div class="skill-file-desc">${s.desc}</div>
             </div>
-            <button class="skill-download-btn" onclick="event.stopPropagation();alert('Skill file download coming soon.')">
+            <button class="skill-download-btn" onclick="event.stopPropagation();downloadSkillById('${_suid}')">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3M1 10h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               Download
             </button>
@@ -4440,6 +4519,9 @@ function openDetail(id) {
   });
   closePromptPreview();
   document.querySelector('.listing-left').style.display = 'none';
+  document.getElementById('preview-panel').style.display = 'none';
+  const footerEl2 = document.querySelector('.site-footer');
+  if (footerEl2) footerEl2.style.display = 'none';
   document.getElementById('detail-view').style.display = 'block';
   window.scrollTo(0, 0);
 }
@@ -4450,6 +4532,9 @@ function closeDetail() {
     if (el) el.style.display = 'none';
   });
   document.querySelector('.listing-left').style.display = '';
+  document.getElementById('preview-panel').style.display = '';
+  const footerEl3 = document.querySelector('.site-footer');
+  if (footerEl3) footerEl3.style.display = '';
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('disabled'));
   const inp = document.getElementById('search-input');
   if (inp) {
@@ -4535,6 +4620,29 @@ function closePromptPreview() {
   activeSkillId = null;
 }
 
+function downloadSkillById(suid) {
+  const entry = SKILL_STORE[suid];
+  if (!entry) return;
+  downloadSkill(entry.skill.name, entry.skill.content || '');
+}
+
+function downloadSkill(skillName, skillContent) {
+  const folderName = skillName.replace('.skill', '');
+  const zip = new JSZip();
+  zip.file('SKILL.md', skillContent);
+  zip.generateAsync({ type: 'blob' }).then(function(blob) {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = folderName + '.zip';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    showToast(folderName + '.zip downloaded');
+  });
+}
+
 function copySkillContent(btn) {
   const text = window._currentSkillContent || '';
   const finish = () => {
@@ -4589,7 +4697,7 @@ function openSkillPreview(suid) {
         <div style="font-size:13px;font-weight:600;color:var(--tp);font-family:'DM Mono',monospace;">${s.name}</div>
         <div style="font-size:12px;color:var(--tm);margin-top:2px;">Claude Skill file</div>
       </div>
-      <button class="skill-download-btn" onclick="alert('Skill file download coming soon.')" style="flex-shrink:0;">
+      <button class="skill-download-btn" onclick="downloadSkillById('${suid}')" style="flex-shrink:0;">
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3M1 10h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         Download
       </button>
@@ -4763,14 +4871,16 @@ function buildResources(d) {
           <div class="res-subsection-count">${d.skills.length}</div>
         </div>
         <div class="skill-list">`;
-      d.skills.forEach(s => {
+      d.skills.forEach((s, _bsi) => {
+        const _buid = `br-skill-${d.id || ''}-${_bsi}`;
+        SKILL_STORE[_buid] = { skill: s, delivId: d.id || '' };
         html += `<div class="skill-file-card">
           <div class="skill-file-icon">⚙️</div>
           <div class="skill-file-body">
             <div class="skill-file-name">${s.name}</div>
             <div class="skill-file-desc">${s.desc}</div>
           </div>
-          <button class="skill-download-btn" onclick="alert('Skill file download coming soon.')">
+          <button class="skill-download-btn" onclick="downloadSkillById('${_buid}')">
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3M1 10h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             Download
           </button>
@@ -5050,6 +5160,7 @@ function handleSearch(query) {
     previewEl.classList.remove('visible');
     return;
   }
+  // search-results is absolutely positioned — no need to hide listing
 
   const delivMatches = ALL_CARDS.filter(c =>
     c.title.toLowerCase().includes(q) ||
@@ -5162,14 +5273,16 @@ function renderSearchPreview(card) {
         <div class="res-subsection-count">${d.skills.length}</div>
       </div>
       <div class="skill-list">`;
-    d.skills.forEach(s => {
-      html += `<div class="skill-file-card">
+    d.skills.forEach((s, si) => {
+      const _sp_suid = `sp-skill-${card.id}-${si}`;
+      SKILL_STORE[_sp_suid] = { skill: s, delivId: card.id };
+      html += `<div class="skill-file-card" id="${_sp_suid}" onclick="openSkillPreview('${_sp_suid}')" style="cursor:pointer;">
         <div class="skill-file-icon">⚙️</div>
         <div class="skill-file-body">
           <div class="skill-file-name">${s.name}</div>
           <div class="skill-file-desc">${s.desc}</div>
         </div>
-        <button class="skill-download-btn" onclick="alert('Skill file download coming soon.')">
+        <button class="skill-download-btn" onclick="downloadSkillById('${_sp_suid}')">
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3M1 10h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           Download
         </button>
